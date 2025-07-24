@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 import { 
   SiSpring, SiFlask, SiMysql, SiOracle, SiRedis, SiMongodb, 
-  SiIntellijidea, SiPycharm, SiVisualstudiocode, SiEclipseide,
+  SiIntellijidea, SiPycharm, SiEclipseide,
   SiApachetomcat, SiNodedotjs, SiSwagger
 } from 'react-icons/si';
 import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
@@ -234,7 +234,7 @@ const skillIcons = {
   // Tools
   'IntelliJ IDEA': <SiIntellijidea />,
   'PyCharm': <SiPycharm />,
-  'VSCode': <SiVisualstudiocode />,
+  'VSCode': <FaCode />,
   'Eclipse': <SiEclipseide />,
   'Git': <FaGitAlt />,
   'Notion': <FaTools />,
