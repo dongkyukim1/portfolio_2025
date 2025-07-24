@@ -302,14 +302,37 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // 실제 이메일 전송 로직을 여기에 구현
-    // 예: EmailJS 또는 서버 API 호출
-    
-    setTimeout(() => {
-      alert('메시지가 성공적으로 전송되었습니다!');
-      setFormData({ name: '', email: '', message: '' });
+    try {
+      // 백엔드 API로 데이터 전송
+      const response = await fetch('http://localhost:5000/api/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        alert('메시지가 성공적으로 전송되었습니다! 빠른 시일 내에 답변드리겠습니다.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        // 서버 에러 메시지 표시
+        const errorMessage = result.errors 
+          ? result.errors.map(err => err.message).join('\n')
+          : result.message || '메시지 전송에 실패했습니다.';
+        alert(errorMessage);
+      }
+    } catch (error) {
+      console.error('전송 오류:', error);
+      // 오프라인 또는 네트워크 오류 시 이메일 대체 옵션 제공
+      if (confirm('메시지 전송에 실패했습니다. 이메일로 직접 연락하시겠습니까?')) {
+        window.location.href = `mailto:${personal.email}?subject=포트폴리오 문의&body=안녕하세요! 포트폴리오를 보고 연락드립니다.`;
+      }
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   const socialLinks = [
@@ -526,7 +549,7 @@ const Contact = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <FaExternalLinkAlt />
-                  온라인 포트폴리오
+                  2024년 포트폴리오(Vue.js)
                 </DownloadButton>
               </DownloadButtons>
             </DownloadSection>

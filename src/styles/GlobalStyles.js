@@ -12,29 +12,31 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Pretendard-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
     color: #333;
     overflow-x: hidden;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-feature-settings: 'liga', 'calt';
   }
 
-  // Pretendard 폰트 스타일링
-  .font-thin { font-family: 'Pretendard-Thin'; font-weight: 100; }
-  .font-extralight { font-family: 'Pretendard-ExtraLight'; font-weight: 200; }
-  .font-light { font-family: 'Pretendard-Light'; font-weight: 300; }
-  .font-regular { font-family: 'Pretendard-Regular'; font-weight: 400; }
-  .font-medium { font-family: 'Pretendard-Medium'; font-weight: 500; }
-  .font-semibold { font-family: 'Pretendard-SemiBold'; font-weight: 600; }
-  .font-bold { font-family: 'Pretendard-Bold'; font-weight: 700; }
-  .font-extrabold { font-family: 'Pretendard-ExtraBold'; font-weight: 800; }
-  .font-black { font-family: 'Pretendard-Black'; font-weight: 900; }
+  // 개선된 폰트 스타일링
+  .font-thin { font-family: 'Inter', 'Noto Sans KR'; font-weight: 100; }
+  .font-extralight { font-family: 'Inter', 'Noto Sans KR'; font-weight: 200; }
+  .font-light { font-family: 'Inter', 'Noto Sans KR'; font-weight: 300; }
+  .font-regular { font-family: 'Inter', 'Noto Sans KR'; font-weight: 400; }
+  .font-medium { font-family: 'Inter', 'Noto Sans KR'; font-weight: 500; }
+  .font-semibold { font-family: 'Inter', 'Noto Sans KR'; font-weight: 600; }
+  .font-bold { font-family: 'Inter', 'Noto Sans KR'; font-weight: 700; }
+  .font-extrabold { font-family: 'Inter', 'Noto Sans KR'; font-weight: 800; }
+  .font-black { font-family: 'Inter', 'Noto Sans KR'; font-weight: 900; }
 `;
 
 export const Container = styled.div`
@@ -57,11 +59,13 @@ export const Section = styled.section`
 
 export const SectionTitle = styled.h2`
   font-size: 3rem;
-  font-family: 'Pretendard-Bold';
+  font-family: 'Inter', 'Noto Sans KR';
+  font-weight: 700;
   text-align: center;
   margin-bottom: 3rem;
   color: #2c3e50;
   position: relative;
+  letter-spacing: -0.02em;
 
   &::after {
     content: '';
@@ -89,10 +93,12 @@ export const Button = styled.button`
   border-radius: 30px;
   cursor: pointer;
   font-size: 16px;
-  font-family: 'Pretendard-Medium';
+  font-family: 'Inter', 'Noto Sans KR';
+  font-weight: 500;
   transition: all 0.3s ease;
   text-decoration: none;
   display: inline-block;
+  letter-spacing: -0.01em;
 
   &:hover {
     transform: translateY(-2px);

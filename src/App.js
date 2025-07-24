@@ -14,6 +14,8 @@ import Experience from './components/Experience/Experience';
 import Projects from './components/Projects/Projects';
 import Education from './components/Education/Education';
 import Contact from './components/Contact/Contact';
+import QuickNav from './components/FloatingElements/QuickNav';
+import RightSidebar from './components/FloatingElements/RightSidebar';
 
 // Footer Component
 import styled from 'styled-components';
@@ -110,6 +112,10 @@ function App() {
       
       {/* 네비게이션 헤더 */}
       <Header />
+      
+      {/* 플로팅 요소들 */}
+      <QuickNav />
+      <RightSidebar />
       
       {/* 메인 콘텐츠 */}
       <main>

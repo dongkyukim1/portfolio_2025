@@ -98,8 +98,7 @@ const SkillItem = styled(motion.div)`
   .skill-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: ${colors.primary};
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
   }
 
   .skill-name {
@@ -109,7 +108,7 @@ const SkillItem = styled(motion.div)`
   }
 
   &:hover .skill-icon {
-    color: ${colors.secondary};
+    transform: scale(1.1);
   }
 
   @media (max-width: ${breakpoints.mobile}) {
@@ -207,49 +206,49 @@ const StatCard = styled(motion.div)`
 
 const skillIcons = {
   // Programming Languages
-  'Java': <FaJava />,
-  'Python': <FaPython />,
-  'JavaScript': <FaJs />,
+  'Java': { icon: <FaJava />, color: '#f89820' },
+  'Python': { icon: <FaPython />, color: '#3776ab' },
+  'JavaScript': { icon: <FaJs />, color: '#f7df1e' },
   
   // Frameworks
-  'Spring Boot': <SiSpring />,
-  'Flask': <SiFlask />,
-  'React': <FaReact />,
-  'Vue.js': <FaVuejs />,
-  'RESTful API': <FaCode />,
-  'Ajax': <FaCode />,
-  'Java Swing': <FaJava />,
-  'Thymeleaf': <SiSpring />,
+  'Spring Boot': { icon: <SiSpring />, color: '#6db33f' },
+  'Flask': { icon: <SiFlask />, color: '#000000' },
+  'React': { icon: <FaReact />, color: '#61dafb' },
+  'Vue.js': { icon: <FaVuejs />, color: '#4fc08d' },
+  'RESTful API': { icon: <FaCode />, color: '#ff6b6b' },
+  'Ajax': { icon: <FaCode />, color: '#4ecdc4' },
+  'Java Swing': { icon: <FaJava />, color: '#f89820' },
+  'Thymeleaf': { icon: <SiSpring />, color: '#005f0f' },
   
   // Databases
-  'MySQL': <SiMysql />,
-  'Oracle': <SiOracle />,
-  'Redis': <SiRedis />,
-  'MongoDB': <SiMongodb />,
+  'MySQL': { icon: <SiMysql />, color: '#4479a1' },
+  'Oracle': { icon: <SiOracle />, color: '#f80000' },
+  'Redis': { icon: <SiRedis />, color: '#dc382d' },
+  'MongoDB': { icon: <SiMongodb />, color: '#47a248' },
   
   // Cloud & Deployment
-  'AWS': <FaAws />,
-  'Docker': <FaDocker />,
+  'AWS': { icon: <FaAws />, color: '#ff9900' },
+  'Docker': { icon: <FaDocker />, color: '#2496ed' },
   
   // Tools
-  'IntelliJ IDEA': <SiIntellijidea />,
-  'PyCharm': <SiPycharm />,
-  'VSCode': <FaCode />,
-  'Eclipse': <SiEclipseide />,
-  'Git': <FaGitAlt />,
-  'Notion': <FaTools />,
-  'Maven/Gradle': <FaTools />,
+  'IntelliJ IDEA': { icon: <SiIntellijidea />, color: '#000000' },
+  'PyCharm': { icon: <SiPycharm />, color: '#000000' },
+  'VSCode': { icon: <FaCode />, color: '#007acc' },
+  'Eclipse': { icon: <SiEclipseide />, color: '#2c2255' },
+  'Git': { icon: <FaGitAlt />, color: '#f05032' },
+  'Notion': { icon: <FaTools />, color: '#000000' },
+  'Maven/Gradle': { icon: <FaTools />, color: '#c71a36' },
   
   // Servers
-  'Apache Tomcat': <SiApachetomcat />,
-  'Gunicorn': <FaServer />,
-  'Node.js': <SiNodedotjs />,
+  'Apache Tomcat': { icon: <SiApachetomcat />, color: '#f8dc75' },
+  'Gunicorn': { icon: <FaServer />, color: '#499848' },
+  'Node.js': { icon: <SiNodedotjs />, color: '#339933' },
   
   // Others
-  'HTML': <FaCode />,
-  'CSS': <FaCode />,
-  'LLM': <FaCode />,
-  'Swagger': <SiSwagger />
+  'HTML': { icon: <FaCode />, color: '#e34c26' },
+  'CSS': { icon: <FaCode />, color: '#1572b6' },
+  'LLM': { icon: <FaCode />, color: '#8e44ad' },
+  'Swagger': { icon: <SiSwagger />, color: '#85ea2d' }
 };
 
 const Skills = () => {
@@ -334,8 +333,10 @@ const Skills = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <div className="skill-icon">
-                      {skillIcons[skill] || <FaCode />}
+                    <div className="skill-icon" style={{ 
+                      color: skillIcons[skill]?.color || colors.primary 
+                    }}>
+                      {skillIcons[skill]?.icon || <FaCode />}
                     </div>
                     <div className="skill-name">{skill}</div>
                   </SkillItem>
