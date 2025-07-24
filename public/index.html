@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#667eea" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="김동규의 개인 포트폴리오 - 웹·앱 프론트엔드 개발자. React, Vue.js, Spring Boot 전문. 창의적이고 혁신적인 웹 솔루션을 만드는 개발자입니다." />
+    <meta name="keywords" content="김동규, 포트폴리오, 개발자, 프론트엔드, React, Vue.js, Spring Boot, 웹개발, 앱개발" />
+    <meta name="author" content="김동규 (Dongkyu Kim)" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Korean" />
+    
+    <!-- Open Graph Meta Tags (소셜 미디어 공유) -->
+    <meta property="og:title" content="김동규 포트폴리오 - 웹·앱 프론트엔드 개발자" />
+    <meta property="og:description" content="창의적이고 혁신적인 웹 솔루션을 만드는 개발자 김동규의 포트폴리오입니다." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dongkyukim1.github.io/portfolio_2025" />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="김동규 포트폴리오" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="김동규 포트폴리오 - 웹·앱 프론트엔드 개발자" />
+    <meta name="twitter:description" content="창의적이고 혁신적인 웹 솔루션을 만드는 개발자 김동규의 포트폴리오입니다." />
+    <meta name="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://dongkyukim1.github.io/portfolio_2025" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "김동규",
+      "alternateName": "Dongkyu Kim",
+      "description": "웹·앱 프론트엔드 개발자",
+      "url": "https://dongkyukim1.github.io/portfolio_2025",
+      "email": "wlsntus55@gmail.com",
+      "telephone": "+82-10-4048-8292",
+      "jobTitle": "Frontend Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "넷컴솔루션"
+      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "건국대학교",
+          "department": "영어학과, 경영학과"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "미시시피 주립대학교",
+          "department": "경영학과"
+        }
+      ],
+      "knowsAbout": [
+        "JavaScript",
+        "React",
+        "Vue.js",
+        "Spring Boot",
+        "Python",
+        "Java",
+        "Web Development",
+        "Frontend Development"
+      ],
+      "sameAs": [
+        "https://github.com/dongkyukim1",
+        "https://begin-developer.tistory.com/",
+        "https://dongkyu.shop/"
+      ]
+    }
+    </script>
+    
+    <title>김동규 포트폴리오 - 웹·앱 프론트엔드 개발자</title>
+  </head>
+  <body>
+    <noscript>
+      <div style="
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+        font-family: Arial, sans-serif; 
+        text-align: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      ">
+        <div>
+          <h1>JavaScript가 필요합니다</h1>
+          <p>이 웹사이트를 보려면 JavaScript를 활성화해주세요.</p>
+          <p>To view this website, please enable JavaScript in your browser.</p>
+        </div>
+      </div>
+    </noscript>
+    
+    <!-- 로딩 스피너 (선택사항) -->
+    <div id="loading-spinner" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    ">
+      <div style="
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      "></div>
+      <style>
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      </style>
+    </div>
+    
+    <div id="root"></div>
+    
+    <script>
+      // 로딩 스피너 제거
+      window.addEventListener('load', function() {
+        const spinner = document.getElementById('loading-spinner');
+        if (spinner) {
+          spinner.style.opacity = '0';
+          setTimeout(() => {
+            spinner.remove();
+          }, 500);
+        }
+      });
+    </script>
+  </body>
+</html>

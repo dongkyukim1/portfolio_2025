@@ -1,0 +1,490 @@
+import React from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { 
+  FaGraduationCap, FaCertificate, FaCalendarAlt, FaMapMarkerAlt, 
+  FaTrophy, FaBookOpen, FaAward, FaCheck 
+} from 'react-icons/fa';
+import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { portfolioData } from '../../data/portfolio';
+
+const EducationSection = styled(Section)`
+  background: ${colors.backgroundLight};
+`;
+
+const ContentGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+
+  @media (max-width: ${breakpoints.laptop}) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+`;
+
+const SectionBlock = styled(motion.div)`
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const BlockHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid ${colors.backgroundLight};
+
+  .icon {
+    font-size: 2rem;
+    color: ${colors.primary};
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-family: 'Pretendard-Bold';
+    color: ${colors.dark};
+    margin: 0;
+  }
+`;
+
+const EducationList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const EducationItem = styled(motion.div)`
+  background: ${colors.backgroundLight};
+  border-radius: 15px;
+  padding: 1.5rem;
+  border-left: 4px solid ${colors.primary};
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(5px);
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const SchoolInfo = styled.div`
+  .school-name {
+    font-size: 1.2rem;
+    font-family: 'Pretendard-Bold';
+    color: ${colors.dark};
+    margin-bottom: 0.5rem;
+  }
+
+  .major {
+    font-size: 1rem;
+    font-family: 'Pretendard-SemiBold';
+    color: ${colors.primary};
+    margin-bottom: 0.5rem;
+  }
+
+  .period {
+    font-size: 0.9rem;
+    color: ${colors.textLight};
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .type {
+    display: inline-block;
+    background: ${gradients.primary};
+    color: white;
+    padding: 0.2rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-family: 'Pretendard-Medium';
+    margin-top: 0.5rem;
+  }
+`;
+
+const TrainingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const TrainingItem = styled(motion.div)`
+  background: ${colors.backgroundLight};
+  border-radius: 15px;
+  padding: 1.5rem;
+  border-left: 4px solid ${colors.secondary};
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(5px);
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const TrainingInfo = styled.div`
+  .training-name {
+    font-size: 1.1rem;
+    font-family: 'Pretendard-Bold';
+    color: ${colors.dark};
+    margin-bottom: 0.5rem;
+  }
+
+  .organization {
+    font-size: 0.95rem;
+    font-family: 'Pretendard-SemiBold';
+    color: ${colors.secondary};
+    margin-bottom: 0.5rem;
+  }
+
+  .period {
+    font-size: 0.9rem;
+    color: ${colors.textLight};
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .status {
+    display: inline-block;
+    background: ${colors.success};
+    color: white;
+    padding: 0.2rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-family: 'Pretendard-Medium';
+  }
+`;
+
+const CertificatesGrid = styled.div`
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+`;
+
+const CertificateCard = styled(motion.div)`
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: ${props => {
+      switch (props.status) {
+        case '취득': return gradients.success;
+        case '필기 합격 (실기 진행 중)': return gradients.warning;
+        case '만료': return gradients.dark;
+        default: return gradients.primary;
+      }
+    }};
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const CertificateHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+
+  .cert-name {
+    font-size: 1.1rem;
+    font-family: 'Pretendard-Bold';
+    color: ${colors.dark};
+    flex: 1;
+  }
+
+  .cert-icon {
+    font-size: 1.5rem;
+    color: ${colors.primary};
+  }
+`;
+
+const CertificateDetails = styled.div`
+  .cert-date {
+    font-size: 0.9rem;
+    color: ${colors.textLight};
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .cert-score {
+    font-size: 0.9rem;
+    color: ${colors.text};
+    margin-bottom: 0.5rem;
+  }
+
+  .cert-status {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-family: 'Pretendard-SemiBold';
+    background: ${props => {
+      switch (props.status) {
+        case '취득': return colors.success;
+        case '필기 합격 (실기 진행 중)': return colors.warning;
+        case '만료': return colors.textLight;
+        default: return colors.primary;
+      }
+    }};
+    color: white;
+  }
+`;
+
+const StatsSection = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+`;
+
+const StatCard = styled(motion.div)`
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: ${gradients.primary};
+  }
+
+  .stat-icon {
+    font-size: 2.5rem;
+    color: ${colors.primary};
+    margin-bottom: 1rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-family: 'Pretendard-Bold';
+    color: ${colors.dark};
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-family: 'Pretendard-Medium';
+    color: ${colors.textLight};
+  }
+`;
+
+const Education = () => {
+  const { education, training, certificates } = portfolioData;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  const stats = [
+    { icon: <FaGraduationCap />, number: '3', label: '학력 단계' },
+    { icon: <FaBookOpen />, number: '2', label: '교육 연수' },
+    { icon: <FaCertificate />, number: '3', label: '보유 자격증' },
+    { icon: <FaTrophy />, number: '900', label: 'TOEIC 점수' }
+  ];
+
+  return (
+    <EducationSection id="education">
+      <Container>
+        <SectionTitle>Education & Certificates</SectionTitle>
+        
+        <ContentGrid>
+          {/* 학력 섹션 */}
+          <SectionBlock
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <BlockHeader>
+              <FaGraduationCap className="icon" />
+              <h3>학력</h3>
+            </BlockHeader>
+
+            <EducationList>
+              {education.map((edu, index) => (
+                <EducationItem
+                  key={index}
+                  variants={itemVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <SchoolInfo>
+                    <div className="school-name">{edu.school}</div>
+                    <div className="major">{edu.major}</div>
+                    <div className="period">
+                      <FaCalendarAlt />
+                      {edu.period}
+                    </div>
+                    <div className="type">{edu.type}</div>
+                  </SchoolInfo>
+                </EducationItem>
+              ))}
+            </EducationList>
+          </SectionBlock>
+
+          {/* 교육 연수 섹션 */}
+          <SectionBlock
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <BlockHeader>
+              <FaBookOpen className="icon" />
+              <h3>교육 연수</h3>
+            </BlockHeader>
+
+            <TrainingList>
+              {training.map((train, index) => (
+                <TrainingItem
+                  key={index}
+                  variants={itemVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <TrainingInfo>
+                    <div className="training-name">{train.name}</div>
+                    <div className="organization">{train.organization}</div>
+                    <div className="period">
+                      <FaCalendarAlt />
+                      {train.period}
+                    </div>
+                    <div className="status">{train.status}</div>
+                  </TrainingInfo>
+                </TrainingItem>
+              ))}
+            </TrainingList>
+          </SectionBlock>
+        </ContentGrid>
+
+        {/* 자격증 섹션 */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={containerVariants}
+        >
+          <SectionTitle style={{ fontSize: '2rem', marginTop: '4rem', marginBottom: '2rem' }}>
+            자격증 및 인증
+          </SectionTitle>
+
+          <CertificatesGrid>
+            {certificates.map((cert, index) => (
+              <CertificateCard
+                key={index}
+                status={cert.status}
+                variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <CertificateHeader>
+                  <div className="cert-name">{cert.name}</div>
+                  <FaAward className="cert-icon" />
+                </CertificateHeader>
+
+                <CertificateDetails status={cert.status}>
+                  <div className="cert-date">
+                    <FaCalendarAlt />
+                    {cert.date}
+                  </div>
+                  {cert.score && (
+                    <div className="cert-score">점수: {cert.score}</div>
+                  )}
+                  <div className="cert-status">{cert.status}</div>
+                </CertificateDetails>
+              </CertificateCard>
+            ))}
+          </CertificatesGrid>
+        </motion.div>
+
+        {/* 통계 섹션 */}
+        <StatsSection>
+          {stats.map((stat, index) => (
+            <StatCard
+              key={index}
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="stat-icon">{stat.icon}</div>
+              <motion.div
+                className="stat-number"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                {stat.number}
+              </motion.div>
+              <div className="stat-label">{stat.label}</div>
+            </StatCard>
+          ))}
+        </StatsSection>
+      </Container>
+    </EducationSection>
+  );
+};
+
+export default Education;
