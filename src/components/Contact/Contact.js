@@ -327,6 +327,7 @@ const Contact = () => {
     } catch (error) {
       console.error('전송 오류:', error);
       // 오프라인 또는 네트워크 오류 시 이메일 대체 옵션 제공
+      // eslint-disable-next-line no-restricted-globals
       if (confirm('메시지 전송에 실패했습니다. 이메일로 직접 연락하시겠습니까?')) {
         window.location.href = `mailto:${personal.email}?subject=포트폴리오 문의&body=안녕하세요! 포트폴리오를 보고 연락드립니다.`;
       }
