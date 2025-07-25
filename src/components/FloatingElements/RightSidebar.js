@@ -50,7 +50,7 @@ const mockupScreenshots = [
 
 const ProjectGalleryBackground = styled(motion.div)`
   position: fixed;
-  right: ${props => props.isOpen ? '0' : '-800px'};
+  right: ${props => props.isOpen ? '0' : '-820px'};
   top: 0;
   width: 800px;
   height: 100vh;
@@ -60,6 +60,7 @@ const ProjectGalleryBackground = styled(motion.div)`
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
   padding: 1.5rem;
+  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
 
   @media (max-width: ${breakpoints.laptop}) {
     display: none;
@@ -442,6 +443,8 @@ const RightSidebar = () => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const { personal } = portfolioData;
 
+  console.log('갤러리 상태:', isGalleryOpen, '사이드바 상태:', isSidebarOpen);
+
   const socialLinks = [
     { icon: <FaGithub />, label: 'GitHub', url: personal.links.github },
     { icon: <FaBlog />, label: 'Blog', url: personal.links.blog },
@@ -462,9 +465,17 @@ const RightSidebar = () => {
   return (
     <>
       {/* 프로젝트 갤러리 백그라운드 */}
-      <ProjectGalleryBackground isOpen={isGalleryOpen}>
+      <ProjectGalleryBackground 
+        isOpen={isGalleryOpen}
+        initial={{ x: 800 }}
+        animate={{ x: isGalleryOpen ? 0 : 800 }}
+        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      >
         <CloseButton
-          onClick={() => setIsGalleryOpen(false)}
+          onClick={() => {
+            console.log('갤러리 닫기 버튼 클릭');
+            setIsGalleryOpen(false);
+          }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
