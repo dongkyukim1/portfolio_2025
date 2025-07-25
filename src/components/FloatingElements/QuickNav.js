@@ -7,12 +7,18 @@ import { colors, gradients, breakpoints } from '../../styles/GlobalStyles';
 const QuickNavContainer = styled(motion.div)`
   position: fixed;
   left: 2rem;
-  top: 50%;
+  top: 35%;
   transform: translateY(-50%);
   z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  padding: 1rem 0.5rem;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${breakpoints.laptop}) {
     display: none;
@@ -156,7 +162,7 @@ const QuickNav = () => {
     handleScroll(); // 초기 실행
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [navItems]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);

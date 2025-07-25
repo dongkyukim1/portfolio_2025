@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub, FaExternalLinkAlt, FaCalendarAlt, FaUsers, 
-  FaCog, FaTimes, FaRocket, FaMobile, FaGlobe 
+  FaTimes, FaRocket, FaMobile, FaGlobe 
 } from 'react-icons/fa';
 import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';

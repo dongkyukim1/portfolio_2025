@@ -21,7 +21,7 @@ class Contact {
       const result = await executeQuery(query, params);
       
       // 저장된 연락처 반환
-      return await this.findById(result.insertId);
+      return await Contact.findById(result.insertId);
     } catch (error) {
       throw new Error(`연락처 저장 실패: ${error.message}`);
     }
@@ -108,7 +108,7 @@ class Contact {
       const query = 'UPDATE contacts SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?';
       await executeQuery(query, [status, id]);
       
-      return await this.findById(id);
+      return await Contact.findById(id);
     } catch (error) {
       throw new Error(`상태 업데이트 실패: ${error.message}`);
     }

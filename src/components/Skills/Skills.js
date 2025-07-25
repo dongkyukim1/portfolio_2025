@@ -279,16 +279,7 @@ const Skills = () => {
     { number: '2+', label: '자격증 보유' }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.1
-      }
-    }
-  };
+
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaGithub, FaBlog, FaExternalLinkAlt, FaDownload } from 'react-icons/fa';
-import { colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { colors, breakpoints } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
 const HeroSection = styled.section`

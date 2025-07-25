@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import styled from 'styled-components';
+import { FaHeart, FaCode, FaReact } from 'react-icons/fa';
 
 // Styled Components
 import { GlobalStyle } from './styles/GlobalStyles';
+import { colors, gradients } from './styles/GlobalStyles';
 
 // Components
 import Header from './components/Header/Header';
@@ -17,12 +20,13 @@ import Contact from './components/Contact/Contact';
 import QuickNav from './components/FloatingElements/QuickNav';
 import RightSidebar from './components/FloatingElements/RightSidebar';
 
-// Footer Component
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { FaHeart, FaCode, FaReact } from 'react-icons/fa';
-import { colors, gradients } from './styles/GlobalStyles';
+// UI Components
+import Toast, { useToast } from './components/UI/Toast';
 
+// Context for Toast
+export const ToastContext = React.createContext();
+
+// Footer Styled Components
 const Footer = styled.footer`
   background: ${colors.dark};
   color: white;
@@ -35,149 +39,117 @@ const FooterContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-`;
-
-const FooterText = styled.p`
-  font-family: 'Pretendard-Regular';
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 1rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: 1rem;
 
-  .icon {
-    color: ${colors.primary};
+  .footer-text {
+    font-family: 'Inter', 'Noto Sans KR';
+    font-size: 1rem;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  @media (max-width: 768px) {
+  .footer-tech {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.9rem;
+    opacity: 0.6;
   }
-`;
 
-const FooterLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    gap: 1rem;
+  .heart {
+    color: #e74c3c;
+    animation: heartbeat 1.5s ease-in-out infinite;
   }
-`;
 
-const FooterLink = styled.a`
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  font-family: 'Pretendard-Medium';
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: ${colors.primary};
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
-`;
-
-const Copyright = styled.div`
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
-  font-family: 'Pretendard-Regular';
 `;
 
 function App() {
+  const toastMethods = useToast();
+
   useEffect(() => {
-    // AOS 초기화
     AOS.init({
       duration: 1000,
+      easing: 'ease-in-out',
       once: true,
-      easing: 'ease-out-cubic',
+      mirror: false
     });
-
-    // 페이지 로드 시 스크롤을 맨 위로
-    window.scrollTo(0, 0);
-
-    // 부드러운 스크롤 동작을 위한 CSS 추가
-    document.documentElement.style.scrollBehavior = 'smooth';
-
-    return () => {
-      // 컴포넌트 언마운트 시 AOS 새로고침
-      AOS.refresh();
-    };
   }, []);
 
   return (
-    <>
-      <GlobalStyle />
-      
-      {/* 네비게이션 헤더 */}
-      <Header />
-      
-      {/* 플로팅 요소들 */}
-      <QuickNav />
-      <RightSidebar />
-      
-      {/* 메인 콘텐츠 */}
-      <main>
-        {/* 히어로 섹션 */}
-        <section data-aos="fade-up">
-          <Hero />
-        </section>
+    <ToastContext.Provider value={toastMethods}>
+      <>
+        <GlobalStyle />
+        
+        {/* 네비게이션 헤더 */}
+        <Header />
+        
+        {/* 플로팅 요소들 */}
+        <QuickNav />
+        <RightSidebar />
+        
+        {/* 메인 콘텐츠 */}
+        <main>
+          {/* 히어로 섹션 */}
+          <section data-aos="fade-up">
+            <Hero />
+          </section>
 
-        {/* 소개 섹션 */}
-        <section data-aos="fade-up" data-aos-delay="100">
-          <About />
-        </section>
+          {/* 소개 섹션 */}
+          <section id="about" data-aos="fade-up">
+            <About />
+          </section>
 
-        {/* 기술 스택 섹션 */}
-        <section data-aos="fade-up" data-aos-delay="200">
-          <Skills />
-        </section>
+          {/* 스킬 섹션 */}
+          <section id="skills" data-aos="fade-up">
+            <Skills />
+          </section>
 
-        {/* 경력 섹션 */}
-        <section data-aos="fade-up" data-aos-delay="100">
-          <Experience />
-        </section>
+          {/* 경력 섹션 */}
+          <section id="experience" data-aos="fade-up">
+            <Experience />
+          </section>
 
-        {/* 프로젝트 섹션 */}
-        <section data-aos="fade-up" data-aos-delay="200">
-          <Projects />
-        </section>
+          {/* 프로젝트 섹션 */}
+          <section id="projects" data-aos="fade-up">
+            <Projects />
+          </section>
 
-        {/* 학력 및 자격증 섹션 */}
-        <section data-aos="fade-up" data-aos-delay="100">
-          <Education />
-        </section>
+          {/* 교육 섹션 */}
+          <section id="education" data-aos="fade-up">
+            <Education />
+          </section>
 
-        {/* 연락처 섹션 */}
-        <section data-aos="fade-up" data-aos-delay="200">
-          <Contact />
-        </section>
-      </main>
+          {/* 연락처 섹션 */}
+          <section id="contact" data-aos="fade-up">
+            <Contact />
+          </section>
+        </main>
 
-      {/* 푸터 */}
-      <Footer>
-        <FooterContent>
-          <FooterText>
-            Made with <FaHeart className="icon" /> and <FaCode className="icon" /> using <FaReact className="icon" /> React
-          </FooterText>
-          
-          <FooterLinks>
-            <FooterLink href="#home">Home</FooterLink>
-            <FooterLink href="#about">About</FooterLink>
-            <FooterLink href="#skills">Skills</FooterLink>
-            <FooterLink href="#experience">Experience</FooterLink>
-            <FooterLink href="#projects">Projects</FooterLink>
-            <FooterLink href="#education">Education</FooterLink>
-            <FooterLink href="#contact">Contact</FooterLink>
-          </FooterLinks>
+        {/* Footer */}
+        <Footer>
+          <FooterContent>
+            <div className="footer-text">
+              Made with <FaHeart className="heart" /> by DongKyu Kim
+            </div>
+            <div className="footer-tech">
+              <FaReact /> React • <FaCode /> Styled Components • Framer Motion
+            </div>
+          </FooterContent>
+        </Footer>
 
-          <Copyright>
-            © 2025 김동규 (Dongkyu Kim). All rights reserved.
-          </Copyright>
-        </FooterContent>
-      </Footer>
-    </>
+        {/* Toast 알림 시스템 */}
+        <Toast toasts={toastMethods.toasts} removeToast={toastMethods.removeToast} />
+      </>
+    </ToastContext.Provider>
   );
 }
 

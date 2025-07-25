@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { 
-  FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaBlog, 
-  FaExternalLinkAlt, FaDownload, FaMobile, FaPaperPlane,
+  FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaBlog, FaExternalLinkAlt,
   FaLinkedin, FaInstagram
 } from 'react-icons/fa';
-import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { colors, gradients, breakpoints } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
+import { ToastContext } from '../../App';
 
-const ContactSection = styled(Section)`
-  background: ${colors.dark};
+const ContactSection = styled.section`
+  min-height: 100vh;
+  padding: 100px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   position: relative;
   overflow: hidden;
@@ -18,32 +20,72 @@ const ContactSection = styled(Section)`
   &::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
-    animation: rotate 20s linear infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="90" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    animation: float 20s linear infinite;
   }
 
-  @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-100px); }
+  }
+`;
+
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+`;
+
+const SectionTitle = styled(motion.h2)`
+  font-size: 3.5rem;
+  font-family: 'Inter', 'Noto Sans KR';
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #fff, #f0f8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 2.5rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    font-size: 2rem;
+  }
+`;
+
+const SectionSubtitle = styled(motion.p)`
+  font-size: 1.2rem;
+  font-family: 'Inter', 'Noto Sans KR';
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 4rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    font-size: 1rem;
+    margin-bottom: 3rem;
   }
 `;
 
 const ContactContainer = styled.div`
-  position: relative;
-  z-index: 2;
-`;
-
-const ContactGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  margin-top: 3rem;
+  align-items: start;
 
-  @media (max-width: ${breakpoints.laptop}) {
+  @media (max-width: ${breakpoints.tablet}) {
     grid-template-columns: 1fr;
     gap: 3rem;
   }
@@ -55,235 +97,202 @@ const ContactInfo = styled(motion.div)`
   gap: 2rem;
 `;
 
-const ContactCard = styled(motion.div)`
+const ContactItem = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 2rem;
   transition: all 0.3s ease;
 
   &:hover {
+    background: rgba(255, 255, 255, 0.2);
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const ContactItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-
-  &:last-child {
-    margin-bottom: 0;
   }
 
   .icon {
-    font-size: 1.5rem;
-    color: ${colors.primary};
-    min-width: 24px;
+    font-size: 1.8rem;
+    color: #fff;
+    min-width: 40px;
   }
 
   .content {
     flex: 1;
 
     .label {
-      font-family: 'Pretendard-SemiBold';
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 0.2rem;
+      font-family: 'Inter', 'Noto Sans KR';
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
     }
 
     .value {
-      font-family: 'Pretendard-Medium';
-      font-size: 1.1rem;
-      color: white;
+      font-family: 'Inter', 'Noto Sans KR';
+      font-weight: 400;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.9);
+      word-break: break-all;
     }
   }
 `;
 
-const SocialLinks = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-`;
-
-const SocialLink = styled(motion.a)`
+const ContactForm = styled(motion.form)`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1.5rem 1rem;
+  gap: 1.5rem;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  text-decoration: none;
-  color: white;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-3px);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  }
-
-  .icon {
-    font-size: 2rem;
-    color: ${colors.primary};
-  }
-
-  .label {
-    font-family: 'Pretendard-Medium';
-    font-size: 0.9rem;
-    text-align: center;
-  }
-`;
-
-const ContactForm = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  backdrop-filter: blur(15px);
   padding: 2.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const FormTitle = styled.h3`
+  font-family: 'Inter', 'Noto Sans KR';
+  font-weight: 700;
   font-size: 1.5rem;
-  font-family: 'Pretendard-Bold';
-  color: white;
-  margin-bottom: 2rem;
+  color: #fff;
+  margin-bottom: 1rem;
   text-align: center;
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
 
-  label {
-    display: block;
-    font-family: 'Pretendard-SemiBold';
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+const Label = styled.label`
+  font-family: 'Inter', 'Noto Sans KR';
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+`;
+
+const Input = styled.input`
+  padding: 1rem 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-family: 'Inter', 'Noto Sans KR';
+  font-size: 1rem;
+  transition: all 0.3s ease;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.7);
   }
 
-  input, textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-family: 'Pretendard-Regular';
-    font-size: 1rem;
-    transition: all 0.3s ease;
+  &:focus {
+    outline: none;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+  }
+`;
 
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
+const TextArea = styled.textarea`
+  padding: 1rem 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-family: 'Inter', 'Noto Sans KR';
+  font-size: 1rem;
+  min-height: 120px;
+  resize: vertical;
+  transition: all 0.3s ease;
 
-    &:focus {
-      outline: none;
-      border-color: ${colors.primary};
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
-    }
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.7);
   }
 
-  textarea {
-    resize: vertical;
-    min-height: 120px;
+  &:focus {
+    outline: none;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.2);
   }
 `;
 
 const SubmitButton = styled(motion.button)`
-  width: 100%;
-  background: ${gradients.primary};
-  color: white;
-  border: none;
   padding: 1rem 2rem;
-  border-radius: 10px;
-  font-family: 'Pretendard-SemiBold';
-  font-size: 1rem;
+  background: linear-gradient(135deg, #fff 0%, #f0f8ff 100%);
+  color: ${colors.primary};
+  border: none;
+  border-radius: 50px;
+  font-family: 'Inter', 'Noto Sans KR';
+  font-weight: 700;
+  font-size: 1.1rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.7;
     cursor: not-allowed;
     transform: none;
   }
-`;
 
-const DownloadSection = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 2.5rem;
-  text-align: center;
-  margin-top: 3rem;
-`;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+  }
 
-const DownloadTitle = styled.h3`
-  font-size: 1.5rem;
-  font-family: 'Pretendard-Bold';
-  color: white;
-  margin-bottom: 1rem;
-`;
-
-const DownloadDescription = styled.p`
-  color: rgba(255, 255, 255, 0.8);
-  font-family: 'Pretendard-Regular';
-  line-height: 1.6;
-  margin-bottom: 2rem;
-`;
-
-const DownloadButtons = styled.div`
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-    align-items: center;
+  &:hover::before {
+    left: 100%;
   }
 `;
 
-const DownloadButton = styled(motion.a)`
-  background: ${gradients.secondary};
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 25px;
-  text-decoration: none;
-  font-family: 'Pretendard-SemiBold';
-  font-size: 1rem;
-  display: inline-flex;
+const SocialLinks = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+`;
+
+const SocialLink = styled(motion.a)`
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    color: ${colors.primary};
+    transform: translateY(-5px) scale(1.1);
+    border-color: #fff;
   }
 `;
 
 const Contact = () => {
   const { personal } = portfolioData;
+  const { success, error } = useContext(ToastContext);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -291,11 +300,12 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -315,22 +325,28 @@ const Contact = () => {
       const result = await response.json();
       
       if (result.success) {
-        alert('메시지가 성공적으로 전송되었습니다! 빠른 시일 내에 답변드리겠습니다.');
+        success('메시지가 성공적으로 전송되었습니다! 빠른 시일 내에 답변드리겠습니다.', {
+          title: '전송 완료',
+          duration: 5000
+        });
         setFormData({ name: '', email: '', message: '' });
       } else {
         // 서버 에러 메시지 표시
         const errorMessage = result.errors 
-          ? result.errors.map(err => err.message).join('\n')
+          ? result.errors.map(err => err.message).join(', ')
           : result.message || '메시지 전송에 실패했습니다.';
-        alert(errorMessage);
+        error(errorMessage, {
+          title: '전송 실패',
+          duration: 7000
+        });
       }
-    } catch (error) {
-      console.error('전송 오류:', error);
+    } catch (err) {
+      console.error('전송 오류:', err);
       // 오프라인 또는 네트워크 오류 시 이메일 대체 옵션 제공
-      // eslint-disable-next-line no-restricted-globals
-      if (confirm('메시지 전송에 실패했습니다. 이메일로 직접 연락하시겠습니까?')) {
-        window.location.href = `mailto:${personal.email}?subject=포트폴리오 문의&body=안녕하세요! 포트폴리오를 보고 연락드립니다.`;
-      }
+      error('서버와 연결할 수 없습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해주세요.', {
+        title: '연결 오류',
+        duration: 10000
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -339,223 +355,161 @@ const Contact = () => {
   const socialLinks = [
     {
       icon: <FaGithub />,
-      label: 'GitHub',
       url: personal.links.github,
-      description: '코드 저장소'
+      label: 'GitHub'
     },
     {
       icon: <FaBlog />,
-      label: 'Blog',
       url: personal.links.blog,
-      description: '기술 블로그'
+      label: 'Blog'
     },
     {
       icon: <FaExternalLinkAlt />,
-      label: 'Portfolio',
       url: personal.links.portfolio,
-      description: '포트폴리오 2024'
-    },
-    {
-      icon: <FaMobile />,
-      label: 'App Demo',
-      url: personal.links.playstore,
-      description: '앱 테스트'
+      label: 'Portfolio'
     }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.1
-      }
+  const contactItems = [
+    {
+      icon: <FaEnvelope />,
+      label: '이메일',
+      value: personal.email
+    },
+    {
+      icon: <FaPhone />,
+      label: '연락처',
+      value: personal.phone
+    },
+    {
+      icon: <FaMapMarkerAlt />,
+      label: '위치',
+      value: '서울, 대한민국'
     }
-  };
-
-  const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
+  ];
 
   return (
     <ContactSection id="contact">
       <Container>
+        <SectionTitle
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          연락하기
+        </SectionTitle>
+        
+        <SectionSubtitle
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          새로운 기회와 도전을 기다리고 있습니다. 언제든지 연락 주세요!
+        </SectionSubtitle>
+
         <ContactContainer>
-          <SectionTitle style={{ color: 'white' }}>Get In Touch</SectionTitle>
-          
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+          <ContactInfo
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <ContactGrid>
-              {/* 연락처 정보 */}
-              <ContactInfo>
-                <ContactCard variants={itemVariants}>
-                  <ContactItem>
-                    <FaEnvelope className="icon" />
-                    <div className="content">
-                      <div className="label">이메일</div>
-                      <div className="value">{personal.email}</div>
-                    </div>
-                  </ContactItem>
+            {contactItems.map((item, index) => (
+              <ContactItem
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="icon">{item.icon}</div>
+                <div className="content">
+                  <div className="label">{item.label}</div>
+                  <div className="value">{item.value}</div>
+                </div>
+              </ContactItem>
+            ))}
+          </ContactInfo>
 
-                  <ContactItem>
-                    <FaPhone className="icon" />
-                    <div className="content">
-                      <div className="label">연락처</div>
-                      <div className="value">{personal.phone}</div>
-                    </div>
-                  </ContactItem>
+          <ContactForm
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <FormTitle>메시지 보내기</FormTitle>
+            
+            <FormGroup>
+              <Label htmlFor="name">이름</Label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="이름을 입력해주세요"
+                required
+              />
+            </FormGroup>
 
-                  <ContactItem>
-                    <FaMapMarkerAlt className="icon" />
-                    <div className="content">
-                      <div className="label">주소</div>
-                      <div className="value">{personal.address}</div>
-                    </div>
-                  </ContactItem>
-                </ContactCard>
+            <FormGroup>
+              <Label htmlFor="email">이메일</Label>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="이메일을 입력해주세요"
+                required
+              />
+            </FormGroup>
 
-                <SocialLinks>
-                  {socialLinks.map((link, index) => (
-                    <SocialLink
-                      key={index}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={itemVariants}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <div className="icon">{link.icon}</div>
-                      <div className="label">
-                        <div>{link.label}</div>
-                        <div style={{ fontSize: '0.7rem', opacity: 0.8 }}>
-                          {link.description}
-                        </div>
-                      </div>
-                    </SocialLink>
-                  ))}
-                </SocialLinks>
-              </ContactInfo>
+            <FormGroup>
+              <Label htmlFor="message">메시지</Label>
+              <TextArea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="문의사항이나 메시지를 입력해주세요"
+                required
+              />
+            </FormGroup>
 
-              {/* 연락 폼 */}
-              <ContactForm variants={itemVariants}>
-                <FormTitle>메시지 보내기</FormTitle>
-                
-                <form onSubmit={handleSubmit}>
-                  <FormGroup>
-                    <label htmlFor="name">이름</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="이름을 입력하세요"
-                      required
-                    />
-                  </FormGroup>
-
-                  <FormGroup>
-                    <label htmlFor="email">이메일</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="이메일을 입력하세요"
-                      required
-                    />
-                  </FormGroup>
-
-                  <FormGroup>
-                    <label htmlFor="message">메시지</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="메시지를 입력하세요"
-                      required
-                    />
-                  </FormGroup>
-
-                  <SubmitButton
-                    type="submit"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                    whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        >
-                          ⏳
-                        </motion.div>
-                        전송 중...
-                      </>
-                    ) : (
-                      <>
-                        <FaPaperPlane />
-                        메시지 전송
-                      </>
-                    )}
-                  </SubmitButton>
-                </form>
-              </ContactForm>
-            </ContactGrid>
-
-            {/* 이력서 다운로드 섹션 */}
-            <DownloadSection variants={itemVariants}>
-              <DownloadTitle>이력서 다운로드</DownloadTitle>
-              <DownloadDescription>
-                더 자세한 정보가 필요하시다면 아래에서 이력서를 다운로드하실 수 있습니다.
-                <br />
-                또는 온라인 포트폴리오를 확인해보세요.
-              </DownloadDescription>
-              
-              <DownloadButtons>
-                <DownloadButton
-                  href="#"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert('이력서 PDF 다운로드 기능은 곧 제공될 예정입니다.');
-                  }}
-                >
-                  <FaDownload />
-                  이력서 PDF
-                </DownloadButton>
-                
-                <DownloadButton
-                  href={personal.links.portfolio}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <FaExternalLinkAlt />
-                  2024년 포트폴리오(Vue.js)
-                </DownloadButton>
-              </DownloadButtons>
-            </DownloadSection>
-          </motion.div>
+            <SubmitButton
+              type="submit"
+              disabled={isSubmitting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isSubmitting ? '전송 중...' : '메시지 전송'}
+            </SubmitButton>
+          </ContactForm>
         </ContactContainer>
+
+        <SocialLinks>
+          {socialLinks.map((link, index) => (
+            <SocialLink
+              key={index}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {link.icon}
+            </SocialLink>
+          ))}
+        </SocialLinks>
       </Container>
     </ContactSection>
   );
