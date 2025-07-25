@@ -7,18 +7,25 @@ import { colors, gradients, breakpoints } from '../../styles/GlobalStyles';
 const QuickNavContainer = styled(motion.div)`
   position: fixed;
   left: 2rem;
-  top: 35%;
+  top: 50%;
   transform: translateY(-50%);
   z-index: 100;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  padding: 1rem 0.5rem;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  padding: 1.25rem 0.75rem;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+  }
 
   @media (max-width: ${breakpoints.laptop}) {
     display: none;
@@ -26,20 +33,20 @@ const QuickNavContainer = styled(motion.div)`
 `;
 
 const NavItem = styled(motion.button)`
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: ${colors.primary};
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 
@@ -50,42 +57,70 @@ const NavItem = styled(motion.button)`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: ${gradients.primary};
-    transition: left 0.3s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, -50%);
     z-index: -1;
   }
 
   &:hover {
     color: white;
-    transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.3);
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
 
     &::before {
       left: 0;
     }
+
+    &::after {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &.active {
-    background: ${gradients.primary};
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    transform: scale(1.1);
+    transform: scale(1.08);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+
+    &::after {
+      width: 100%;
+      height: 100%;
+    }
   }
 `;
 
 const NavTooltip = styled(motion.div)`
   position: absolute;
-  left: 80px;
+  left: 75px;
   top: 50%;
   transform: translateY(-50%);
-  background: ${colors.dark};
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
   font-family: 'Inter', 'Noto Sans KR';
   font-weight: 500;
   white-space: nowrap;
   pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 
   &::before {
     content: '';
@@ -93,8 +128,8 @@ const NavTooltip = styled(motion.div)`
     right: 100%;
     top: 50%;
     transform: translateY(-50%);
-    border: 5px solid transparent;
-    border-right-color: ${colors.dark};
+    border: 6px solid transparent;
+    border-right-color: rgba(0, 0, 0, 0.85);
   }
 `;
 
@@ -103,20 +138,37 @@ const ScrollToTopButton = styled(motion.button)`
   height: 50px;
   border-radius: 50%;
   border: none;
-  background: ${gradients.primary};
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
   margin-top: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   &:hover {
-    transform: scale(1.1) translateY(-2px);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 10px 35px rgba(102, 126, 234, 0.5);
+
+    &::before {
+      left: 100%;
+    }
   }
 `;
 
@@ -167,7 +219,10 @@ const QuickNav = () => {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
   };
 
@@ -179,7 +234,7 @@ const QuickNav = () => {
     <QuickNavContainer
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.5, delay: 1 }}
+      transition={{ duration: 0.6, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       {navItems.map((item, index) => (
         <div key={item.id} style={{ position: 'relative' }}>
@@ -188,11 +243,15 @@ const QuickNav = () => {
             onClick={() => scrollToSection(item.id)}
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.95 }}
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ 
+              delay: 0.5 + index * 0.08,
+              duration: 0.4,
+              ease: [0.4, 0, 0.2, 1]
+            }}
           >
             {item.icon}
           </NavItem>
@@ -200,10 +259,10 @@ const QuickNav = () => {
           <AnimatePresence>
             {hoveredItem === item.id && (
               <NavTooltip
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0, x: -15, scale: 0.9 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -15, scale: 0.9 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               >
                 {item.label}
               </NavTooltip>
@@ -216,11 +275,11 @@ const QuickNav = () => {
         {showScrollTop && (
           <ScrollToTopButton
             onClick={scrollToTop}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 0.3 }}
-            whileHover={{ scale: 1.1 }}
+            initial={{ opacity: 0, scale: 0, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0, y: 20 }}
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            whileHover={{ scale: 1.1, y: -3 }}
             whileTap={{ scale: 0.95 }}
           >
             <FaChevronUp />

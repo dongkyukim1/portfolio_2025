@@ -510,6 +510,9 @@ const RightSidebar = () => {
             setIsSidebarOpen(true);
             setIsGalleryOpen(true);
           }}
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
