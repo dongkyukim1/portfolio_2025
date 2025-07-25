@@ -163,24 +163,23 @@ const ProjectImage = styled.div`
   position: relative;
   overflow: hidden;
 
-  .tech-icons-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    padding: 1.5rem;
-    z-index: 3;
+  .project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
   }
 
-  .tech-icon {
-    font-size: 2.5rem;
+  .project-icon {
     color: white;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    transition: all 0.3s ease;
+    font-size: 3rem;
+    opacity: 0.8;
+    position: absolute;
+    z-index: 1;
   }
 
-  &:hover .tech-icon {
-    transform: scale(1.1);
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  &:hover .project-img {
+    transform: scale(1.05);
   }
 
   &::before {
@@ -194,24 +193,13 @@ const ProjectImage = styled.div`
       rgba(0,0,0,0.1) 0%, 
       rgba(0,0,0,0.3) 100%
     );
-    z-index: 1;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 10px,
-      rgba(255,255,255,0.05) 10px,
-      rgba(255,255,255,0.05) 20px
-    );
-    z-index: 2;
+  &:hover::before {
+    opacity: 1;
   }
 `;
 
@@ -241,13 +229,20 @@ const ProjectDetails = styled.div`
   }
 
   .tech-badge {
-    padding: 0.4rem 0.8rem;
-    background: linear-gradient(135deg, ${colors.primary}, ${colors.secondary});
-    color: white;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    font-family: 'Inter', 'Noto Sans KR';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .tech-badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -586,31 +581,34 @@ const RightSidebar = () => {
               whileTap={{ scale: 0.98 }}
             >
               <ProjectImage color={project.color}>
-                <div className="tech-icons-container">
-                  {project.tech.slice(0, 6).map((tech, techIndex) => {
-                    const techData = techIcons[tech];
-                    return techData ? (
-                      <div 
-                        key={techIndex} 
-                        className="tech-icon"
-                        style={{ color: techData.color }}
-                        title={tech}
-                      >
-                        {techData.icon}
-                      </div>
-                    ) : null;
-                  })}
-                </div>
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  className="project-img"
+                />
+                {!project.image && <FaImages className="project-icon" />}
               </ProjectImage>
               <ProjectDetails>
                 <div className="project-title">{project.title}</div>
                 <div className="project-description">{project.description}</div>
                 <div className="project-tech">
-                  {project.tech.map((tech, techIndex) => (
-                    <span key={techIndex} className="tech-badge">
-                      {tech}
-                    </span>
-                  ))}
+                  {project.tech.map((tech, techIndex) => {
+                    const techData = techIcons[tech];
+                    return techData ? (
+                      <div 
+                        key={techIndex} 
+                        className="tech-badge"
+                        style={{ color: techData.color }}
+                        title={tech}
+                      >
+                        {techData.icon}
+                      </div>
+                    ) : (
+                      <span key={techIndex} className="tech-badge" style={{ fontSize: '0.7rem', padding: '0.4rem 0.6rem' }}>
+                        {tech}
+                      </span>
+                    );
+                  })}
                 </div>
               </ProjectDetails>
             </ProjectCard>
