@@ -464,13 +464,8 @@ const RightSidebar = () => {
 
   return (
     <>
-      {/* 프로젝트 갤러리 백그라운드 */}
-      <ProjectGalleryBackground 
-        isOpen={isGalleryOpen}
-        initial={{ x: 800 }}
-        animate={{ x: isGalleryOpen ? 0 : 800 }}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-      >
+      {/* 갤러리 닫기 버튼 - 갤러리 외부에 독립 배치 */}
+      {isGalleryOpen && (
         <CloseButton
           onClick={() => {
             console.log('갤러리 닫기 버튼 클릭');
@@ -478,9 +473,24 @@ const RightSidebar = () => {
           }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          style={{
+            position: 'fixed',
+            top: '1rem',
+            right: '1rem',
+            zIndex: 2000
+          }}
         >
           <FaTimes />
         </CloseButton>
+      )}
+
+      {/* 프로젝트 갤러리 백그라운드 */}
+      <ProjectGalleryBackground 
+        isOpen={isGalleryOpen}
+        initial={{ x: 800 }}
+        animate={{ x: isGalleryOpen ? 0 : 800 }}
+        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      >
         <GalleryContent>
           <GalleryTitle
             initial={{ opacity: 0 }}
