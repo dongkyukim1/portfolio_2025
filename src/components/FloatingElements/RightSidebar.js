@@ -259,7 +259,7 @@ const SidebarContainer = styled(motion.div)`
   border-radius: 25px 0 0 25px;
   box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  z-index: 1000;
+  z-index: 1001;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 
@@ -287,7 +287,7 @@ const ToggleButton = styled(motion.button)`
   color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1001;
+  z-index: 1002;
 
   @media (max-width: ${breakpoints.laptop}) {
     display: none;
@@ -624,6 +624,9 @@ const RightSidebar = () => {
             setIsSidebarOpen(true);
             setIsGalleryOpen(true);
           }}
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           style={{ right: '2rem' }}
