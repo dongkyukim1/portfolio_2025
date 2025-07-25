@@ -3,49 +3,70 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { 
   FaGithub, FaBlog, FaExternalLinkAlt, FaMobile, FaChevronLeft, 
-  FaChevronRight, FaReact, FaVuejs, FaJava, FaPython, FaAws, FaImages,
+  FaReact, FaVuejs, FaJava, FaPython, FaAws, FaImages,
   FaTimes
 } from 'react-icons/fa';
 import { colors, gradients, breakpoints } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
-// 목업 프로젝트 화면단 데이터
-const mockupScreenshots = [
+// 갤러리 이미지 import
+import devhubImg from '../../assets/gallery/devhub.gif';
+import dogfootImg from '../../assets/gallery/dogfoot.png';
+import littlebankImg from '../../assets/gallery/littlebank.png';
+import littlebankAdminImg from '../../assets/gallery/littlebank_admin.png';
+import pmkAdminImg from '../../assets/gallery/pmk_admin.png';
+import tripplaiImg from '../../assets/gallery/trippleai.png';
+
+// 실제 프로젝트 갤러리 데이터
+const projectGallery = [
   {
     id: 1,
-    title: 'Devhub 랜딩 페이지',
-    description: '개발자 커뮤니티 플랫폼의 메인 화면',
-    tech: ['React', 'Node.js', 'MongoDB'],
+    title: 'Devhub 개발자 커뮤니티',
+    description: '개발자를 위한 커뮤니티 플랫폼 웹사이트',
+    tech: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
+    image: devhubImg,
     color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
   },
   {
     id: 2,
-    title: 'Devhub 대시보드',
-    description: '사용자 맞춤형 개발 뉴스 피드',
-    tech: ['Vue.js', 'Express', 'MySQL'],
+    title: '개발자 포트폴리오 사이트',
+    description: '개발자 개인 포트폴리오 및 이력서 웹사이트',
+    tech: ['React', 'Styled Components', 'Framer Motion'],
+    image: dogfootImg,
     color: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
   },
   {
     id: 3,
     title: '리틀뱅크 모바일 앱',
-    description: '아이들을 위한 금융 교육 앱',
-    tech: ['Flutter', 'Dart', 'Firebase'],
+    description: '아이들을 위한 금융 교육 모바일 애플리케이션',
+    tech: ['Flutter', 'Dart', 'Firebase', 'SQLite'],
+    image: littlebankImg,
     color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
   },
   {
     id: 4,
-    title: 'Tripplai 여행 플래너',
-    description: 'AI 기반 여행 계획 웹사이트',
-    tech: ['React', 'Python', 'FastAPI'],
+    title: '리틀뱅크 관리자 대시보드',
+    description: '리틀뱅크 앱을 위한 관리자 웹 대시보드',
+    tech: ['React', 'Chart.js', 'Node.js', 'MySQL'],
+    image: littlebankAdminImg,
     color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
   },
   {
     id: 5,
-    title: '포트폴리오 웹사이트',
-    description: '개인 포트폴리오 및 이력서 사이트',
-    tech: ['React', 'Styled Components', 'Framer Motion'],
+    title: 'PMK 관리 시스템',
+    description: '프로젝트 관리를 위한 어드민 시스템',
+    tech: ['Vue.js', 'Express', 'PostgreSQL', 'Redis'],
+    image: pmkAdminImg,
     color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
   },
+  {
+    id: 6,
+    title: 'Tripplai 여행 플래너',
+    description: 'AI 기반 맞춤형 여행 계획 웹 서비스',
+    tech: ['React', 'Python', 'FastAPI', 'OpenAI'],
+    image: tripplaiImg,
+    color: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)'
+  }
 ];
 
 const ProjectGalleryBackground = styled(motion.div)`
@@ -105,7 +126,7 @@ const ProjectCard = styled(motion.div)`
 `;
 
 const ProjectImage = styled.div`
-  height: 180px;
+  height: 200px;
   background: ${props => props.color};
   display: flex;
   align-items: center;
@@ -113,10 +134,23 @@ const ProjectImage = styled.div`
   position: relative;
   overflow: hidden;
 
+  .project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
   .project-icon {
     color: white;
     font-size: 3rem;
     opacity: 0.8;
+    position: absolute;
+    z-index: 1;
+  }
+
+  &:hover .project-img {
+    transform: scale(1.05);
   }
 
   &::before {
@@ -126,19 +160,17 @@ const ProjectImage = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, 
-      rgba(255,255,255,0.1) 25%, 
-      transparent 25%, 
-      transparent 75%, 
-      rgba(255,255,255,0.1) 75%
+    background: linear-gradient(135deg, 
+      rgba(0,0,0,0.1) 0%, 
+      rgba(0,0,0,0.3) 100%
     );
-    background-size: 30px 30px;
-    animation: slide 3s linear infinite;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  @keyframes slide {
-    0% { transform: translateX(-30px); }
-    100% { transform: translateX(30px); }
+  &:hover::before {
+    opacity: 1;
   }
 `;
 
@@ -500,7 +532,7 @@ const RightSidebar = () => {
             🎨 Project Gallery
           </GalleryTitle>
           
-          {mockupScreenshots.map((project, index) => (
+          {projectGallery.map((project, index) => (
             <ProjectCard
               key={project.id}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -513,7 +545,12 @@ const RightSidebar = () => {
               whileTap={{ scale: 0.98 }}
             >
               <ProjectImage color={project.color}>
-                <FaImages className="project-icon" />
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  className="project-img"
+                />
+                {!project.image && <FaImages className="project-icon" />}
               </ProjectImage>
               <ProjectDetails>
                 <div className="project-title">{project.title}</div>
