@@ -4,8 +4,14 @@ import { motion } from 'framer-motion';
 import { 
   FaGithub, FaBlog, FaExternalLinkAlt, FaMobile, FaChevronLeft, 
   FaReact, FaVuejs, FaJava, FaPython, FaAws, FaImages,
-  FaTimes
+  FaTimes, FaNodeJs
 } from 'react-icons/fa';
+import { 
+  SiMongodb, SiSocketdotio, SiStyledcomponents, SiFramer,
+  SiFlutter, SiDart, SiFirebase, SiSqlite, SiMysql,
+  SiExpress, SiPostgresql, SiRedis, SiFastapi, SiOpenai,
+  SiChartdotjs, SiTypescript
+} from 'react-icons/si';
 import { colors, gradients, breakpoints } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
@@ -16,6 +22,29 @@ import littlebankImg from '../../assets/gallery/littlebank.png';
 import littlebankAdminImg from '../../assets/gallery/littlebank_admin.png';
 import pmkAdminImg from '../../assets/gallery/pmk_admin.png';
 import tripplaiImg from '../../assets/gallery/trippleai.png';
+
+// 기술 스택 아이콘 매핑
+const techIcons = {
+  'React': { icon: <FaReact />, color: '#61dafb' },
+  'Node.js': { icon: <FaNodeJs />, color: '#339933' },
+  'MongoDB': { icon: <SiMongodb />, color: '#47A248' },
+  'Socket.io': { icon: <SiSocketdotio />, color: '#010101' },
+  'Styled Components': { icon: <SiStyledcomponents />, color: '#DB7093' },
+  'Framer Motion': { icon: <SiFramer />, color: '#0055FF' },
+  'Flutter': { icon: <SiFlutter />, color: '#02569B' },
+  'Dart': { icon: <SiDart />, color: '#0175C2' },
+  'Firebase': { icon: <SiFirebase />, color: '#FFCA28' },
+  'SQLite': { icon: <SiSqlite />, color: '#003B57' },
+  'Chart.js': { icon: <SiChartdotjs />, color: '#FF6384' },
+  'MySQL': { icon: <SiMysql />, color: '#4479A1' },
+  'Vue.js': { icon: <FaVuejs />, color: '#4FC08D' },
+  'Express': { icon: <SiExpress />, color: '#000000' },
+  'PostgreSQL': { icon: <SiPostgresql />, color: '#336791' },
+  'Redis': { icon: <SiRedis />, color: '#DC382D' },
+  'Python': { icon: <FaPython />, color: '#3776AB' },
+  'FastAPI': { icon: <SiFastapi />, color: '#009688' },
+  'OpenAI': { icon: <SiOpenai />, color: '#412991' }
+};
 
 // 실제 프로젝트 갤러리 데이터
 const projectGallery = [
@@ -134,23 +163,24 @@ const ProjectImage = styled.div`
   position: relative;
   overflow: hidden;
 
-  .project-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  .tech-icons-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+    z-index: 3;
   }
 
-  .project-icon {
+  .tech-icon {
+    font-size: 2.5rem;
     color: white;
-    font-size: 3rem;
-    opacity: 0.8;
-    position: absolute;
-    z-index: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    transition: all 0.3s ease;
   }
 
-  &:hover .project-img {
-    transform: scale(1.05);
+  &:hover .tech-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
   }
 
   &::before {
@@ -164,13 +194,24 @@ const ProjectImage = styled.div`
       rgba(0,0,0,0.1) 0%, 
       rgba(0,0,0,0.3) 100%
     );
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    z-index: 1;
   }
 
-  &:hover::before {
-    opacity: 1;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255,255,255,0.05) 10px,
+      rgba(255,255,255,0.05) 20px
+    );
+    z-index: 2;
   }
 `;
 
@@ -266,12 +307,12 @@ const ToggleButton = styled(motion.button)`
 `;
 
 const SidebarContent = styled.div`
-  padding: 1.5rem 1.8rem;
+  padding: 2rem 1.8rem;
   height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2.5rem;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -545,12 +586,21 @@ const RightSidebar = () => {
               whileTap={{ scale: 0.98 }}
             >
               <ProjectImage color={project.color}>
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="project-img"
-                />
-                {!project.image && <FaImages className="project-icon" />}
+                <div className="tech-icons-container">
+                  {project.tech.slice(0, 6).map((tech, techIndex) => {
+                    const techData = techIcons[tech];
+                    return techData ? (
+                      <div 
+                        key={techIndex} 
+                        className="tech-icon"
+                        style={{ color: techData.color }}
+                        title={tech}
+                      >
+                        {techData.icon}
+                      </div>
+                    ) : null;
+                  })}
+                </div>
               </ProjectImage>
               <ProjectDetails>
                 <div className="project-title">{project.title}</div>
