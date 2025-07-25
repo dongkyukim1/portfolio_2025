@@ -46,27 +46,6 @@ const mockupScreenshots = [
     tech: ['React', 'Styled Components', 'Framer Motion'],
     color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
   },
-  {
-    id: 6,
-    title: 'E-Commerce 쇼핑몰',
-    description: '반응형 온라인 쇼핑 플랫폼',
-    tech: ['Next.js', 'TypeScript', 'Prisma'],
-    color: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)'
-  },
-  {
-    id: 7,
-    title: '날씨 대시보드',
-    description: '실시간 날씨 정보 및 예보 서비스',
-    tech: ['React', 'Chart.js', 'OpenWeather API'],
-    color: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
-  },
-  {
-    id: 8,
-    title: '할일 관리 앱',
-    description: '팀 협업을 위한 태스크 매니저',
-    tech: ['React Native', 'Redux', 'Socket.io'],
-    color: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)'
-  }
 ];
 
 const ProjectGalleryBackground = styled(motion.div)`
@@ -77,7 +56,7 @@ const ProjectGalleryBackground = styled(motion.div)`
   height: 100vh;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
   backdrop-filter: blur(20px);
-  z-index: 900;
+  z-index: 999;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
   padding: 1.5rem;
@@ -95,6 +74,8 @@ const GalleryContent = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   min-height: calc(100vh - 4rem);
+  position: relative;
+  z-index: 1001;
 `;
 
 const GalleryTitle = styled(motion.h2)`
@@ -410,7 +391,7 @@ const CloseButton = styled(motion.button)`
   right: 1rem;
   width: 40px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 50%;
   color: white;
@@ -420,10 +401,36 @@ const CloseButton = styled(motion.button)`
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  z-index: 10;
+  z-index: 1003;
+  pointer-events: auto;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+  }
+`;
+
+const SidebarCloseButton = styled(motion.button)`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 50%;
+  color: ${colors.primary};
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1002;
+
+  &:hover {
+    background: ${colors.primary};
+    color: white;
     transform: scale(1.1);
   }
 `;
@@ -518,13 +525,13 @@ const RightSidebar = () => {
       )}
       
       <SidebarContainer isOpen={isSidebarOpen}>
-        <CloseButton
+        <SidebarCloseButton
           onClick={() => setIsSidebarOpen(false)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
           <FaTimes />
-        </CloseButton>
+        </SidebarCloseButton>
         <SidebarContent>
           {/* 현재 상태 */}
           <div>
