@@ -1,18 +1,21 @@
 {
   "files": {
-    "main.css": "/portfolio_2025/static/css/main.6e9abe26.css",
-    "main.js": "/portfolio_2025/static/js/main.d3aaf182.js",
+    "main.css": "/portfolio_2025/static/css/main.b9a3f197.css",
+    "main.js": "/portfolio_2025/static/js/main.b65cf2b8.js",
     "static/js/206.426d5b0a.chunk.js": "/portfolio_2025/static/js/206.426d5b0a.chunk.js",
     "static/media/devhub.gif": "/portfolio_2025/static/media/devhub.e18c8952680f7e9adf96.gif",
+    "static/media/trippai.mp4": "/portfolio_2025/static/media/trippai.5d89260c58fc1557023b.mp4",
     "static/media/dogfoot.png": "/portfolio_2025/static/media/dogfoot.a00142102f90c9c79a41.png",
     "static/media/trippleai.png": "/portfolio_2025/static/media/trippleai.d826944528fbab8ef0ec.png",
+    "static/media/devhub.mp4": "/portfolio_2025/static/media/devhub.42247c6b720f6c3341c7.mp4",
     "static/media/pmk_admin.png": "/portfolio_2025/static/media/pmk_admin.500fd91d78fd79d6a3e8.png",
+    "static/media/littlebank.mp4": "/portfolio_2025/static/media/littlebank.b52ecd0cdbff5b1d72ad.mp4",
     "static/media/littlebank_admin.png": "/portfolio_2025/static/media/littlebank_admin.fdb2791ec48cb0ad8605.png",
     "static/media/littlebank.png": "/portfolio_2025/static/media/littlebank.ef8fc76f9576624b37a8.png",
     "index.html": "/portfolio_2025/index.html"
   },
   "entrypoints": [
-    "static/css/main.6e9abe26.css",
-    "static/js/main.d3aaf182.js"
+    "static/css/main.b9a3f197.css",
+    "static/js/main.b65cf2b8.js"
   ]
 }
