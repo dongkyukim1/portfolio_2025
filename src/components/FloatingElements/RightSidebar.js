@@ -77,7 +77,7 @@ const ProjectGalleryBackground = styled(motion.div)`
   height: 100vh;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
   backdrop-filter: blur(20px);
-  z-index: 900;
+  z-index: 999;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
   padding: 1.5rem;
@@ -209,7 +209,7 @@ const SidebarContainer = styled(motion.div)`
   border-radius: 25px 0 0 25px;
   box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  z-index: 1000;
+  z-index: 1001;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 
@@ -237,7 +237,7 @@ const ToggleButton = styled(motion.button)`
   color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1001;
+  z-index: 1002;
 
   @media (max-width: ${breakpoints.laptop}) {
     display: none;

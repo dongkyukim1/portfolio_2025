@@ -272,13 +272,13 @@ function App() {
           ))}
         </BackgroundContainer>
         
+        {/* 플로팅 요소들 - 최상위 레벨에 위치 */}
+        <QuickNav />
+        <RightSidebar />
+        
         <ContentContainer>
           {/* 네비게이션 헤더 */}
           <Header />
-          
-          {/* 플로팅 요소들 */}
-          <QuickNav />
-          <RightSidebar />
           
           {/* 메인 콘텐츠 */}
           <MainContent>

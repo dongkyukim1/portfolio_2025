@@ -9,7 +9,7 @@ const QuickNavContainer = styled(motion.div)`
   left: 2rem;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 100;
+  z-index: 1002;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -231,11 +231,7 @@ const QuickNav = () => {
   };
 
   return (
-    <QuickNavContainer
-      initial={{ x: -100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.6, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
-    >
+    <QuickNavContainer>
       {navItems.map((item, index) => (
         <div key={item.id} style={{ position: 'relative' }}>
           <NavItem
@@ -245,13 +241,6 @@ const QuickNav = () => {
             onMouseLeave={() => setHoveredItem(null)}
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              delay: 0.5 + index * 0.08,
-              duration: 0.4,
-              ease: [0.4, 0, 0.2, 1]
-            }}
           >
             {item.icon}
           </NavItem>
