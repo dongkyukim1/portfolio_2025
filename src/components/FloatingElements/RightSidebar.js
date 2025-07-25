@@ -531,6 +531,7 @@ const RightSidebar = () => {
         </GalleryContent>
       </ProjectGalleryBackground>
 
+      {/* 메인 토글 버튼 - 둘 다 닫혔을 때만 표시 */}
       {!isSidebarOpen && !isGalleryOpen && (
         <ToggleButton
           isOpen={false}
@@ -540,6 +541,39 @@ const RightSidebar = () => {
           }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          style={{ right: '2rem' }}
+        >
+          <FaChevronLeft />
+        </ToggleButton>
+      )}
+
+      {/* 갤러리 토글 버튼 - 갤러리만 닫혔을 때 */}
+      {!isGalleryOpen && isSidebarOpen && (
+        <ToggleButton
+          isOpen={false}
+          onClick={() => setIsGalleryOpen(true)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          style={{ 
+            right: '370px',
+            background: 'linear-gradient(135deg, #43e97b, #38f9d7)'
+          }}
+        >
+          <FaImages />
+        </ToggleButton>
+      )}
+
+      {/* 사이드바 토글 버튼 - 사이드바만 닫혔을 때 */}
+      {!isSidebarOpen && isGalleryOpen && (
+        <ToggleButton
+          isOpen={false}
+          onClick={() => setIsSidebarOpen(true)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          style={{ 
+            right: '2rem',
+            background: 'linear-gradient(135deg, #667eea, #764ba2)'
+          }}
         >
           <FaChevronLeft />
         </ToggleButton>
