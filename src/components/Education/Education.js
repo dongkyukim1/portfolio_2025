@@ -9,30 +9,49 @@ import { Section, Container, SectionTitle, colors, gradients, breakpoints } from
 import { portfolioData } from '../../data/portfolio';
 
 const EducationSection = styled(Section)`
-  background: ${colors.backgroundLight};
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.03) 0%, transparent 40%);
+    pointer-events: none;
+  }
 `;
 
 const ContentGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
 
   @media (max-width: ${breakpoints.laptop}) {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
   }
 `;
 
 const SectionBlock = styled(motion.div)`
-  background: white;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 2.5rem;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 
   &:hover {
+    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(102, 126, 234, 0.3);
   }
 `;
 
@@ -42,17 +61,17 @@ const BlockHeader = styled.div`
   gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid ${colors.backgroundLight};
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 
   .icon {
     font-size: 2rem;
-    color: ${colors.primary};
+    color: ${colors.secondary};
   }
 
   h3 {
     font-size: 1.5rem;
     font-family: 'Pretendard-Bold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin: 0;
   }
 `;
@@ -64,16 +83,18 @@ const EducationList = styled.div`
 `;
 
 const EducationItem = styled(motion.div)`
-  background: ${colors.backgroundLight};
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
   border-radius: 15px;
   padding: 1.5rem;
-  border-left: 4px solid ${colors.primary};
+  border-left: 4px solid ${colors.secondary};
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateX(5px);
-    background: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -81,20 +102,20 @@ const SchoolInfo = styled.div`
   .school-name {
     font-size: 1.2rem;
     font-family: 'Pretendard-Bold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin-bottom: 0.5rem;
   }
 
   .major {
     font-size: 1rem;
     font-family: 'Pretendard-SemiBold';
-    color: ${colors.primary};
+    color: ${colors.secondary};
     margin-bottom: 0.5rem;
   }
 
   .period {
     font-size: 0.9rem;
-    color: ${colors.textLight};
+    color: ${colors.text.tertiary};
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -102,13 +123,14 @@ const SchoolInfo = styled.div`
 
   .type {
     display: inline-block;
-    background: ${gradients.primary};
-    color: white;
+    background: rgba(102, 126, 234, 0.2);
+    color: #a5b4fc;
     padding: 0.2rem 0.8rem;
     border-radius: 12px;
     font-size: 0.8rem;
     font-family: 'Pretendard-Medium';
     margin-top: 0.5rem;
+    border: 1px solid rgba(102, 126, 234, 0.3);
   }
 `;
 
@@ -119,16 +141,18 @@ const TrainingList = styled.div`
 `;
 
 const TrainingItem = styled(motion.div)`
-  background: ${colors.backgroundLight};
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
   border-radius: 15px;
   padding: 1.5rem;
-  border-left: 4px solid ${colors.secondary};
+  border-left: 4px solid #3b82f6;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateX(5px);
-    background: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -136,20 +160,20 @@ const TrainingInfo = styled.div`
   .training-name {
     font-size: 1.1rem;
     font-family: 'Pretendard-Bold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin-bottom: 0.5rem;
   }
 
   .organization {
     font-size: 0.95rem;
     font-family: 'Pretendard-SemiBold';
-    color: ${colors.secondary};
+    color: #3b82f6;
     margin-bottom: 0.5rem;
   }
 
   .period {
     font-size: 0.9rem;
-    color: ${colors.textLight};
+    color: ${colors.text.tertiary};
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -158,26 +182,30 @@ const TrainingInfo = styled.div`
 
   .status {
     display: inline-block;
-    background: ${colors.success};
-    color: white;
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
     padding: 0.2rem 0.8rem;
     border-radius: 12px;
     font-size: 0.8rem;
     font-family: 'Pretendard-Medium';
+    border: 1px solid rgba(16, 185, 129, 0.3);
   }
 `;
 
 const CertificatesGrid = styled.div`
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
 `;
 
 const CertificateCard = styled(motion.div)`
-  background: white;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 2rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -200,8 +228,9 @@ const CertificateCard = styled(motion.div)`
   }
 
   &:hover {
+    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   }
 `;
 
@@ -214,20 +243,20 @@ const CertificateHeader = styled.div`
   .cert-name {
     font-size: 1.1rem;
     font-family: 'Pretendard-Bold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     flex: 1;
   }
 
   .cert-icon {
     font-size: 1.5rem;
-    color: ${colors.primary};
+    color: ${colors.secondary};
   }
 `;
 
 const CertificateDetails = styled.div`
   .cert-date {
     font-size: 0.9rem;
-    color: ${colors.textLight};
+    color: ${colors.text.tertiary};
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
@@ -236,7 +265,7 @@ const CertificateDetails = styled.div`
 
   .cert-score {
     font-size: 0.9rem;
-    color: ${colors.text};
+    color: ${colors.text.secondary};
     margin-bottom: 0.5rem;
   }
 
@@ -248,13 +277,20 @@ const CertificateDetails = styled.div`
     font-family: 'Pretendard-SemiBold';
     background: ${props => {
       switch (props.status) {
-        case '취득': return colors.success;
-        case '필기 합격 (실기 진행 중)': return colors.warning;
-        case '만료': return colors.textLight;
-        default: return colors.primary;
+        case '취득': return 'rgba(16, 185, 129, 0.2)';
+        case '필기 합격 (실기 진행 중)': return 'rgba(245, 158, 11, 0.2)';
+        case '만료': return 'rgba(107, 114, 128, 0.2)';
+        default: return 'rgba(59, 130, 246, 0.2)';
       }
     }};
-    color: white;
+    color: ${props => {
+      switch (props.status) {
+        case '취득': return '#10b981';
+        case '필기 합격 (실기 진행 중)': return '#f59e0b';
+        case '만료': return '#6b7280';
+        default: return '#3b82f6';
+      }
+    }};
   }
 `;
 
@@ -266,11 +302,13 @@ const StatsSection = styled.div`
 `;
 
 const StatCard = styled(motion.div)`
-  background: white;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
 
@@ -286,20 +324,20 @@ const StatCard = styled(motion.div)`
 
   .stat-icon {
     font-size: 2.5rem;
-    color: ${colors.primary};
+    color: ${colors.secondary};
     margin-bottom: 1rem;
   }
 
   .stat-number {
     font-size: 2rem;
     font-family: 'Pretendard-Bold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin-bottom: 0.5rem;
   }
 
   .stat-label {
     font-family: 'Pretendard-Medium';
-    color: ${colors.textLight};
+    color: ${colors.text.secondary};
   }
 `;
 
