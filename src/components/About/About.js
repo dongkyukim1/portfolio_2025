@@ -23,66 +23,103 @@ const AboutContent = styled.div`
 
 const MainInfo = styled(motion.div)``;
 
-const ProfileCard = styled(Card)`
-  background: white;
-  padding: 2.5rem;
-  margin-bottom: 2rem;
+const ProfileCard = styled(motion.div)`
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    flex-direction: column;
+    text-align: center;
+  }
 `;
 
 const ProfileImage = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background: ${gradients.primary};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
-  color: white;
-  margin: 0 auto 2rem;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    border-radius: 50%;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  flex-shrink: 0;
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
 
   span {
-    position: relative;
-    z-index: 2;
-    background: ${gradients.primary};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 3rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 100px;
+    height: 100px;
+
+    span {
+      font-size: 2.5rem;
+    }
   }
 `;
 
 const ProfileInfo = styled.div`
-  text-align: center;
-
   h3 {
     font-size: 1.8rem;
     font-family: 'Pretendard-Bold';
-    color: ${colors.dark};
     margin-bottom: 0.5rem;
+    color: ${colors.text.primary};
   }
 
   p {
-    color: ${colors.textLight};
+    font-size: 1.2rem;
+    color: ${colors.text.secondary};
+    margin-bottom: 0.3rem;
     font-family: 'Pretendard-Medium';
-    margin-bottom: 1rem;
   }
 
   .birth {
-    font-size: 0.9rem;
-    color: ${colors.textLight};
+    font-size: 1rem;
+    color: ${colors.text.tertiary};
+    font-family: 'Pretendard-Regular';
+  }
+`;
+
+// 현재 상태 뱃지
+const StatusBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-family: 'Pretendard-Medium';
+  margin-top: 0.8rem;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
   }
 `;
 
@@ -90,7 +127,7 @@ const Introduction = styled.div`
   h4 {
     font-size: 1.4rem;
     font-family: 'Pretendard-SemiBold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -99,7 +136,7 @@ const Introduction = styled.div`
 
   p {
     line-height: 1.8;
-    color: ${colors.text};
+    color: ${colors.text.secondary};
     font-family: 'Pretendard-Regular';
   }
 `;
@@ -110,22 +147,25 @@ const StoryCards = styled(motion.div)`
 `;
 
 const StoryCard = styled(motion.div)`
-  background: white;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 2rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   border-left: 4px solid ${props => props.color || colors.primary};
 
   &:hover {
+    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   }
 
   h4 {
     font-size: 1.3rem;
     font-family: 'Pretendard-SemiBold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -134,7 +174,7 @@ const StoryCard = styled(motion.div)`
 
   p {
     line-height: 1.7;
-    color: ${colors.text};
+    color: ${colors.text.secondary};
     font-family: 'Pretendard-Regular';
   }
 `;
@@ -166,20 +206,23 @@ const GoalsList = styled.div`
 `;
 
 const GoalItem = styled(motion.div)`
-  background: white;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   border-left: 3px solid ${colors.primary};
 
   &:hover {
+    background: rgba(255, 255, 255, 0.05);
     transform: translateX(5px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
   }
 
   p {
-    color: ${colors.text};
+    color: ${colors.text.secondary};
     font-family: 'Pretendard-Regular';
     line-height: 1.6;
   }
@@ -231,6 +274,11 @@ const About = () => {
                 <h3>{personal.name}</h3>
                 <p>{personal.title}</p>
                 <p className="birth">생년월일: {personal.birth}</p>
+                {about.currentJob && (
+                  <StatusBadge>
+                    {about.currentJob.company} - {about.currentJob.position} {about.currentJob.status}
+                  </StatusBadge>
+                )}
               </ProfileInfo>
             </ProfileCard>
 

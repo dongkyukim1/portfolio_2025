@@ -1,15 +1,7 @@
 import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import styled from 'styled-components';
-import { FaHeart, FaCode, FaReact } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-
-// Styled Components
-import { GlobalStyle } from './styles/GlobalStyles';
-import { colors, gradients } from './styles/GlobalStyles';
-
-// Components
+import styled, { ThemeProvider } from 'styled-components';
+import { motion, useSpring } from 'framer-motion';
+import GlobalStyles, { breakpoints } from './styles/GlobalStyles';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
 import About from './components/About/About';
@@ -18,323 +10,275 @@ import Experience from './components/Experience/Experience';
 import Projects from './components/Projects/Projects';
 import Education from './components/Education/Education';
 import Contact from './components/Contact/Contact';
-import QuickNav from './components/FloatingElements/QuickNav';
 import RightSidebar from './components/FloatingElements/RightSidebar';
 
-// UI Components
-import Toast, { useToast } from './components/UI/Toast';
+const theme = {
+  colors: {
+    primary: '#0a0a1a',
+    secondary: '#3b82f6',
+    accent: '#8b5cf6',
+    text: {
+      primary: '#ffffff',
+      secondary: 'rgba(255, 255, 255, 0.7)',
+      tertiary: 'rgba(255, 255, 255, 0.5)'
+    },
+    background: {
+      primary: '#000000',
+      secondary: '#0a0a1a',
+      tertiary: 'rgba(10, 10, 26, 0.5)'
+    }
+  }
+};
 
-// Context for Toast
-export const ToastContext = React.createContext();
+const AppContainer = styled.div`
+  min-height: 100vh;
+  background: ${theme.colors.background.primary};
+  color: ${theme.colors.text.primary};
+  overflow-x: hidden;
+  position: relative;
+`;
 
-// Background Animation Components
-const BackgroundContainer = styled.div`
+// LQVE 스타일 섹션 구분선
+const SectionDivider = styled(motion.div)`
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  margin: 80px auto;
+  max-width: 1200px;
+  
+  @media (max-width: 768px) {
+    margin: 60px auto;
+  }
+`;
+
+// 섹션 래퍼
+const SectionWrapper = styled(motion.section)`
+  position: relative;
+  padding: 100px 0;
+  
+  @media (max-width: 768px) {
+    padding: 80px 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 60px 0;
+  }
+`;
+
+// 배경 노이즈 효과
+const BackgroundNoise = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.02;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    filter: contrast(100%) brightness(100%);
+  }
+`;
+
+// 커서 효과
+const CustomCursor = styled(motion.div)`
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const CursorOuter = styled(motion.div)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  z-index: -1;
-  background: linear-gradient(
-    135deg,
-    #667eea 0%,
-    #764ba2 25%,
-    #f093fb 50%,
-    #f5576c 75%,
-    #4facfe 100%
-  );
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-
-  @keyframes gradientShift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-`;
-
-const AnimatedShape = styled(motion.div)`
-  position: absolute;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
-  background: ${props => props.color || 'rgba(255, 255, 255, 0.1)'};
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
-const Shape1 = styled(AnimatedShape)`
-  width: 300px;
-  height: 300px;
-  top: 10%;
-  right: 10%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-`;
-
-const Shape2 = styled(AnimatedShape)`
-  width: 200px;
-  height: 200px;
-  bottom: 20%;
-  left: 5%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-`;
-
-const Shape3 = styled(AnimatedShape)`
-  width: 150px;
-  height: 150px;
-  top: 60%;
-  right: 30%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-`;
-
-const FloatingParticle = styled(motion.div)`
+const CursorInner = styled(motion.div)`
   position: absolute;
-  width: ${props => props.size || '4px'};
-  height: ${props => props.size || '4px'};
-  background: rgba(255, 255, 255, 0.6);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 `;
-
-const ContentContainer = styled.div`
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(1px);
-  min-height: 100vh;
-`;
-
-const MainContent = styled.main`
-  position: relative;
-  z-index: 2;
-`;
-
-const Section = styled.section`
-  position: relative;
-  z-index: 2;
-  
-  &:nth-child(odd) {
-    background: rgba(255, 255, 255, 0.02);
-  }
-  
-  &:nth-child(even) {
-    background: rgba(255, 255, 255, 0.01);
-  }
-`;
-
-// Footer Styled Components
-const Footer = styled.footer`
-  position: relative;
-  z-index: 2;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  color: white;
-  padding: 2rem 0;
-  text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-`;
-
-const FooterContent = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-
-  .footer-text {
-    font-family: 'Inter', 'Noto Sans KR';
-    font-size: 1rem;
-    opacity: 0.8;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .footer-tech {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    opacity: 0.6;
-  }
-
-  .heart {
-    color: #e74c3c;
-    animation: heartbeat 1.5s ease-in-out infinite;
-  }
-
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-`;
-
-// 파티클 생성 함수
-const createParticles = () => {
-  const particles = [];
-  for (let i = 0; i < 15; i++) {
-    particles.push({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      delay: Math.random() * 10
-    });
-  }
-  return particles;
-};
 
 function App() {
-  const toastMethods = useToast();
-  const particles = createParticles();
+  const cursorXSpring = useSpring(0, { damping: 25, stiffness: 200 });
+  const cursorYSpring = useSpring(0, { damping: 25, stiffness: 200 });
+  const cursorScale = useSpring(1, { damping: 20, stiffness: 300 });
 
   useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
+    // 커스텀 커서 효과
+    const moveCursor = (e) => {
+      cursorXSpring.set(e.clientX);
+      cursorYSpring.set(e.clientY);
+    };
+    
+    const handleMouseEnter = () => {
+      cursorScale.set(1.5);
+    };
+    
+    const handleMouseLeave = () => {
+      cursorScale.set(1);
+    };
+
+    const handleMouseDown = () => {
+      cursorScale.set(0.8);
+    };
+
+    const handleMouseUp = () => {
+      cursorScale.set(1);
+    };
+    
+    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
+    
+    // 호버 가능한 요소들에 이벤트 추가
+    const hoverables = document.querySelectorAll('a, button, [role="button"]');
+    hoverables.forEach(el => {
+      el.addEventListener('mouseenter', handleMouseEnter);
+      el.addEventListener('mouseleave', handleMouseLeave);
     });
-  }, []);
+    
+    // Smooth scroll behavior
+    document.documentElement.style.scrollBehavior = 'smooth';
+    
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
+      hoverables.forEach(el => {
+        el.removeEventListener('mouseenter', handleMouseEnter);
+        el.removeEventListener('mouseleave', handleMouseLeave);
+      });
+    };
+  }, [cursorXSpring, cursorYSpring, cursorScale]);
 
   return (
-    <ToastContext.Provider value={toastMethods}>
-      <>
-        <GlobalStyle />
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <AppContainer>
+        <BackgroundNoise />
+        <CustomCursor
+          style={{
+            x: cursorXSpring,
+            y: cursorYSpring,
+            translateX: '-50%',
+            translateY: '-50%',
+          }}
+        >
+          <CursorOuter
+            style={{
+              scale: cursorScale,
+            }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+          />
+          <CursorInner
+            style={{
+              scale: cursorScale,
+            }}
+            transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          />
+        </CustomCursor>
         
-        {/* 배경 애니메이션 */}
-        <BackgroundContainer>
-          {/* 플로팅 도형들 */}
-          <Shape1
-            animate={{
-              y: [0, -30, 0],
-              rotate: [0, 180, 360],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <Shape2
-            animate={{
-              y: [0, 25, 0],
-              x: [0, 15, 0],
-              rotate: [0, -180, -360]
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <Shape3
-            animate={{
-              y: [0, -20, 0],
-              x: [0, -10, 0],
-              scale: [1, 0.9, 1]
-            }}
-            transition={{
-              duration: 18,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          
-          {/* 플로팅 파티클들 */}
-          {particles.map(particle => (
-            <FloatingParticle
-              key={particle.id}
-              size={`${particle.size}px`}
-              style={{
-                left: `${particle.x}%`,
-                top: `${particle.y}%`
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.3, 1, 0.3]
-              }}
-              transition={{
-                duration: 8 + particle.delay,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: particle.delay
-              }}
-            />
-          ))}
-        </BackgroundContainer>
+        <Header />
         
-        {/* 플로팅 요소들 - 최상위 레벨에 위치 */}
-        <QuickNav />
+        <Hero />
+        
+        <SectionDivider
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        />
+        
+        <SectionWrapper>
+          <About />
+        </SectionWrapper>
+        
+        <SectionDivider
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        />
+        
+        <SectionWrapper>
+          <Skills />
+        </SectionWrapper>
+        
+        <SectionDivider
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        />
+        
+        <SectionWrapper>
+          <Experience />
+        </SectionWrapper>
+        
+        <SectionDivider
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        />
+        
+        <SectionWrapper>
+          <Projects />
+        </SectionWrapper>
+        
+        <SectionDivider
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        />
+        
+        <SectionWrapper>
+          <Education />
+        </SectionWrapper>
+        
+        <SectionDivider
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        />
+        
+        <Contact />
+        
         <RightSidebar />
-        
-        <ContentContainer>
-          {/* 네비게이션 헤더 */}
-          <Header />
-          
-          {/* 메인 콘텐츠 */}
-          <MainContent>
-            {/* 히어로 섹션 */}
-            <Section data-aos="fade-up">
-              <Hero />
-            </Section>
-
-            {/* 소개 섹션 */}
-            <Section id="about" data-aos="fade-up">
-              <About />
-            </Section>
-
-            {/* 스킬 섹션 */}
-            <Section id="skills" data-aos="fade-up">
-              <Skills />
-            </Section>
-
-            {/* 경력 섹션 */}
-            <Section id="experience" data-aos="fade-up">
-              <Experience />
-            </Section>
-
-            {/* 프로젝트 섹션 */}
-            <Section id="projects" data-aos="fade-up">
-              <Projects />
-            </Section>
-
-            {/* 교육 섹션 */}
-            <Section id="education" data-aos="fade-up">
-              <Education />
-            </Section>
-
-            {/* 연락처 섹션 */}
-            <Section id="contact" data-aos="fade-up">
-              <Contact />
-            </Section>
-          </MainContent>
-
-          {/* Footer */}
-          <Footer>
-            <FooterContent>
-              <div className="footer-text">
-                Made with <FaHeart className="heart" /> by DongKyu Kim
-              </div>
-              <div className="footer-tech">
-                <FaReact /> React • <FaCode /> Styled Components • Framer Motion
-              </div>
-            </FooterContent>
-          </Footer>
-        </ContentContainer>
-
-        {/* Toast 알림 시스템 */}
-        <Toast toasts={toastMethods.toasts} removeToast={toastMethods.removeToast} />
-      </>
-    </ToastContext.Provider>
+      </AppContainer>
+    </ThemeProvider>
   );
 }
 
