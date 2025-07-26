@@ -3,13 +3,18 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub, FaExternalLinkAlt, FaCalendarAlt, FaUsers, 
-  FaTimes, FaRocket, FaMobile, FaGlobe 
+  FaTimes, FaRocket, FaMobile, FaGlobe, FaCode 
 } from 'react-icons/fa';
 import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
+// 로고 이미지 import
+import devhubLogo from '../../assets/projects/logo/devhublogo.jpg';
+import littlebankLogo from '../../assets/projects/logo/littlebanklogo.png';
+import tripplaiLogo from '../../assets/projects/logo/Tripplailogo.png';
+
 const ProjectsSection = styled(Section)`
-  background: white;
+  background: transparent;
 `;
 
 const ProjectsGrid = styled.div`
@@ -25,29 +30,34 @@ const ProjectsGrid = styled.div`
 `;
 
 const ProjectCard = styled(motion.div)`
-  background: white;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
 
   &:hover {
+    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(102, 126, 234, 0.3);
   }
 `;
 
 const ProjectImage = styled.div`
-  height: 200px;
-  background: ${gradients.primary};
-  position: relative;
+  height: 220px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+  border-radius: 12px 12px 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
-  color: white;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
   overflow: hidden;
 
   &::before {
@@ -57,12 +67,60 @@ const ProjectImage = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    background: url('data:image/svg+xml,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)" /></svg>');
+    opacity: 0.5;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.3) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+
+  .project-logo-container {
+    width: 140px;
+    height: 140px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .project-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.95) contrast(1.1);
+    transition: all 0.3s ease;
+  }
+
+  &:hover .project-logo-container {
+    transform: scale(1.05);
+    border-color: rgba(102, 126, 234, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &:hover .project-logo {
+    filter: brightness(1) contrast(1.15);
   }
 
   .project-icon {
-    position: relative;
-    z-index: 2;
+    z-index: 1;
+    filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
   }
 `;
 
@@ -77,7 +135,7 @@ const ProjectHeader = styled.div`
 const ProjectTitle = styled.h3`
   font-size: 1.3rem;
   font-family: 'Pretendard-Bold';
-  color: ${colors.dark};
+  color: ${colors.text.primary};
   margin-bottom: 0.5rem;
   line-height: 1.3;
 `;
@@ -88,7 +146,7 @@ const ProjectMeta = styled.div`
   gap: 1rem;
   margin-bottom: 1rem;
   font-size: 0.85rem;
-  color: ${colors.textLight};
+  color: ${colors.text.secondary};
 
   .meta-item {
     display: flex;
@@ -98,7 +156,7 @@ const ProjectMeta = styled.div`
 `;
 
 const ProjectDescription = styled.p`
-  color: ${colors.text};
+  color: ${colors.text.secondary};
   line-height: 1.6;
   margin-bottom: 1.5rem;
   font-family: 'Pretendard-Regular';
@@ -110,7 +168,7 @@ const TechStack = styled.div`
 
   .tech-label {
     font-family: 'Pretendard-SemiBold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
   }
@@ -123,13 +181,19 @@ const TechStack = styled.div`
 `;
 
 const TechTag = styled.span`
-  background: ${colors.backgroundLight};
-  color: ${colors.primary};
+  background: rgba(102, 126, 234, 0.1);
+  color: #a5b4fc;
   padding: 0.3rem 0.8rem;
   border-radius: 12px;
   font-size: 0.75rem;
   font-family: 'Pretendard-Medium';
   border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.4);
+  }
 `;
 
 const ProjectActions = styled.div`
@@ -139,9 +203,9 @@ const ProjectActions = styled.div`
 
 const ActionButton = styled.a`
   flex: 1;
-  background: ${props => props.primary ? gradients.primary : 'transparent'};
-  color: ${props => props.primary ? 'white' : colors.primary};
-  border: ${props => props.primary ? 'none' : `1px solid ${colors.primary}`};
+  background: ${props => props.primary ? 'rgba(102, 126, 234, 0.2)' : 'transparent'};
+  color: ${props => props.primary ? '#a5b4fc' : colors.text.secondary};
+  border: ${props => props.primary ? '1px solid rgba(102, 126, 234, 0.3)' : `1px solid rgba(255, 255, 255, 0.2)`};
   padding: 0.7rem 1rem;
   border-radius: 8px;
   text-decoration: none;
@@ -157,8 +221,9 @@ const ActionButton = styled.a`
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    background: ${props => props.primary ? gradients.secondary : colors.primary};
+    background: ${props => props.primary ? 'rgba(102, 126, 234, 0.3)' : 'rgba(255, 255, 255, 0.1)'};
     color: white;
+    border-color: rgba(102, 126, 234, 0.5);
   }
 `;
 
@@ -168,18 +233,33 @@ const StatusBadge = styled.span`
   right: 1rem;
   background: ${props => {
     switch (props.status) {
-      case 'completed': return colors.success;
-      case 'in-progress': return colors.warning;
-      case 'planning': return colors.textLight;
-      default: return colors.primary;
+      case 'completed': return 'rgba(16, 185, 129, 0.2)';
+      case 'in-progress': return 'rgba(245, 158, 11, 0.2)';
+      case 'planning': return 'rgba(107, 114, 128, 0.2)';
+      default: return 'rgba(59, 130, 246, 0.2)';
     }
   }};
-  color: white;
+  color: ${props => {
+    switch (props.status) {
+      case 'completed': return '#10b981';
+      case 'in-progress': return '#f59e0b';
+      case 'planning': return '#6b7280';
+      default: return '#3b82f6';
+    }
+  }};
   padding: 0.3rem 0.8rem;
   border-radius: 12px;
   font-size: 0.75rem;
   font-family: 'Pretendard-SemiBold';
   z-index: 3;
+  border: 1px solid ${props => {
+    switch (props.status) {
+      case 'completed': return 'rgba(16, 185, 129, 0.3)';
+      case 'in-progress': return 'rgba(245, 158, 11, 0.3)';
+      case 'planning': return 'rgba(107, 114, 128, 0.3)';
+      default: return 'rgba(59, 130, 246, 0.3)';
+    }
+  }};
 `;
 
 const Modal = styled(motion.div)`
@@ -188,7 +268,7 @@ const Modal = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,21 +281,25 @@ const Modal = styled(motion.div)`
 `;
 
 const ModalContent = styled(motion.div)`
-  background: white;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   max-width: 800px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 `;
 
 const ModalHeader = styled.div`
   position: sticky;
   top: 0;
-  background: white;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
   padding: 2rem 2rem 1rem;
-  border-bottom: 1px solid ${colors.light};
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -224,7 +308,7 @@ const ModalHeader = styled.div`
   h3 {
     font-size: 1.5rem;
     font-family: 'Pretendard-Bold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin: 0;
     flex: 1;
   }
@@ -234,13 +318,15 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: ${colors.textLight};
+  color: ${colors.text.secondary};
   cursor: pointer;
   padding: 0.5rem;
   margin: -0.5rem;
+  transition: all 0.3s ease;
 
   &:hover {
-    color: ${colors.dark};
+    color: ${colors.text.primary};
+    transform: rotate(90deg);
   }
 `;
 
@@ -257,9 +343,17 @@ const ModalBody = styled.div`
 
   .section-title {
     font-family: 'Pretendard-SemiBold';
-    color: ${colors.dark};
+    color: ${colors.text.primary};
     margin-bottom: 1rem;
     font-size: 1.1rem;
+  }
+
+  p {
+    color: ${colors.text.secondary};
+  }
+
+  strong {
+    color: ${colors.text.primary};
   }
 `;
 
@@ -271,13 +365,13 @@ const FeatureList = styled.ul`
     padding-left: 1.5rem;
     position: relative;
     line-height: 1.6;
-    color: ${colors.text};
+    color: ${colors.text.secondary};
 
     &::before {
       content: '✓';
       position: absolute;
       left: 0;
-      color: ${colors.success};
+      color: #10b981;
       font-weight: bold;
     }
   }
@@ -285,20 +379,20 @@ const FeatureList = styled.ul`
 
 const ChallengeList = styled.div`
   .challenge-item {
-    background: ${colors.backgroundLight};
+    background: rgba(255, 255, 255, 0.05);
     padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1rem;
-    border-left: 4px solid ${colors.warning};
+    border-left: 4px solid rgba(245, 158, 11, 0.5);
 
     .challenge-title {
       font-family: 'Pretendard-SemiBold';
-      color: ${colors.dark};
+      color: ${colors.text.primary};
       margin-bottom: 0.5rem;
     }
 
     .challenge-solution {
-      color: ${colors.text};
+      color: ${colors.text.secondary};
       line-height: 1.6;
     }
   }
@@ -307,6 +401,20 @@ const ChallengeList = styled.div`
 const Projects = () => {
   const { projects, personal } = portfolioData;
   const [selectedProject, setSelectedProject] = useState(null);
+
+  // 프로젝트별 로고 매핑
+  const projectLogos = {
+    'DevHub: 깃보다 쉽게 \'형상관리\'와 \'코드리뷰\'': devhubLogo,
+    'LittleBank': littlebankLogo,
+    'TripplAI': tripplaiLogo
+  };
+
+  const getProjectIcon = (project) => {
+    if (project.title.includes('DevHub')) return <FaCode />;
+    if (project.title.includes('LittleBank')) return '🏦';
+    if (project.title.includes('Trippl')) return '✈️';
+    return <FaCode />;
+  };
 
   const projectIcons = {
     'Devhub: 깃보다 쉽게 \'형상관리\'와 \'코드리뷰\'': '🔧',
@@ -384,9 +492,17 @@ const Projects = () => {
                   <StatusBadge status={getProjectStatus(project)}>
                     {getStatusText(getProjectStatus(project))}
                   </StatusBadge>
-                  <div className="project-icon">
-                    {projectIcons[project.title] || '💻'}
-                  </div>
+                  {projectLogos[project.title] ? (
+                    <div className="project-logo-container">
+                      <img 
+                        src={projectLogos[project.title]} 
+                        alt={`${project.title} logo`} 
+                        className="project-logo"
+                      />
+                    </div>
+                  ) : (
+                    <div className="project-icon">{getProjectIcon(project)}</div>
+                  )}
                 </ProjectImage>
 
                 <ProjectContent>
@@ -451,7 +567,7 @@ const Projects = () => {
             <h3 style={{ 
               fontSize: '1.5rem', 
               fontFamily: 'Pretendard-SemiBold', 
-              color: colors.dark, 
+              color: colors.text.primary, 
               marginBottom: '2rem' 
             }}>
               더 많은 프로젝트 보기
@@ -514,7 +630,7 @@ const Projects = () => {
                 <ModalBody>
                   <div className="section">
                     <div className="section-title">프로젝트 개요</div>
-                    <p style={{ lineHeight: 1.7, color: colors.text }}>
+                    <p style={{ lineHeight: 1.7, color: colors.text.secondary }}>
                       {selectedProject.description}
                     </p>
                     <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>

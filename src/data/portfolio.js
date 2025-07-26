@@ -27,71 +27,125 @@ export const portfolioData = {
     personality: {
       strength: "협업과 소통 능력. 미국 교환학생 및 국비 교육 프로젝트에서 PL 역할을 수행하며 팀원들과의 원활한 소통과 의견 조율을 통해 프로젝트를 성공적으로 이끈 경험이 있습니다.",
       weakness: "완벽주의 성향. 작업 속도가 느려지는 경향이 있어, 우선순위를 정하고 팀원들과 상의하여 빠르게 수정하는 연습을 통해 효율적으로 업무를 수행하고자 노력하고 있습니다."
+    },
+    
+    currentJob: {
+      company: "넷컴솔루션",
+      position: "풀스택 개발자",
+      status: "재직중"
     }
   },
 
   skills: {
     programming: ["Java", "Python", "JavaScript"],
-    frameworks: ["Spring Boot", "Flask", "Java Swing", "Thymeleaf", "RESTful API", "Ajax", "React", "Vue.js"],
-    databases: ["MySQL", "Oracle", "Redis", "MongoDB"],
+    frameworks: ["Spring", "Spring Boot", "Flask", "React", "Next.js", "Vue.js", "Flutter", "Android", "RESTful API", "Ajax", "Java Swing", "Thymeleaf"],
+    databases: ["MySQL", "Oracle", "PostgreSQL", "Redis", "MongoDB"],
     cloud: ["AWS", "Docker"],
-    tools: ["IntelliJ IDEA", "PyCharm", "VSCode", "Eclipse", "Maven/Gradle", "Notion"],
+    tools: ["IntelliJ IDEA", "PyCharm", "Android Studio", "VSCode", "Eclipse", "Git", "Maven/Gradle"],
+    collaboration: ["Slack", "Notion", "Figma", "Discord"],
     servers: ["Apache Tomcat", "Gunicorn", "Node.js"],
-    others: ["HTML", "CSS", "LLM", "Swagger", "Git"]
+    others: ["HTML", "CSS", "LLM", "Swagger"]
   },
 
   experience: [
     {
       company: "넷컴솔루션",
       position: "풀스택 개발자",
-      period: "2024.10.21 ~ 현재",
-      description: "LGU+ MCS 시스템 유지보수 업무, 쏘카·월드비전·PMK 제네시스클라우드 콜시스템 업무"
+      period: "2024.10 ~ 현재",
+      description: "LGU+ MCS 시스템 유지보수 및 제네시스클라우드 콜시스템 개발",
+      type: "employment",
+      current: true
     },
     {
-      company: "태흥 엔지니어링",
-      position: "해외(미국) 출장 담당자",
+      company: "LittleBank",
+      position: "프론트엔드 개발자 & PM",
+      period: "2024.03 ~ 2024.07",
+      description: "어린이 동기부여 모바일 앱 개발 및 프로젝트 관리",
+      type: "project",
+      skills: ["Flutter", "Dart", "Firebase", "Project Management"]
+    },
+    {
+      company: "TripplAI",
+      position: "프론트엔드 개발자 & PM",
+      period: "2024.03 ~ 현재",
+      description: "AI 기반 여행 추천 서비스 개발 및 프로젝트 관리",
+      type: "project",
+      current: true,
+      skills: ["Next.js", "React", "TypeScript", "AI Integration"]
+    },
+    {
+      company: "DevHub",
+      position: "프론트엔드 개발자 & PM",
+      period: "2024.06 ~ 2024.10",
+      description: "개발자 커뮤니티 플랫폼 구축 및 프로젝트 리딩",
+      type: "project",
+      skills: ["React", "Node.js", "MongoDB", "Docker"]
+    },
+    {
+      company: "CJ 산하",
+      position: "해외 출장 담당자",
       period: "2022.12 ~ 2023.06",
-      description: "미국 현지 프로젝트 관리 및 글로벌 비즈니스 커뮤니케이션"
+      description: "미국 현지 프로젝트 관리 및 글로벌 비즈니스 커뮤니케이션",
+      location: "미국",
+      type: "employment"
     },
     {
-      company: "뉴학원",
-      position: "초4~고3 영어 선생님",
+      company: "Droplist",
+      position: "네이버 스마트스토어 운영자",
+      period: "2018.04 ~ 2024.01",
+      description: "이커머스 플랫폼 운영 및 온라인 비즈니스 관리",
+      type: "business"
+    },
+    {
+      company: "영어학원",
+      position: "영어 강사",
       period: "2017.06 ~ 2018.03",
-      description: "학생들의 영어 실력 향상을 위한 맞춤형 교육 제공"
+      description: "초등학교 4학년부터 고등학교 3학년까지 영어 교육",
+      type: "employment"
     }
   ],
 
   projects: [
     {
-      title: "Devhub: 깃보다 쉽게 '형상관리'와 '코드리뷰'",
-      period: "2024년 7월",
-      role: "PL (프로젝트 리더)",
+      title: "DevHub: 깃보다 쉽게 '형상관리'와 '코드리뷰'",
+      period: "2024.06 ~ 2024.10",
+      role: "프론트엔드 개발자 & PM",
       description: "깃(Git)보다 쉽고 편하게 형상관리를 하는 개발자 형상관리 사이트",
       features: [
         "AI 코드 리뷰 시스템: LLM 모델(Groq를 이용한 Llama API 사용)을 활용한 코드 품질, 최적화, 보안 취약점 식별 및 상세 피드백 제공. 응답 속도 개선 (0.45초)",
         "쪽지 알림 시스템: 준실시간 알림 구현을 위해 클라이언트에서 주기적으로 GET API 호출로 새 쪽지 확인",
         "배포: Flask와 Spring Boot 프로젝트를 Docker와 AWS(EC2, RDS, ElastiCache, Route53)를 이용해 배포"
       ],
-      tech: ["HTML", "CSS", "JavaScript", "React", "Python", "Flask", "Java", "Spring Boot", "Docker", "AWS"],
+      tech: ["React", "Python", "Flask", "Java", "Spring Boot", "Docker", "AWS", "MongoDB", "Redis"],
       challenges: [
         "이메일 API 전송 속도 문제: @Async 어노테이션을 활용한 비동기 방식으로 평균 0.017초로 단축",
         "AI 코드리뷰 시스템: Groq Llama API로 변경하여 응답 속도 0.45초 달성"
       ]
     },
     {
-      title: "리틀뱅크 (Little Bank)",
-      period: "2024년 ~ 현재",
-      role: "PM 및 프론트엔드 개발자",
-      description: "플러터 + 스프링부트 기반 4인 팀 프로젝트 (1차 플레이콘솔 비공개 테스트 진행 중)",
-      tech: ["Flutter", "Spring Boot", "MySQL", "AWS"],
+      title: "LittleBank",
+      period: "2024.03 ~ 2024.07",
+      role: "프론트엔드 개발자 & PM",
+      description: "어린이를 위한 동기부여 모바일 애플리케이션",
+      features: [
+        "가상 은행 시스템 구현",
+        "게이미피케이션을 통한 동기부여",
+        "부모-자녀 연동 계좌 관리"
+      ],
+      tech: ["Flutter", "Dart", "Firebase", "Spring Boot", "MySQL", "AWS"],
       status: "Google Play Store 비공개 테스트 중"
     },
     {
-      title: "Tripplai",
-      period: "2024년 ~ 현재",
-      role: "PM 및 프론트엔드 개발자",
-      description: "Next.js 기반 여행 정보 서비스 (1차 관광 API 공모전 진출)",
-      tech: ["Next.js", "React", "TypeScript", "Vercel"],
+      title: "TripplAI",
+      period: "2024.03 ~ 현재",
+      role: "프론트엔드 개발자 & PM",
+      description: "AI 기반 맞춤형 여행 추천 서비스",
+      features: [
+        "AI를 활용한 개인화 여행 일정 생성",
+        "실시간 여행 정보 제공",
+        "사용자 선호도 기반 추천 알고리즘"
+      ],
+      tech: ["Next.js", "React", "TypeScript", "Python", "FastAPI", "OpenAI API", "Vercel"],
       status: "관광 API 공모전 진출",
       link: "https://tripplai.vercel.app/"
     }
@@ -99,7 +153,7 @@ export const portfolioData = {
 
   education: [
     {
-      school: "건국대학교 (서울)",
+      school: "건국대학교",
       major: "영어학과, 경영학과",
       period: "~ 2018년 졸업",
       type: "학사"

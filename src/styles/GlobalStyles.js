@@ -1,6 +1,181 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
-export const GlobalStyle = createGlobalStyle`
+export const colors = {
+  primary: '#0a0a1a',
+  secondary: '#3b82f6',
+  accent: '#8b5cf6',
+  text: {
+    primary: '#ffffff',
+    secondary: 'rgba(255, 255, 255, 0.7)',
+    tertiary: 'rgba(255, 255, 255, 0.5)'
+  },
+  background: {
+    primary: '#000000',
+    secondary: '#0a0a1a',
+    tertiary: 'rgba(10, 10, 26, 0.5)'
+  }
+};
+
+export const gradients = {
+  primary: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+  secondary: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)',
+  dark: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%)',
+  light: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)'
+};
+
+export const breakpoints = {
+  mobile: '480px',
+  tablet: '768px',
+  laptop: '1024px',
+  desktop: '1440px'
+};
+
+// LQVE 스타일 공통 컴포넌트들
+export const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 0 20px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 0 15px;
+  }
+`;
+
+export const Section = styled.section`
+  position: relative;
+  background: transparent;
+  overflow: hidden;
+`;
+
+export const SectionTitle = styled.h2`
+  font-family: 'Pretendard-Bold';
+  font-size: 3rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 5rem;
+  color: ${colors.text.primary};
+  letter-spacing: -0.03em;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: ${colors.text.tertiary};
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+`;
+
+export const Card = styled.div`
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 2rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1.5rem;
+  }
+`;
+
+const GlobalStyles = createGlobalStyle`
+  /* Pretendard 폰트 */
+  @font-face {
+    font-family: 'Pretendard-Thin';
+    src: url('/fonts/Pretendard-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-ExtraLight';
+    src: url('/fonts/Pretendard-ExtraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-Light';
+    src: url('/fonts/Pretendard-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('/fonts/Pretendard-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-SemiBold';
+    src: url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('/fonts/Pretendard-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('/fonts/Pretendard-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Pretendard-Black';
+    src: url('/fonts/Pretendard-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  /* Fira Code 폰트 - 코드 표시용 */
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
   * {
     margin: 0;
     padding: 0;
@@ -9,154 +184,173 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     scroll-behavior: smooth;
+    font-size: 16px;
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 14px;
+    }
   }
 
   body {
-    font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Pretendard-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: ${colors.background.primary};
+    color: ${colors.text.primary};
     line-height: 1.6;
-    color: #333;
     overflow-x: hidden;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    cursor: none;
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      cursor: auto;
+    }
   }
 
+  /* 스크롤바 스타일 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: ${colors.background.secondary};
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${colors.text.tertiary};
+    border-radius: 4px;
+    
+    &:hover {
+      background: ${colors.text.secondary};
+    }
+  }
+
+  /* 선택 색상 */
+  ::selection {
+    background: ${colors.secondary};
+    color: white;
+  }
+
+  /* 링크 기본 스타일 */
+  a {
+    color: inherit;
+    text-decoration: none;
+    cursor: none;
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      cursor: pointer;
+    }
+  }
+
+  /* 버튼 기본 스타일 */
+  button {
+    font-family: inherit;
+    cursor: none;
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      cursor: pointer;
+    }
+  }
+
+  /* 리스트 스타일 제거 */
+  ul, ol {
+    list-style: none;
+  }
+
+  /* 이미지 기본 스타일 */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* 제목 스타일 */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-family: 'Pretendard-Bold';
+    font-size: 3.5rem;
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 2.5rem;
+    }
+    
+    @media (max-width: ${breakpoints.mobile}) {
+      font-size: 2rem;
+    }
+  }
+
+  h2 {
+    font-family: 'Pretendard-Bold';
+    font-size: 2.5rem;
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 2rem;
+    }
+    
+    @media (max-width: ${breakpoints.mobile}) {
+      font-size: 1.75rem;
+    }
+  }
+
+  h3 {
+    font-family: 'Pretendard-SemiBold';
+    font-size: 2rem;
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 1.5rem;
+    }
+    
+    @media (max-width: ${breakpoints.mobile}) {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* 코드 블록 스타일 */
   code {
-    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-    font-feature-settings: 'liga', 'calt';
+    font-family: 'Fira Code', monospace;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
   }
 
-  // 개선된 폰트 스타일링
-  .font-thin { font-family: 'Inter', 'Noto Sans KR'; font-weight: 100; }
-  .font-extralight { font-family: 'Inter', 'Noto Sans KR'; font-weight: 200; }
-  .font-light { font-family: 'Inter', 'Noto Sans KR'; font-weight: 300; }
-  .font-regular { font-family: 'Inter', 'Noto Sans KR'; font-weight: 400; }
-  .font-medium { font-family: 'Inter', 'Noto Sans KR'; font-weight: 500; }
-  .font-semibold { font-family: 'Inter', 'Noto Sans KR'; font-weight: 600; }
-  .font-bold { font-family: 'Inter', 'Noto Sans KR'; font-weight: 700; }
-  .font-extrabold { font-family: 'Inter', 'Noto Sans KR'; font-weight: 800; }
-  .font-black { font-family: 'Inter', 'Noto Sans KR'; font-weight: 900; }
-`;
-
-export const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-
-  @media (max-width: 768px) {
-    padding: 0 15px;
-  }
-`;
-
-export const Section = styled.section`
-  padding: 80px 0;
-  
-  @media (max-width: 768px) {
-    padding: 60px 0;
-  }
-`;
-
-export const SectionTitle = styled.h2`
-  font-size: 3rem;
-  font-family: 'Inter', 'Noto Sans KR';
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 3rem;
-  color: #2c3e50;
-  position: relative;
-  letter-spacing: -0.02em;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
+  pre {
+    font-family: 'Fira Code', monospace;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    
+    code {
+      background: none;
+      padding: 0;
+    }
   }
 
-  @media (max-width: 768px) {
-    font-size: 2.2rem;
-    margin-bottom: 2rem;
+  /* 애니메이션 최적화 */
+  * {
+    will-change: auto;
+  }
+
+  /* 모바일 터치 최적화 */
+  @media (max-width: ${breakpoints.tablet}) {
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+
+  /* 프린트 스타일 */
+  @media print {
+    body {
+      background: white;
+      color: black;
+    }
   }
 `;
 
-export const Button = styled.button`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: 'Inter', 'Noto Sans KR';
-  font-weight: 500;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-  letter-spacing: -0.01em;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-  }
-
-  @media (max-width: 768px) {
-    padding: 10px 25px;
-    font-size: 14px;
-  }
-`;
-
-export const Card = styled.div`
-  background: white;
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-  }
-
-  @media (max-width: 768px) {
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-`;
-
-// 색상 팔레트
-export const colors = {
-  primary: '#667eea',
-  secondary: '#764ba2',
-  accent: '#f093fb',
-  dark: '#2c3e50',
-  light: '#ecf0f1',
-  success: '#2ecc71',
-  warning: '#f39c12',
-  error: '#e74c3c',
-  text: '#333333',
-  textLight: '#666666',
-  background: '#ffffff',
-  backgroundLight: '#f8f9fa'
-};
-
-// 그라디언트
-export const gradients = {
-  primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  secondary: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-  success: 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)',
-  dark: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)'
-};
-
-// 브레이크포인트
-export const breakpoints = {
-  mobile: '480px',
-  tablet: '768px',
-  laptop: '1024px',
-  desktop: '1200px'
-};
+export default GlobalStyles;

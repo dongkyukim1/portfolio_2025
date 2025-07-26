@@ -1,394 +1,680 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { FaBars, FaTimes, FaGithub, FaLinkedin } from 'react-icons/fa';
-import { colors, gradients } from '../../styles/GlobalStyles';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaPlay, FaPause, FaBars, FaTimes, FaVolumeMute, FaVolumeUp, FaSpotify } from 'react-icons/fa';
+import { breakpoints } from '../../styles/GlobalStyles';
+import musicFile from '../../assets/music/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].mp3';
+
+console.log('Music file path:', musicFile); // 디버깅용
 
 const HeaderContainer = styled(motion.header)`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
   z-index: 1000;
-  background: ${props => props.scrolled 
-    ? 'rgba(255, 255, 255, 0.85)' 
-    : 'rgba(255, 255, 255, 0.05)'
-  };
-  backdrop-filter: blur(${props => props.scrolled ? '20px' : '10px'});
-  border-bottom: ${props => props.scrolled 
-    ? '1px solid rgba(255, 255, 255, 0.2)' 
-    : '1px solid rgba(255, 255, 255, 0.1)'
-  };
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 1rem 0;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: ${props => props.scrolled 
-      ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)'
-      : 'transparent'
-    };
-    border-radius: 0 0 0 0;
-    z-index: -1;
-  }
-`;
-
-const Nav = styled.nav`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
-  @media (max-width: 768px) {
-    padding: 0 1rem;
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 0 20px;
+    height: 70px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    height: 60px;
+    padding: 0 15px;
   }
 `;
 
 const Logo = styled(motion.div)`
-  font-size: 2rem;
-  font-family: 'Pretendard-ExtraBold';
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'Pretendard-Bold';
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: white;
   cursor: pointer;
   position: relative;
-  letter-spacing: -0.02em;
+  z-index: 1002;
 
-  &::after {
+  @media (max-width: ${breakpoints.mobile}) {
+    font-size: 1.5rem;
+  }
+`;
+
+const Navigation = styled(motion.nav)`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 40px;
+
+  @media (max-width: ${breakpoints.laptop}) {
+    gap: 30px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    position: fixed;
+    top: 0;
+    left: ${props => props.$isOpen ? '0' : '-100%'};
+    transform: none;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.98);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+`;
+
+const NavItem = styled(motion.a)`
+  font-family: 'Pretendard-Medium';
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+  letter-spacing: 0.01em;
+
+  &::before {
     content: '';
     position: absolute;
     bottom: -4px;
     left: 0;
     width: 0;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 1px;
+    background: white;
+    transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  &:hover::after {
-    width: 100%;
+  &:hover {
+    color: white;
+
+    &::before {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 1.8rem;
+    color: white;
+    
+    &::before {
+      bottom: -6px;
+      height: 2px;
+    }
   }
 `;
 
-const NavList = styled.ul`
+const RightSection = styled.div`
   display: flex;
-  list-style: none;
-  gap: 2.5rem;
   align-items: center;
+  gap: 30px;
 
-  @media (max-width: 768px) {
-    position: fixed;
-    top: 0;
-    left: ${props => props.isOpen ? '0' : '-100%'};
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(25px);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    gap: 3rem;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
+  @media (max-width: ${breakpoints.mobile}) {
+    gap: 20px;
   }
 `;
 
-const NavItem = styled(motion.li)`
-  position: relative;
+const MusicPlayer = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(28, 28, 28, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  padding: 6px 16px 6px 10px;
+  min-width: 280px;
+
+  @media (max-width: ${breakpoints.laptop}) {
+    min-width: 250px;
+    gap: 12px;
+    padding: 5px 14px 5px 8px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    display: none;
+  }
 `;
 
-const NavLink = styled.a`
-  text-decoration: none;
-  color: ${props => props.scrolled ? colors.dark : 'rgba(51, 51, 51, 0.9)'};
-  font-family: 'Pretendard-Medium';
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+const AlbumArt = styled(motion.div)`
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #1db954 0%, #191414 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: white;
   position: relative;
-  padding: 0.75rem 1rem;
-  border-radius: 25px;
-  letter-spacing: -0.01em;
+  overflow: hidden;
 
   &::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(102, 126, 234, 0.1);
-    border-radius: 25px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translate(-50%, -50%);
-    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.4) 100%);
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0.2rem;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 1px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateX(-50%);
+  svg {
+    z-index: 1;
+  }
+`;
+
+const TrackInfo = styled.div`
+  flex: 1;
+  min-width: 0;
+
+  .track-name {
+    font-size: 0.8rem;
+    font-family: 'Pretendard-Medium';
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 1px;
+  }
+
+  .artist-name {
+    font-size: 0.7rem;
+    font-family: 'Pretendard-Regular';
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+const PlayerControls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const PlayButton = styled(motion.button)`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  color: black;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s ease;
+
+  svg {
+    position: relative;
+    left: ${props => props.$isPlaying ? '0' : '1px'};
   }
 
   &:hover {
-    color: ${colors.primary};
-    transform: translateY(-2px);
-    
-    &::before {
-      width: 100%;
-      height: 100%;
-    }
-    
-    &::after {
-      width: 60%;
-    }
+    transform: scale(1.1);
   }
 
-  @media (max-width: 768px) {
-    font-size: 1.1rem;
-    color: ${colors.dark};
+  &:active {
+    transform: scale(0.95);
   }
+`;
+
+const VolumeControl = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+`;
+
+const VolumeButton = styled(motion.button)`
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: white;
+  }
+`;
+
+const VolumeSlider = styled.input`
+  width: 50px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  &::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  &::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+`;
+
+const ProgressBar = styled.div`
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  overflow: hidden;
+`;
+
+const Progress = styled.div`
+  height: 100%;
+  background: #1db954;
+  border-radius: 1px;
+  transition: width 0.1s linear;
 `;
 
 const MenuToggle = styled(motion.button)`
   display: none;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 0.75rem;
-  font-size: 1.2rem;
-  color: ${colors.dark};
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1001;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 8px;
+  z-index: 1002;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-  }
-
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoints.tablet}) {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 `;
 
-const ContactButton = styled(motion.a)`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 0.75rem 1.75rem;
-  border-radius: 30px;
-  text-decoration: none;
-  font-family: 'Pretendard-SemiBold';
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+const PageIndicator = styled(motion.div)`
+  position: fixed;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
-    
-    &::before {
-      left: 100%;
-    }
-  }
-
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoints.tablet}) {
     display: none;
   }
 `;
 
-const SocialLinks = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-left: 1rem;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const SocialLink = styled(motion.a)`
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${colors.dark};
-  font-size: 1rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+const IndicatorDot = styled(motion.div)`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: ${props => props.$active ? 'white' : 'rgba(255, 255, 255, 0.2)'};
+  cursor: pointer;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    background: rgba(255, 255, 255, 0.5);
   }
 `;
 
-const navItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Education', href: '#education' }
-];
+const ScrollProgress = styled(motion.div)`
+  position: fixed;
+  top: 80px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  transform-origin: left;
+  z-index: 999;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    top: 70px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    top: 60px;
+  }
+`;
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(0.5);
+  const [isMuted, setIsMuted] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState('home');
+  const audioRef = useRef(null);
+  const progressIntervalRef = useRef(null);
+
+  // 오디오 초기화
+  useEffect(() => {
+    audioRef.current = new Audio(musicFile);
+    audioRef.current.volume = volume;
+    audioRef.current.loop = true;
+
+    // 오디오 이벤트 리스너
+    const handleLoadedData = () => {
+      console.log('Audio loaded successfully');
+    };
+
+    const handleError = (e) => {
+      console.error('Audio loading error:', e);
+    };
+
+    audioRef.current.addEventListener('loadeddata', handleLoadedData);
+    audioRef.current.addEventListener('error', handleError);
+
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+      if (audioRef.current) {
+        audioRef.current.removeEventListener('loadeddata', handleLoadedData);
+        audioRef.current.removeEventListener('error', handleError);
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  // 재생 상태에 따른 프로그레스 업데이트
+  useEffect(() => {
+    if (isPlaying && audioRef.current) {
+      progressIntervalRef.current = setInterval(() => {
+        if (audioRef.current && audioRef.current.duration) {
+          const currentProgress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+          setProgress(currentProgress);
+        }
+      }, 100);
+    } else {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+    }
+
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+    };
+  }, [isPlaying]);
+
+  // 볼륨 업데이트
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
+  }, [volume, isMuted]);
+
+  const togglePlayPause = async () => {
+    if (!audioRef.current) return;
+
+    try {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        // 브라우저의 자동 재생 정책을 위한 처리
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+            })
+            .catch((error) => {
+              console.error('Audio playback failed:', error);
+              // 사용자 상호작용이 필요한 경우
+              if (error.name === 'NotAllowedError') {
+                console.log('User interaction required for audio playback');
+              }
+            });
+        }
+      }
+    } catch (error) {
+      console.error('Toggle play/pause error:', error);
+    }
+  };
+
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value) / 100;
+    setVolume(newVolume);
+    setIsMuted(newVolume === 0);
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const scrolled = window.scrollY;
+      const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrolled / maxHeight) * 100;
+      setScrollProgress(progress);
+
+      // 현재 활성 섹션 감지
+      const sections = ['home', 'about', 'skills', 'experience', 'projects', 'education', 'contact'];
+      const currentSection = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const navItems = [
+    { name: 'HOME', href: '#home' },
+    { name: 'ABOUT', href: '#about' },
+    { name: 'SKILLS', href: '#skills' },
+    { name: 'EXPERIENCE', href: '#experience' },
+    { name: 'PROJECTS', href: '#projects' },
+    { name: 'EDUCATION', href: '#education' },
+    { name: 'CONTACT', href: '#contact' }
+  ];
+
+  const sections = ['home', 'about', 'skills', 'experience', 'projects', 'education', 'contact'];
+
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
   };
 
-  const closeMenu = () => {
-    setIsOpen(false);
+  const handleIndicatorClick = (section) => {
+    const targetElement = document.getElementById(section);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <HeaderContainer
-      scrolled={scrolled}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-    >
-      <Nav>
+    <>
+      <HeaderContainer
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <Logo
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
-            closeMenu();
-          }}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           DONGKYU
         </Logo>
 
-        <NavList isOpen={isOpen}>
+        <Navigation $isOpen={isMenuOpen}>
           {navItems.map((item, index) => (
             <NavItem
               key={item.name}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                delay: index * 0.1,
-                duration: 0.5,
-                ease: [0.4, 0, 0.2, 1]
-              }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -2 }}
             >
-              <NavLink
-                href={item.href}
-                scrolled={scrolled}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById(item.href.slice(1))?.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                  });
-                  closeMenu();
-                }}
-              >
-                {item.name}
-              </NavLink>
+              {item.name}
             </NavItem>
           ))}
-        </NavList>
+        </Navigation>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <SocialLinks>
-            <SocialLink
-              href="https://github.com/dongkyukim1"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaGithub />
-            </SocialLink>
-            <SocialLink
-              href="https://linkedin.com/in/dongkyukim1"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaLinkedin />
-            </SocialLink>
-          </SocialLinks>
-
-          <ContactButton
-            href="#contact"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('contact')?.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-              });
-            }}
+        <RightSection>
+          <MusicPlayer
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4 }}
           >
-            연락하기
-          </ContactButton>
-        </div>
+            <AlbumArt
+              animate={isPlaying ? { rotate: 360 } : {}}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            >
+              <FaSpotify />
+            </AlbumArt>
+            
+            <TrackInfo>
+              <div className="track-name">Butter-Fly</div>
+              <div className="artist-name">전영호 • 디지몬 어드벤처</div>
+            </TrackInfo>
+            
+            <PlayerControls>
+              <PlayButton
+                $isPlaying={isPlaying}
+                onClick={togglePlayPause}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                {isPlaying ? <FaPause /> : <FaPlay />}
+              </PlayButton>
+              
+              <VolumeControl>
+                <VolumeButton
+                  onClick={toggleMute}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {isMuted || volume === 0 ? <FaVolumeMute /> : <FaVolumeUp />}
+                </VolumeButton>
+                <VolumeSlider
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={isMuted ? 0 : volume * 100}
+                  onChange={handleVolumeChange}
+                />
+              </VolumeControl>
+            </PlayerControls>
+            
+            <ProgressBar>
+              <Progress style={{ width: `${progress}%` }} />
+            </ProgressBar>
+          </MusicPlayer>
 
-        <MenuToggle 
-          onClick={toggleMenu}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isOpen ? <FaTimes /> : <FaBars />}
-        </MenuToggle>
-      </Nav>
-    </HeaderContainer>
+          <MenuToggle
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <AnimatePresence mode="wait">
+              {isMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <FaTimes />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <FaBars />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </MenuToggle>
+        </RightSection>
+      </HeaderContainer>
+
+      <ScrollProgress
+        style={{ scaleX: scrollProgress / 100 }}
+        transition={{ duration: 0.1 }}
+      />
+
+      <PageIndicator>
+        {sections.map((section, index) => (
+          <IndicatorDot
+            key={section}
+            $active={activeSection === section}
+            onClick={() => handleIndicatorClick(section)}
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.5 + index * 0.1 }}
+            whileHover={{ scale: 1.5 }}
+          />
+        ))}
+      </PageIndicator>
+    </>
   );
 };
 
