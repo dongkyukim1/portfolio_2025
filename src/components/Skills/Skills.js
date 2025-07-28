@@ -12,12 +12,265 @@ import {
   SiApachetomcat, SiNodedotjs, SiSwagger, SiNextdotjs, SiNotion,
   SiSpringboot, SiAndroidstudio, SiPostgresql, SiFlutter
 } from 'react-icons/si';
-import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { 
+  Section, 
+  Container, 
+  SectionTitle, 
+  colors, 
+  gradients, 
+  breakpoints,
+  TransparentSectionBackground,
+  BackgroundContainer,
+  AnimatedParticle,
+  GeometricShape,
+  MinimalLine,
+  CodeElement,
+  RotatingRing,
+  DataStream,
+  GeometricOrb
+} from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
-const SkillsSection = styled(Section)`
-  background: transparent;
+const SkillsSection = styled(TransparentSectionBackground)`
+  padding: 80px 0;
+  z-index: 10;
+  position: relative;
+  /* 투명 배경으로 전체와 자연스럽게 이어짐 */
 `;
+
+// Skills용 배경 애니메이션 컴포넌트
+const SkillsBackground = () => {
+  const skillsCodeSnippets = [
+    'import { React, useState } from "react";',
+    'const skills = [...frontend, ...backend];',
+    'Vue.createApp({ components: true });',
+    'flutter: build --release',
+    'spring.jpa.hibernate.ddl-auto=update',
+    'docker run -p 3000:3000 myapp',
+    'git commit -m "new feature"',
+    'AWS.config.region = "us-east-1";'
+  ];
+
+  return (
+    <BackgroundContainer>
+      {/* 미니멀 라인들 */}
+      {[...Array(6)].map((_, i) => (
+        <MinimalLine
+          key={`line-${i}`}
+          width={`${Math.random() * 180 + 100}px`}
+          style={{
+            top: `${Math.random() * 80 + 10}%`,
+            left: `${Math.random() * 80 + 10}%`,
+            transform: `rotate(${Math.random() * 180}deg)`,
+          }}
+          animate={{
+            scaleX: [0, 1, 1, 0],
+            opacity: [0, 0.25, 0.25, 0],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 8,
+            repeat: Infinity,
+            delay: Math.random() * 6,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* 기하학적 오브들 */}
+      {[...Array(7)].map((_, i) => (
+        <GeometricOrb
+          key={`orb-${i}`}
+          style={{
+            width: Math.random() * 250 + 100,
+            height: Math.random() * 250 + 100,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          gradient={`radial-gradient(circle, rgba(${
+            i % 4 === 0 ? '59, 130, 246' :
+            i % 4 === 1 ? '147, 51, 234' : 
+            i % 4 === 2 ? '16, 185, 129' : '245, 158, 11'
+          }, 0.04) 0%, transparent 70%)`}
+          blur={`${Math.random() * 3 + 1}px`}
+          animate={{
+            scale: [1, 1.4, 1],
+            opacity: [0.2, 0.5, 0.2],
+            x: [0, Math.random() * 80 - 40, 0],
+            y: [0, Math.random() * 80 - 40, 0],
+          }}
+          transition={{
+            duration: Math.random() * 18 + 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 2.5
+          }}
+        />
+      ))}
+
+      {/* 회전하는 링들 */}
+      {[...Array(4)].map((_, i) => (
+        <RotatingRing
+          key={`ring-${i}`}
+          style={{
+            width: 120 + i * 60,
+            height: 120 + i * 60,
+            top: `${15 + i * 20}%`,
+            right: `${5 + i * 12}%`,
+          }}
+          animate={{
+            rotate: 360,
+          }}
+          transition={{
+            duration: 25 + i * 15,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+      ))}
+
+      {/* 데이터 스트림 */}
+      {[...Array(8)].map((_, i) => (
+        <DataStream
+          key={`stream-${i}`}
+          style={{
+            height: Math.random() * 180 + 100,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scaleY: [0, 1, 0],
+            opacity: [0, 0.7, 0],
+          }}
+          transition={{
+            duration: Math.random() * 5 + 4,
+            repeat: Infinity,
+            delay: Math.random() * 10,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* 스킬 관련 코드 요소들 */}
+      {skillsCodeSnippets.map((code, i) => (
+        <CodeElement
+          key={`code-${i}`}
+          style={{
+            top: `${Math.random() * 85 + 5}%`,
+            left: `${Math.random() * 75 + 10}%`,
+            transform: `rotate(${Math.random() * 25 - 12.5}deg)`,
+            fontSize: '11px',
+          }}
+          animate={{
+            opacity: [0, 0.9, 0.9, 0],
+            y: [0, -20, -40, -60],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            delay: i * 2.5,
+            ease: "linear"
+          }}
+        >
+          {code}
+        </CodeElement>
+      ))}
+
+      {/* 애니메이션 파티클들 */}
+      {[...Array(15)].map((_, i) => (
+        <AnimatedParticle
+          key={`particle-${i}`}
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scale: [1, 1.8, 1],
+            opacity: [0.4, 0.8, 0.4],
+            x: [0, Math.random() * 120 - 60, 0],
+            y: [0, Math.random() * 120 - 60, 0],
+          }}
+          transition={{
+            duration: Math.random() * 12 + 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: Math.random() * 8
+          }}
+        />
+      ))}
+
+      {/* 기하학적 도형들 */}
+      <GeometricShape
+        style={{ top: '20%', left: '15%' }}
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.35, 0.1]
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+      
+      <GeometricShape
+        style={{ 
+          top: '60%', 
+          right: '10%',
+          clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+        }}
+        animate={{
+          rotate: [0, 360],
+          scale: [0.8, 1.3, 0.8],
+          opacity: [0.1, 0.25, 0.1]
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      <GeometricShape
+        style={{ 
+          bottom: '25%', 
+          left: '25%',
+          borderRadius: '15px'
+        }}
+        animate={{
+          rotate: [30, 120, 30],
+          scale: [0.9, 1.15, 0.9],
+          opacity: [0.1, 0.3, 0.1]
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <GeometricShape
+        style={{ 
+          top: '40%', 
+          left: '5%',
+          borderRadius: '8px',
+          width: '80px',
+          height: '80px'
+        }}
+        animate={{
+          rotate: [0, 180, 360],
+          scale: [1, 1.1, 1],
+          opacity: [0.1, 0.2, 0.1]
+        }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+    </BackgroundContainer>
+  );
+};
 
 const SkillsContainer = styled.div`
   display: grid;
@@ -326,7 +579,14 @@ const Skills = () => {
   return (
     <SkillsSection id="skills">
       <Container>
-        <SectionTitle>Skills & Technologies</SectionTitle>
+        <SectionTitle
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          Skills & Technologies
+        </SectionTitle>
         
         <SkillsContainer>
           {skillCategories.map((category, categoryIndex) => (

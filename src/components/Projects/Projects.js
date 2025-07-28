@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   FaGithub, FaExternalLinkAlt, FaCalendarAlt, FaUsers, 
-  FaTimes, FaRocket, FaMobile, FaGlobe, FaCode 
+  FaTimes, FaRocket, FaMobile, FaGlobe, FaCode,
+  FaPlay, FaPause, FaVolumeUp, FaVolumeMute
 } from 'react-icons/fa';
-import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { 
+  Section, 
+  Container, 
+  SectionTitle, 
+  colors, 
+  gradients, 
+  breakpoints,
+  TransparentSectionBackground,
+  BackgroundContainer,
+  AnimatedParticle,
+  GeometricShape,
+  MinimalLine,
+  CodeElement,
+  RotatingRing,
+  DataStream,
+  GeometricOrb
+} from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
 // 로고 이미지 import
@@ -14,8 +31,11 @@ import devhubLogo from '../../assets/projects/logo/devhublogo.jpg';
 import littlebankLogo from '../../assets/projects/logo/littlebanklogo.png';
 import tripplaiLogo from '../../assets/projects/logo/Tripplailogo.png';
 
-const ProjectsSection = styled(Section)`
-  background: transparent;
+const ProjectsSection = styled(TransparentSectionBackground)`
+  padding: 80px 0;
+  z-index: 10;
+  position: relative;
+  /* 투명 배경으로 전체와 자연스럽게 이어짐 */
 `;
 
 const ProjectsGrid = styled.div`
@@ -399,6 +419,259 @@ const ChallengeList = styled.div`
   }
 `;
 
+// Projects용 배경 애니메이션 컴포넌트
+const ProjectsBackground = () => {
+  const projectsCodeSnippets = [
+    'npm create react-app my-project',
+    'flutter pub get && flutter run',
+    'git clone https://github.com/user/repo',
+    'docker-compose up --build',
+    'const project = new Innovation();',
+    'export default MyAwesomeProject;',
+    'yarn build && yarn deploy',
+    'console.log("Project completed!");'
+  ];
+
+  return (
+    <BackgroundContainer>
+      {/* 미니멀 라인들 */}
+      {[...Array(8)].map((_, i) => (
+        <MinimalLine
+          key={`line-${i}`}
+          width={`${Math.random() * 200 + 120}px`}
+          style={{
+            top: `${Math.random() * 80 + 10}%`,
+            left: `${Math.random() * 80 + 10}%`,
+            transform: `rotate(${Math.random() * 180}deg)`,
+          }}
+          animate={{
+            scaleX: [0, 1, 1, 0],
+            opacity: [0, 0.3, 0.3, 0],
+          }}
+          transition={{
+            duration: Math.random() * 12 + 10,
+            repeat: Infinity,
+            delay: Math.random() * 8,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* 기하학적 오브들 - 더 큰 사이즈 */}
+      {[...Array(6)].map((_, i) => (
+        <GeometricOrb
+          key={`orb-${i}`}
+          style={{
+            width: Math.random() * 300 + 150,
+            height: Math.random() * 300 + 150,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          gradient={`radial-gradient(circle, rgba(${
+            i % 3 === 0 ? '59, 130, 246' :
+            i % 3 === 1 ? '147, 51, 234' : '16, 185, 129'
+          }, 0.06) 0%, transparent 70%)`}
+          blur={`${Math.random() * 4 + 2}px`}
+          animate={{
+            scale: [1, 1.5, 1],
+            opacity: [0.3, 0.6, 0.3],
+            x: [0, Math.random() * 100 - 50, 0],
+            y: [0, Math.random() * 100 - 50, 0],
+          }}
+          transition={{
+            duration: Math.random() * 20 + 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 4
+          }}
+        />
+      ))}
+
+      {/* 회전하는 링들 - 더 많고 다양한 크기 */}
+      {[...Array(5)].map((_, i) => (
+        <RotatingRing
+          key={`ring-${i}`}
+          style={{
+            width: 150 + i * 70,
+            height: 150 + i * 70,
+            top: `${10 + i * 18}%`,
+            right: `${8 + i * 8}%`,
+          }}
+          animate={{
+            rotate: 360,
+          }}
+          transition={{
+            duration: 30 + i * 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+      ))}
+
+      {/* 데이터 스트림 - 더 역동적 */}
+      {[...Array(10)].map((_, i) => (
+        <DataStream
+          key={`stream-${i}`}
+          style={{
+            height: Math.random() * 200 + 120,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scaleY: [0, 1, 0],
+            opacity: [0, 0.8, 0],
+          }}
+          transition={{
+            duration: Math.random() * 6 + 5,
+            repeat: Infinity,
+            delay: Math.random() * 12,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* 프로젝트 관련 코드 요소들 */}
+      {projectsCodeSnippets.map((code, i) => (
+        <CodeElement
+          key={`code-${i}`}
+          style={{
+            top: `${Math.random() * 90 + 5}%`,
+            left: `${Math.random() * 80 + 10}%`,
+            transform: `rotate(${Math.random() * 30 - 15}deg)`,
+            fontSize: '13px',
+          }}
+          animate={{
+            opacity: [0, 1, 1, 0],
+            y: [0, -25, -50, -75],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            delay: i * 3,
+            ease: "linear"
+          }}
+        >
+          {code}
+        </CodeElement>
+      ))}
+
+      {/* 애니메이션 파티클들 - 더 많고 활발 */}
+      {[...Array(20)].map((_, i) => (
+        <AnimatedParticle
+          key={`particle-${i}`}
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scale: [1, 2, 1],
+            opacity: [0.5, 1, 0.5],
+            x: [0, Math.random() * 150 - 75, 0],
+            y: [0, Math.random() * 150 - 75, 0],
+          }}
+          transition={{
+            duration: Math.random() * 15 + 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: Math.random() * 10
+          }}
+        />
+      ))}
+
+      {/* 기하학적 도형들 - 프로젝트 테마 */}
+      <GeometricShape
+        style={{ top: '25%', left: '20%' }}
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.3, 1],
+          opacity: [0.15, 0.4, 0.15]
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+      
+      <GeometricShape
+        style={{ 
+          top: '70%', 
+          right: '15%',
+          clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+        }}
+        animate={{
+          rotate: [0, 360],
+          scale: [0.9, 1.4, 0.9],
+          opacity: [0.15, 0.3, 0.15]
+        }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      <GeometricShape
+        style={{ 
+          bottom: '30%', 
+          left: '30%',
+          borderRadius: '20px'
+        }}
+        animate={{
+          rotate: [60, 180, 60],
+          scale: [1, 1.2, 1],
+          opacity: [0.15, 0.35, 0.15]
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <GeometricShape
+        style={{ 
+          top: '15%', 
+          right: '5%',
+          borderRadius: '12px',
+          width: '100px',
+          height: '100px'
+        }}
+        animate={{
+          rotate: [0, 270, 360],
+          scale: [1, 1.15, 1],
+          opacity: [0.1, 0.25, 0.1]
+        }}
+        transition={{
+          duration: 45,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+
+      <GeometricShape
+        style={{ 
+          bottom: '10%', 
+          right: '40%',
+          clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+          width: '90px',
+          height: '90px'
+        }}
+        animate={{
+          rotate: [0, 180, 360],
+          scale: [0.8, 1.3, 0.8],
+          opacity: [0.1, 0.3, 0.1]
+        }}
+        transition={{
+          duration: 50,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+    </BackgroundContainer>
+  );
+};
+
 const Projects = () => {
   const { projects, personal } = portfolioData;
   const [selectedProject, setSelectedProject] = useState(null);
@@ -480,7 +753,14 @@ const Projects = () => {
   return (
     <ProjectsSection id="projects">
       <Container>
-        <SectionTitle>Projects</SectionTitle>
+        <SectionTitle
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          Featured Projects
+        </SectionTitle>
         
         <motion.div
           variants={containerVariants}

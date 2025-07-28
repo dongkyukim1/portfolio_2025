@@ -1,8 +1,18 @@
 import React, { useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { motion, useSpring } from 'framer-motion';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import GlobalStyles, { breakpoints } from './styles/GlobalStyles';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import GlobalStyles, { 
+  breakpoints,
+  AdvancedBackgroundContainer,
+  DynamicGrid,
+  CodeMatrix,
+  InteractiveParticle,
+  MouseFollowOrb,
+  GeometricOrb,
+  RotatingRing,
+  DataStream
+} from './styles/GlobalStyles';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
 import About from './components/About/About';
@@ -34,40 +44,24 @@ const theme = {
 
 const AppContainer = styled.div`
   min-height: 100vh;
-  background: ${theme.colors.background.primary};
+  background: radial-gradient(ellipse at top, #0a0a1a 0%, #000000 50%, #0a0a1a 100%);
   color: ${theme.colors.text.primary};
   overflow-x: hidden;
   position: relative;
-`;
 
-// LQVE 스타일 섹션 구분선
-const SectionDivider = styled(motion.div)`
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  margin: 80px auto;
-  max-width: 1200px;
-  
-  @media (max-width: 768px) {
-    margin: 60px auto;
-  }
-`;
-
-// 섹션 래퍼
-const SectionWrapper = styled(motion.section)`
-  position: relative;
-  padding: 100px 0;
-  
-  @media (max-width: 768px) {
-    padding: 80px 0;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 60px 0;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 30%),
+      radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.03) 0%, transparent 30%),
+      radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.03) 0%, transparent 30%);
+    pointer-events: none;
+    z-index: 0;
   }
 `;
 
@@ -130,76 +124,195 @@ const CursorInner = styled(motion.div)`
   border-radius: 50%;
 `;
 
+// 전체 앱 배경 애니메이션 컴포넌트
+const AppBackground = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { damping: 50, stiffness: 200 });
+  const springY = useSpring(mouseY, { damping: 50, stiffness: 200 });
+
+  useEffect(() => {
+    const updateMousePosition = (e) => {
+      mouseX.set(e.clientX - window.innerWidth / 2);
+      mouseY.set(e.clientY - window.innerHeight / 2);
+    };
+
+    window.addEventListener('mousemove', updateMousePosition);
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, [mouseX, mouseY]);
+
+  const codeSnippets = [
+    'const developer = new FrontendExpert();',
+    'React.useState(() => innovation);',
+    'Vue.createApp({ magic: true });',
+    'Flutter.build(() => dreams);',
+    'if (passion === true) { code(); }',
+    'function solve(problem) { return creativity; }',
+    'const skills = [...experience, learning];',
+    'export default Excellence;'
+  ];
+
+  return (
+    <AdvancedBackgroundContainer>
+      {/* 마우스 팔로우 오브 */}
+      <MouseFollowOrb
+        style={{
+          x: springX,
+          y: springY,
+        }}
+      />
+
+      {/* 동적 그리드 */}
+      <DynamicGrid
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 60,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+
+      {/* 복잡한 기하학적 오브들 */}
+      {[...Array(12)].map((_, i) => (
+        <GeometricOrb
+          key={`orb-${i}`}
+          style={{
+            width: Math.random() * 300 + 100,
+            height: Math.random() * 300 + 100,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          gradient={`radial-gradient(circle, rgba(${
+            i % 3 === 0 ? '59, 130, 246' :
+            i % 3 === 1 ? '147, 51, 234' : '16, 185, 129'
+          }, 0.08) 0%, transparent 70%)`}
+          blur={`${Math.random() * 3 + 1}px`}
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.3, 0.7, 0.3],
+            x: [0, Math.random() * 100 - 50, 0],
+            y: [0, Math.random() * 100 - 50, 0],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 2
+          }}
+        />
+      ))}
+
+      {/* 회전하는 링들 */}
+      {[...Array(8)].map((_, i) => (
+        <RotatingRing
+          key={`ring-${i}`}
+          style={{
+            width: 150 + i * 50,
+            height: 150 + i * 50,
+            top: `${20 + i * 10}%`,
+            right: `${10 + i * 8}%`,
+          }}
+          animate={{
+            rotate: 360,
+          }}
+          transition={{
+            duration: 10 + i * 5,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+      ))}
+
+      {/* 데이터 스트림 */}
+      {[...Array(15)].map((_, i) => (
+        <DataStream
+          key={`stream-${i}`}
+          style={{
+            height: Math.random() * 200 + 100,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scaleY: [0, 1, 0],
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: Math.random() * 3 + 2,
+            repeat: Infinity,
+            delay: Math.random() * 5,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* 코드 매트릭스 */}
+      {codeSnippets.map((code, i) => (
+        <CodeMatrix
+          key={`code-${i}`}
+          style={{
+            top: `${Math.random() * 90 + 5}%`,
+            left: `${Math.random() * 80 + 10}%`,
+            transform: `rotate(${Math.random() * 30 - 15}deg)`,
+          }}
+          animate={{
+            opacity: [0, 1, 1, 0],
+            y: [0, -20, -40, -60],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            delay: i * 2,
+            ease: "linear"
+          }}
+        >
+          {code}
+        </CodeMatrix>
+      ))}
+
+      {/* 인터랙티브 파티클들 */}
+      {[...Array(25)].map((_, i) => (
+        <InteractiveParticle
+          key={`particle-${i}`}
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          color={`rgba(${
+            i % 3 === 0 ? '59, 130, 246' :
+            i % 3 === 1 ? '147, 51, 234' : '16, 185, 129'
+          }, 0.8)`}
+          animate={{
+            scale: [1, 2, 1],
+            opacity: [0.5, 1, 0.5],
+            x: [0, Math.random() * 200 - 100, 0],
+            y: [0, Math.random() * 200 - 100, 0],
+          }}
+          transition={{
+            duration: Math.random() * 8 + 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: Math.random() * 5
+          }}
+        />
+      ))}
+    </AdvancedBackgroundContainer>
+  );
+};
+
 // 홈페이지 컴포넌트
 const HomePage = () => {
   return (
     <>
       <Hero />
-      
-      <SectionDivider
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      />
-      
-      <SectionWrapper>
-        <About />
-      </SectionWrapper>
-      
-      <SectionDivider
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      />
-      
-      <SectionWrapper>
-        <Skills />
-      </SectionWrapper>
-      
-      <SectionDivider
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      />
-      
-      <SectionWrapper>
-        <Experience />
-      </SectionWrapper>
-      
-      <SectionDivider
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      />
-      
-      <SectionWrapper>
-        <Projects />
-      </SectionWrapper>
-      
-      <SectionDivider
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      />
-      
-      <SectionWrapper>
-        <Education />
-      </SectionWrapper>
-      
-      <SectionDivider
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      />
-      
+      <About />
+      <Skills />
+      <Experience />
+      <Projects />
+      <Education />
       <Contact />
-      
       <RightSidebar />
     </>
   );
@@ -264,6 +377,7 @@ function App() {
       <Router>
         <AppContainer>
           <BackgroundNoise />
+          <AppBackground />
           <CustomCursor
             style={{
               x: cursorXSpring,

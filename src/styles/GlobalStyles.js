@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+import { motion } from 'framer-motion';
 
 export const colors = {
   primary: '#0a0a1a',
@@ -106,6 +106,198 @@ export const Card = styled.div`
   @media (max-width: ${breakpoints.mobile}) {
     padding: 1.5rem;
   }
+`;
+
+// 공통 섹션 배경 스타일 (Hero와 동일)
+export const UnifiedSectionBackground = styled.div`
+  background: radial-gradient(ellipse at top, #0a0a1a 0%, #000000 50%, #0a0a1a 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 30%),
+      radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.03) 0%, transparent 30%),
+      radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.03) 0%, transparent 30%);
+  }
+`;
+
+// 투명한 섹션 배경 (전체 배경과 자연스럽게 이어짐)
+export const TransparentSectionBackground = styled.div`
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+`;
+
+// 공통 배경 애니메이션 컴포넌트들
+export const BackgroundContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+`;
+
+export const AnimatedParticle = styled(motion.div)`
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(102, 126, 234, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+`;
+
+export const GeometricShape = styled(motion.div)`
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: ${props => props.borderRadius || '50%'};
+  background: transparent;
+`;
+
+export const MinimalLine = styled(motion.div)`
+  position: absolute;
+  width: ${props => props.width || '100px'};
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  transform-origin: left center;
+`;
+
+export const CodeElement = styled(motion.div)`
+  position: absolute;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  color: rgba(102, 126, 234, 0.3);
+  font-weight: 500;
+  user-select: none;
+`;
+
+export const RotatingRing = styled(motion.div)`
+  position: absolute;
+  border: 2px solid rgba(59, 130, 246, 0.1);
+  border-radius: 50%;
+  border-top-color: rgba(59, 130, 246, 0.3);
+  border-right-color: transparent;
+`;
+
+export const DataStream = styled(motion.div)`
+  position: absolute;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.3), transparent);
+`;
+
+export const GeometricOrb = styled(motion.div)`
+  position: absolute;
+  border-radius: 50%;
+  background: ${props => props.gradient || 'radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%)'};
+  filter: blur(${props => props.blur || '1px'});
+`;
+
+// Hero 스타일 고급 배경 컴포넌트들
+export const AdvancedBackgroundContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+`;
+
+export const DynamicGrid = styled(motion.div)`
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+  background-size: 100px 100px;
+  transform-origin: center;
+`;
+
+export const CodeMatrix = styled(motion.div)`
+  position: absolute;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: rgba(59, 130, 246, 0.3);
+  white-space: nowrap;
+  user-select: none;
+`;
+
+export const InteractiveParticle = styled(motion.div)`
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: ${props => props.color || 'rgba(59, 130, 246, 0.6)'};
+  border-radius: 50%;
+  pointer-events: none;
+`;
+
+export const MouseFollowOrb = styled(motion.div)`
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+`;
+
+export const TitleBackground = styled(motion.div)`
+  position: absolute;
+  top: -20px;
+  left: -40px;
+  right: -40px;
+  bottom: -20px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.03),
+    transparent
+  );
+  z-index: -1;
+  pointer-events: none;
+`;
+
+export const FloatingParticle = styled(motion.div)`
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(102, 126, 234, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px);
+    }
+    50% {
+      transform: translateY(-10px) translateX(-10px);
+    }
+    75% {
+      transform: translateY(-30px) translateX(5px);
+    }
+  }
+  
+  animation: float var(--duration, 15s) var(--delay, 0s) infinite ease-in-out;
+  animation-duration: ${props => props.style?.animationDuration || '15s'};
+  animation-delay: ${props => props.style?.animationDelay || '0s'};
 `;
 
 const GlobalStyles = createGlobalStyle`

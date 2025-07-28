@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaImages, FaInfoCircle, FaTimes } from 'react-icons/fa';
 import { breakpoints } from '../../styles/GlobalStyles';
 import portfolioData from '../../data/portfolio';
@@ -239,18 +240,26 @@ const SkillTag = styled.span`
 
 const RightSidebar = () => {
   const [activePanel, setActivePanel] = useState(null);
+  const navigate = useNavigate();
 
   const togglePanel = (panel) => {
     setActivePanel(activePanel === panel ? null : panel);
   };
 
+  const handleGalleryClick = (title) => {
+    if (title === 'LittleBank App') {
+      navigate('/project/littlebank');
+    }
+    // 다른 프로젝트들도 나중에 추가 가능
+  };
+
   const galleryImages = [
-    { src: littlebankImg, title: 'LittleBank App' },
-    { src: devhubImg, title: 'DevHub Platform' },
-    { src: trippleaiImg, title: 'Tripple AI' },
-    { src: pmkAdminImg, title: 'PMK Admin' },
-    { src: littlebankAdminImg, title: 'LittleBank Admin' },
-    { src: dogfootImg, title: 'Dogfoot Project' }
+    { src: littlebankImg, title: 'LittleBank App', clickable: true },
+    { src: devhubImg, title: 'DevHub Platform', clickable: false },
+    { src: trippleaiImg, title: 'Tripple AI', clickable: false },
+    { src: pmkAdminImg, title: 'PMK Admin', clickable: false },
+    { src: littlebankAdminImg, title: 'LittleBank Admin', clickable: false },
+    { src: dogfootImg, title: 'Dogfoot Project', clickable: false }
   ];
 
   const statusInfo = {
@@ -287,9 +296,14 @@ const RightSidebar = () => {
                   key={index}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={() => image.clickable && handleGalleryClick(image.title)}
+                  style={{ cursor: image.clickable ? 'pointer' : 'default' }}
                 >
                   <img src={image.src} alt={image.title} />
-                  <div className="overlay">{image.title}</div>
+                  <div className="overlay">
+                    {image.title}
+                    {image.clickable && <span style={{ color: '#667eea', fontSize: '0.8rem', display: 'block' }}>클릭하여 상세보기</span>}
+                  </div>
                 </GalleryItem>
               ))}
             </GalleryGrid>

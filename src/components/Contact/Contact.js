@@ -2,14 +2,27 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaBlog, FaLinkedin, FaInstagram, FaPaperPlane, FaExternalLinkAlt } from 'react-icons/fa';
-import { colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { 
+  colors, 
+  gradients, 
+  breakpoints,
+  TransparentSectionBackground,
+  BackgroundContainer,
+  AnimatedParticle,
+  GeometricShape,
+  MinimalLine,
+  CodeElement,
+  RotatingRing,
+  DataStream,
+  GeometricOrb
+} from '../../styles/GlobalStyles';
 import axios from 'axios';
 
-const ContactSection = styled.section`
+const ContactSection = styled(TransparentSectionBackground)`
   padding: 80px 0;
-  background: transparent;
+  z-index: 10;
   position: relative;
-  overflow: hidden;
+  /* 투명 배경으로 전체와 자연스럽게 이어짐 */
 
   @media (max-width: ${breakpoints.tablet}) {
     padding: 60px 0;
@@ -336,6 +349,280 @@ const Notification = styled(motion.div)`
   }
 `;
 
+// Contact용 배경 애니메이션 컴포넌트
+const ContactBackground = () => {
+  const contactCodeSnippets = [
+    'const message = await sendEmail();',
+    'fetch("/api/contact", { method: "POST" })',
+    'console.log("Thanks for reaching out!");',
+    'const response = { status: "success" };',
+    'nodemailer.sendMail(mailOptions);',
+    'axios.post("/contact", formData);',
+    'return { message: "Message sent!" };',
+    'email.validate() && email.send();'
+  ];
+
+  return (
+    <BackgroundContainer>
+      {/* 미니멀 라인들 - Contact 테마 */}
+      {[...Array(10)].map((_, i) => (
+        <MinimalLine
+          key={`line-${i}`}
+          width={`${Math.random() * 250 + 150}px`}
+          style={{
+            top: `${Math.random() * 80 + 10}%`,
+            left: `${Math.random() * 80 + 10}%`,
+            transform: `rotate(${Math.random() * 180}deg)`,
+          }}
+          animate={{
+            scaleX: [0, 1, 1, 0],
+            opacity: [0, 0.35, 0.35, 0],
+          }}
+          transition={{
+            duration: Math.random() * 15 + 12,
+            repeat: Infinity,
+            delay: Math.random() * 10,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* 기하학적 오브들 - 따뜻한 느낌 */}
+      {[...Array(8)].map((_, i) => (
+        <GeometricOrb
+          key={`orb-${i}`}
+          style={{
+            width: Math.random() * 350 + 200,
+            height: Math.random() * 350 + 200,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          gradient={`radial-gradient(circle, rgba(${
+            i % 4 === 0 ? '59, 130, 246' :
+            i % 4 === 1 ? '147, 51, 234' : 
+            i % 4 === 2 ? '16, 185, 129' : '245, 158, 11'
+          }, 0.08) 0%, transparent 70%)`}
+          blur={`${Math.random() * 5 + 3}px`}
+          animate={{
+            scale: [1, 1.6, 1],
+            opacity: [0.4, 0.7, 0.4],
+            x: [0, Math.random() * 120 - 60, 0],
+            y: [0, Math.random() * 120 - 60, 0],
+          }}
+          transition={{
+            duration: Math.random() * 25 + 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 5
+          }}
+        />
+      ))}
+
+      {/* 회전하는 링들 - 연결의 상징 */}
+      {[...Array(6)].map((_, i) => (
+        <RotatingRing
+          key={`ring-${i}`}
+          style={{
+            width: 180 + i * 80,
+            height: 180 + i * 80,
+            top: `${5 + i * 15}%`,
+            right: `${3 + i * 7}%`,
+          }}
+          animate={{
+            rotate: 360,
+          }}
+          transition={{
+            duration: 35 + i * 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+      ))}
+
+      {/* 데이터 스트림 - 소통의 흐름 */}
+      {[...Array(12)].map((_, i) => (
+        <DataStream
+          key={`stream-${i}`}
+          style={{
+            height: Math.random() * 250 + 150,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scaleY: [0, 1, 0],
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: Math.random() * 8 + 6,
+            repeat: Infinity,
+            delay: Math.random() * 15,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* Contact 관련 코드 요소들 */}
+      {contactCodeSnippets.map((code, i) => (
+        <CodeElement
+          key={`code-${i}`}
+          style={{
+            top: `${Math.random() * 95 + 2.5}%`,
+            left: `${Math.random() * 85 + 7.5}%`,
+            transform: `rotate(${Math.random() * 35 - 17.5}deg)`,
+            fontSize: '14px',
+          }}
+          animate={{
+            opacity: [0, 1.2, 1.2, 0],
+            y: [0, -30, -60, -90],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            delay: i * 3.5,
+            ease: "linear"
+          }}
+        >
+          {code}
+        </CodeElement>
+      ))}
+
+      {/* 애니메이션 파티클들 - 메시지의 상징 */}
+      {[...Array(25)].map((_, i) => (
+        <AnimatedParticle
+          key={`particle-${i}`}
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scale: [1, 2.5, 1],
+            opacity: [0.6, 1.2, 0.6],
+            x: [0, Math.random() * 200 - 100, 0],
+            y: [0, Math.random() * 200 - 100, 0],
+          }}
+          transition={{
+            duration: Math.random() * 18 + 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: Math.random() * 12
+          }}
+        />
+      ))}
+
+      {/* 기하학적 도형들 - Contact & Communication 테마 */}
+      <GeometricShape
+        style={{ top: '30%', left: '25%' }}
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.4, 1],
+          opacity: [0.2, 0.5, 0.2]
+        }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+      
+      <GeometricShape
+        style={{ 
+          top: '65%', 
+          right: '20%',
+          clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+        }}
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.5, 1],
+          opacity: [0.2, 0.35, 0.2]
+        }}
+        transition={{
+          duration: 45,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      <GeometricShape
+        style={{ 
+          bottom: '35%', 
+          left: '35%',
+          borderRadius: '25px'
+        }}
+        animate={{
+          rotate: [90, 270, 90],
+          scale: [1, 1.25, 1],
+          opacity: [0.2, 0.4, 0.2]
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <GeometricShape
+        style={{ 
+          top: '20%', 
+          right: '8%',
+          borderRadius: '18px',
+          width: '120px',
+          height: '120px'
+        }}
+        animate={{
+          rotate: [0, 360, 720],
+          scale: [1, 1.2, 1],
+          opacity: [0.15, 0.3, 0.15]
+        }}
+        transition={{
+          duration: 55,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+
+      <GeometricShape
+        style={{ 
+          bottom: '15%', 
+          right: '45%',
+          clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+          width: '110px',
+          height: '110px'
+        }}
+        animate={{
+          rotate: [0, 180, 360],
+          scale: [0.9, 1.4, 0.9],
+          opacity: [0.15, 0.35, 0.15]
+        }}
+        transition={{
+          duration: 60,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <GeometricShape
+        style={{ 
+          top: '10%', 
+          left: '10%',
+          clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
+          width: '100px',
+          height: '100px'
+        }}
+        animate={{
+          rotate: [0, 360],
+          scale: [0.8, 1.3, 0.8],
+          opacity: [0.1, 0.3, 0.1]
+        }}
+        transition={{
+          duration: 50,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+    </BackgroundContainer>
+  );
+};
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -386,12 +673,12 @@ const Contact = () => {
     <ContactSection id="contact">
       <Container>
         <SectionTitle
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          연락하기
+          Get In Touch
         </SectionTitle>
 
         <SectionSubtitle
@@ -519,7 +806,7 @@ const Contact = () => {
           </ContactForm>
         </ContactContent>
       </Container>
-
+      
       <AnimatePresence>
         {notification && (
           <Notification
