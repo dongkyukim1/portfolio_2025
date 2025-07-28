@@ -2,7 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaBriefcase, FaCalendarAlt, FaMapMarkerAlt, FaCode, FaProjectDiagram, FaStore, FaGraduationCap } from 'react-icons/fa';
-import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { 
+  Section, 
+  Container, 
+  SectionTitle, 
+  colors, 
+  gradients, 
+  breakpoints,
+  TransparentSectionBackground
+} from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
 // 로고 이미지 import
@@ -13,23 +21,11 @@ import devhubLogo from '../../assets/projects/logo/devhublogo.jpg';
 import cjLogo from '../../assets/projects/logo/cjlogo.png';
 import naverLogo from '../../assets/projects/logo/naver_logo.png';
 
-const ExperienceSection = styled(Section)`
-  background: transparent;
+const ExperienceSection = styled(TransparentSectionBackground)`
+  padding: 80px 0;
+  z-index: 10;
   position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.03) 0%, transparent 30%),
-      radial-gradient(circle at 80% 50%, rgba(147, 51, 234, 0.03) 0%, transparent 30%);
-    pointer-events: none;
-  }
+  /* 투명 배경으로 전체와 자연스럽게 이어짐 */
 `;
 
 const ExperienceGrid = styled.div`

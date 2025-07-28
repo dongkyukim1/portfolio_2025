@@ -5,26 +5,22 @@ import {
   FaGraduationCap, FaCertificate, FaCalendarAlt, FaMapMarkerAlt, 
   FaTrophy, FaBookOpen, FaAward, FaCheck 
 } from 'react-icons/fa';
-import { Section, Container, SectionTitle, colors, gradients, breakpoints } from '../../styles/GlobalStyles';
+import { 
+  Section, 
+  Container, 
+  SectionTitle, 
+  colors, 
+  gradients, 
+  breakpoints,
+  TransparentSectionBackground
+} from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
 
-const EducationSection = styled(Section)`
-  background: transparent;
+const EducationSection = styled(TransparentSectionBackground)`
+  padding: 80px 0;
+  z-index: 10;
   position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.03) 0%, transparent 40%);
-    pointer-events: none;
-  }
+  /* 투명 배경으로 전체와 자연스럽게 이어짐 */
 `;
 
 const ContentGrid = styled.div`
