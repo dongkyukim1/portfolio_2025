@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlay, FaPause, FaBars, FaTimes, FaVolumeMute, FaVolumeUp, FaSpotify } from 'react-icons/fa';
+import { FaPlay, FaPause, FaBars, FaTimes, FaVolumeMute, FaVolumeUp, FaSpotify, FaStepForward, FaStepBackward } from 'react-icons/fa';
 import { breakpoints } from '../../styles/GlobalStyles';
-import musicFile from '../../assets/music/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].mp3';
+import musicFile1 from '../../assets/music/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].mp3';
+import musicFile2 from '../../assets/music/HUNTRX (헌트릭스) - How Its Done [가사  Lyrics].mp3';
 
-console.log('Music file path:', musicFile); // 디버깅용
+console.log('Music file paths:', { musicFile1, musicFile2 }); // 디버깅용
 
 const HeaderContainer = styled(motion.header)`
   position: fixed;
@@ -203,7 +204,25 @@ const TrackInfo = styled.div`
 const PlayerControls = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+`;
+
+const ControlButton = styled(motion.button)`
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: white;
+  }
 `;
 
 const PlayButton = styled(motion.button)`
@@ -382,26 +401,65 @@ const Header = () => {
   const [progress, setProgress] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('home');
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef(null);
   const progressIntervalRef = useRef(null);
 
-  // 오디오 초기화
+  // 음악 트랙 목록
+  const tracks = [
+    {
+      file: musicFile1,
+      name: 'Butter-Fly',
+      artist: '전영호 • 디지몬 어드벤처'
+    },
+    {
+      file: musicFile2,
+      name: 'How Its Done',
+      artist: 'HUNTRX (헌트릭스)'
+    }
+  ];
+
+  const currentTrack = tracks[currentTrackIndex];
+
+  // 오디오 초기화 및 트랙 변경 처리
   useEffect(() => {
-    audioRef.current = new Audio(musicFile);
-    audioRef.current.volume = volume;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+    }
+
+    audioRef.current = new Audio(currentTrack.file);
+    audioRef.current.volume = isMuted ? 0 : volume;
     audioRef.current.loop = true;
 
     // 오디오 이벤트 리스너
     const handleLoadedData = () => {
-      console.log('Audio loaded successfully');
+      console.log('Audio loaded successfully:', currentTrack.name);
     };
 
     const handleError = (e) => {
       console.error('Audio loading error:', e);
     };
 
+    const handleEnded = () => {
+      // 트랙이 끝나면 다음 트랙으로
+      nextTrack();
+    };
+
     audioRef.current.addEventListener('loadeddata', handleLoadedData);
     audioRef.current.addEventListener('error', handleError);
+    audioRef.current.addEventListener('ended', handleEnded);
+
+    // 재생 중이었다면 새 트랙도 자동 재생
+    if (isPlaying) {
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.error('Auto-play failed:', error);
+          setIsPlaying(false);
+        });
+      }
+    }
 
     return () => {
       if (progressIntervalRef.current) {
@@ -410,12 +468,12 @@ const Header = () => {
       if (audioRef.current) {
         audioRef.current.removeEventListener('loadeddata', handleLoadedData);
         audioRef.current.removeEventListener('error', handleError);
+        audioRef.current.removeEventListener('ended', handleEnded);
         audioRef.current.pause();
         audioRef.current.src = '';
-        audioRef.current = null;
       }
     };
-  }, []);
+  }, [currentTrackIndex]); // currentTrackIndex가 변경될 때마다 실행
 
   // 재생 상태에 따른 프로그레스 업데이트
   useEffect(() => {
@@ -454,7 +512,6 @@ const Header = () => {
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
-        // 브라우저의 자동 재생 정책을 위한 처리
         const playPromise = audioRef.current.play();
         if (playPromise !== undefined) {
           playPromise
@@ -463,7 +520,6 @@ const Header = () => {
             })
             .catch((error) => {
               console.error('Audio playback failed:', error);
-              // 사용자 상호작용이 필요한 경우
               if (error.name === 'NotAllowedError') {
                 console.log('User interaction required for audio playback');
               }
@@ -473,6 +529,20 @@ const Header = () => {
     } catch (error) {
       console.error('Toggle play/pause error:', error);
     }
+  };
+
+  const nextTrack = () => {
+    setCurrentTrackIndex((prevIndex) => 
+      prevIndex === tracks.length - 1 ? 0 : prevIndex + 1
+    );
+    setProgress(0);
+  };
+
+  const previousTrack = () => {
+    setCurrentTrackIndex((prevIndex) => 
+      prevIndex === 0 ? tracks.length - 1 : prevIndex - 1
+    );
+    setProgress(0);
   };
 
   const handleVolumeChange = (e) => {
@@ -587,11 +657,19 @@ const Header = () => {
             </AlbumArt>
             
             <TrackInfo>
-              <div className="track-name">Butter-Fly</div>
-              <div className="artist-name">전영호 • 디지몬 어드벤처</div>
+              <div className="track-name">{currentTrack.name}</div>
+              <div className="artist-name">{currentTrack.artist}</div>
             </TrackInfo>
             
             <PlayerControls>
+              <ControlButton
+                onClick={previousTrack}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaStepBackward />
+              </ControlButton>
+              
               <PlayButton
                 $isPlaying={isPlaying}
                 onClick={togglePlayPause}
@@ -600,6 +678,14 @@ const Header = () => {
               >
                 {isPlaying ? <FaPause /> : <FaPlay />}
               </PlayButton>
+              
+              <ControlButton
+                onClick={nextTrack}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaStepForward />
+              </ControlButton>
               
               <VolumeControl>
                 <VolumeButton

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   FaGithub, FaExternalLinkAlt, FaCalendarAlt, FaUsers, 
   FaTimes, FaRocket, FaMobile, FaGlobe, FaCode 
@@ -401,6 +402,7 @@ const ChallengeList = styled.div`
 const Projects = () => {
   const { projects, personal } = portfolioData;
   const [selectedProject, setSelectedProject] = useState(null);
+  const navigate = useNavigate();
 
   // 프로젝트별 로고 매핑
   const projectLogos = {
@@ -438,6 +440,12 @@ const Projects = () => {
   };
 
   const openModal = (project) => {
+    // LittleBank 프로젝트인 경우 상세페이지로 이동
+    if (project.title === 'LittleBank') {
+      navigate('/project/littlebank');
+      return;
+    }
+    
     setSelectedProject(project);
     document.body.style.overflow = 'hidden';
   };
@@ -540,7 +548,7 @@ const Projects = () => {
                   <ProjectActions>
                     <ActionButton primary>
                       <FaRocket />
-                      자세히 보기
+                      {project.title === 'LittleBank' ? '상세 페이지' : '자세히 보기'}
                     </ActionButton>
                     {project.link && (
                       <ActionButton 

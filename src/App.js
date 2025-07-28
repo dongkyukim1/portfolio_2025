@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { motion, useSpring } from 'framer-motion';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalStyles, { breakpoints } from './styles/GlobalStyles';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
@@ -11,6 +12,7 @@ import Projects from './components/Projects/Projects';
 import Education from './components/Education/Education';
 import Contact from './components/Contact/Contact';
 import RightSidebar from './components/FloatingElements/RightSidebar';
+import LittleBankDetail from './components/ProjectDetails/LittleBankDetail';
 
 const theme = {
   colors: {
@@ -128,6 +130,81 @@ const CursorInner = styled(motion.div)`
   border-radius: 50%;
 `;
 
+// 홈페이지 컴포넌트
+const HomePage = () => {
+  return (
+    <>
+      <Hero />
+      
+      <SectionDivider
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      />
+      
+      <SectionWrapper>
+        <About />
+      </SectionWrapper>
+      
+      <SectionDivider
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      />
+      
+      <SectionWrapper>
+        <Skills />
+      </SectionWrapper>
+      
+      <SectionDivider
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      />
+      
+      <SectionWrapper>
+        <Experience />
+      </SectionWrapper>
+      
+      <SectionDivider
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      />
+      
+      <SectionWrapper>
+        <Projects />
+      </SectionWrapper>
+      
+      <SectionDivider
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      />
+      
+      <SectionWrapper>
+        <Education />
+      </SectionWrapper>
+      
+      <SectionDivider
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+      />
+      
+      <Contact />
+      
+      <RightSidebar />
+    </>
+  );
+};
+
 function App() {
   const cursorXSpring = useSpring(0, { damping: 25, stiffness: 200 });
   const cursorYSpring = useSpring(0, { damping: 25, stiffness: 200 });
@@ -184,100 +261,39 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <AppContainer>
-        <BackgroundNoise />
-        <CustomCursor
-          style={{
-            x: cursorXSpring,
-            y: cursorYSpring,
-            translateX: '-50%',
-            translateY: '-50%',
-          }}
-        >
-          <CursorOuter
+      <Router>
+        <AppContainer>
+          <BackgroundNoise />
+          <CustomCursor
             style={{
-              scale: cursorScale,
+              x: cursorXSpring,
+              y: cursorYSpring,
+              translateX: '-50%',
+              translateY: '-50%',
             }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          />
-          <CursorInner
-            style={{
-              scale: cursorScale,
-            }}
-            transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          />
-        </CustomCursor>
-        
-        <Header />
-        
-        <Hero />
-        
-        <SectionDivider
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        />
-        
-        <SectionWrapper>
-          <About />
-        </SectionWrapper>
-        
-        <SectionDivider
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        />
-        
-        <SectionWrapper>
-          <Skills />
-        </SectionWrapper>
-        
-        <SectionDivider
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        />
-        
-        <SectionWrapper>
-          <Experience />
-        </SectionWrapper>
-        
-        <SectionDivider
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        />
-        
-        <SectionWrapper>
-          <Projects />
-        </SectionWrapper>
-        
-        <SectionDivider
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        />
-        
-        <SectionWrapper>
-          <Education />
-        </SectionWrapper>
-        
-        <SectionDivider
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        />
-        
-        <Contact />
-        
-        <RightSidebar />
-      </AppContainer>
+          >
+            <CursorOuter
+              style={{
+                scale: cursorScale,
+              }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            />
+            <CursorInner
+              style={{
+                scale: cursorScale,
+              }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+            />
+          </CustomCursor>
+          
+          <Header />
+          
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/project/littlebank" element={<LittleBankDetail />} />
+          </Routes>
+        </AppContainer>
+      </Router>
     </ThemeProvider>
   );
 }
