@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/portfolio_2025/static/css/main.db6fe1af.css",
-    "main.js": "/portfolio_2025/static/js/main.a365dbc8.js",
+    "main.js": "/portfolio_2025/static/js/main.86252328.js",
     "static/js/206.426d5b0a.chunk.js": "/portfolio_2025/static/js/206.426d5b0a.chunk.js",
     "static/media/devhub.gif": "/portfolio_2025/static/media/devhub.e18c8952680f7e9adf96.gif",
     "static/media/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].mp3": "/portfolio_2025/static/media/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].0c02d4b793541fe245b9.mp3",
@@ -37,6 +37,6 @@
   },
   "entrypoints": [
     "static/css/main.db6fe1af.css",
-    "static/js/main.a365dbc8.js"
+    "static/js/main.86252328.js"
   ]
 }
