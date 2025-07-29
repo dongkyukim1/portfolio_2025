@@ -23,6 +23,7 @@ import Education from './components/Education/Education';
 import Contact from './components/Contact/Contact';
 import RightSidebar from './components/FloatingElements/RightSidebar';
 import LittleBankDetail from './components/ProjectDetails/LittleBankDetail';
+import TripplaiDetail from './components/ProjectDetails/TripplaiDetail';
 
 const theme = {
   colors: {
@@ -405,6 +406,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/project/littlebank" element={<LittleBankDetail />} />
+            <Route path="/project/tripplai" element={<TripplaiDetail />} />
           </Routes>
         </AppContainer>
       </Router>
