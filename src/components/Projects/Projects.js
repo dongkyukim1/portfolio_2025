@@ -707,13 +707,17 @@ const Projects = () => {
   };
 
   const openModal = (project) => {
-    // LittleBank 또는 TripplAI 프로젝트인 경우 상세페이지로 이동
+    // 각 프로젝트별 상세페이지로 이동
     if (project.title === 'LittleBank') {
       navigate('/project/littlebank');
       return;
     }
     if (project.title === 'TripplAI') {
       navigate('/project/tripplai');
+      return;
+    }
+    if (project.title.includes('DevHub')) {
+      navigate('/project/devhub');
       return;
     }
     
