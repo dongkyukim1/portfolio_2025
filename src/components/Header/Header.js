@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FaPlay, FaPause, FaBars, FaTimes, FaVolumeMute, FaVolumeUp, FaSpotify, FaStepForward, FaStepBackward } from 'react-icons/fa';
 import { breakpoints } from '../../styles/GlobalStyles';
 import musicFile1 from '../../assets/music/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].mp3';
@@ -394,6 +395,7 @@ const ScrollProgress = styled(motion.div)`
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
@@ -629,7 +631,12 @@ const Header = () => {
         <Logo
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            navigate('/');
+            setTimeout(() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
+          }}
         >
           DONGKYU
         </Logo>

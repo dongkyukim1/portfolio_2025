@@ -29,23 +29,23 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 // 이미지 import
 import devhubImage from '../../assets/gallery/devhub.gif';
 
-// DevHub GIF imports
-import googleLoginGif from '../../assets/projects/devhub/google-login.gif';
-import projectCreateGif from '../../assets/projects/devhub/project-create.gif';
-import projectUpdateGif from '../../assets/projects/devhub/project-update.gif';
-import projectDeleteGif from '../../assets/projects/devhub/project-delete.gif';
-import projectListGif from '../../assets/projects/devhub/project-list.gif';
-import teamInviteGif from '../../assets/projects/devhub/team-invite.gif';
-import mainTeamInviteGif from '../../assets/projects/devhub/main-team-invite.gif';
-import aiCodeReviewGif from '../../assets/projects/devhub/ai-code-review.gif';
-import aiServiceGif from '../../assets/projects/devhub/ai-service.gif';
-import repositoryGif from '../../assets/projects/devhub/repository-features.gif';
-import commitGif from '../../assets/projects/devhub/commit.gif';
-import messageGif from '../../assets/projects/devhub/main-messages.gif';
-import paymentGif from '../../assets/projects/devhub/payment.gif';
-import recordGif from '../../assets/projects/devhub/history.gif';
-import logoutGif from '../../assets/projects/devhub/logout.gif';
-import languageChangeGif from '../../assets/projects/devhub/language-change.gif';
+// DevHub media imports (All MP4 videos)
+import googleLoginVideo from '../../assets/projects/devhub/google-login.mp4';
+import projectCreateVideo from '../../assets/projects/devhub/project-create.mp4';
+import projectUpdateVideo from '../../assets/projects/devhub/project-update.mp4';
+import projectDeleteVideo from '../../assets/projects/devhub/project-delete.mp4';
+import projectListVideo from '../../assets/projects/devhub/project-list.mp4';
+import teamInviteVideo from '../../assets/projects/devhub/team-invite.mp4';
+import mainTeamInviteVideo from '../../assets/projects/devhub/main-team-invite.mp4';
+import aiCodeReviewVideo from '../../assets/projects/devhub/ai-code-review.mp4';
+import aiServiceVideo from '../../assets/projects/devhub/ai-service.mp4';
+import repositoryVideo from '../../assets/projects/devhub/repository-features.mp4';
+import commitVideo from '../../assets/projects/devhub/commit.mp4';
+import messageVideo from '../../assets/projects/devhub/main-messages.mp4';
+import paymentVideo from '../../assets/projects/devhub/payment.mp4';
+import recordVideo from '../../assets/projects/devhub/history.mp4';
+import logoutVideo from '../../assets/projects/devhub/logout.mp4';
+import languageChangeVideo from '../../assets/projects/devhub/language-change.mp4';
 
 // 메인 컬러 정의 (VSCode 다크 테마 컬러)
 const mainColor = {
@@ -182,18 +182,19 @@ const DevHubDetail = React.memo(() => {
     setActiveDemo(demo);
   }, []);
 
-  // 모든 Demo 이미지 미리 로드
+  // 모든 Demo 미디어 미리 로드 (모두 MP4)
   useEffect(() => {
-    const demoImages = [
-      googleLoginGif, logoutGif, projectCreateGif, projectUpdateGif, 
-      projectListGif, aiCodeReviewGif, aiServiceGif, teamInviteGif, 
-      messageGif, repositoryGif
+    const demoVideos = [
+      googleLoginVideo, logoutVideo, projectCreateVideo, projectUpdateVideo, 
+      projectListVideo, aiCodeReviewVideo, aiServiceVideo, teamInviteVideo, 
+      messageVideo, repositoryVideo
     ];
     
-    demoImages.forEach(src => {
-      const img = new Image();
-      img.onload = () => handleImageLoad(src);
-      img.src = src;
+    demoVideos.forEach(src => {
+      // 비디오 파일 미리 로드
+      const video = document.createElement('video');
+      video.onloadeddata = () => handleImageLoad(src);
+      video.src = src;
     });
   }, [handleImageLoad]);
 
@@ -839,14 +840,17 @@ const DevHubDetail = React.memo(() => {
                   <DemoContentArea style={{ display: activeDemo === 'auth' ? 'grid' : 'none' }}>
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={googleLoginGif} 
-                          alt="구글 로그인"
+                        <motion.video 
+                          src={googleLoginVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(googleLoginGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(googleLoginVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(googleLoginGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(googleLoginVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>소셜 로그인 (Google OAuth)</h3>
@@ -857,14 +861,17 @@ const DevHubDetail = React.memo(() => {
                     
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={logoutGif} 
-                          alt="로그아웃"
+                        <motion.video 
+                          src={logoutVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(logoutGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(logoutVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(logoutGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(logoutVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>세션 관리</h3>
@@ -878,14 +885,17 @@ const DevHubDetail = React.memo(() => {
                   <DemoContentArea style={{ display: activeDemo === 'project' ? 'grid' : 'none' }}>
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={projectCreateGif} 
-                          alt="프로젝트 생성"
+                        <motion.video 
+                          src={projectCreateVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(projectCreateGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(projectCreateVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(projectCreateGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(projectCreateVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>저장소 초기화</h3>
@@ -896,14 +906,17 @@ const DevHubDetail = React.memo(() => {
                     
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={projectUpdateGif} 
-                          alt="프로젝트 수정"
+                        <motion.video 
+                          src={projectUpdateVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(projectUpdateGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(projectUpdateVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(projectUpdateGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(projectUpdateVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>변경사항 커밋</h3>
@@ -914,14 +927,17 @@ const DevHubDetail = React.memo(() => {
 
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={projectListGif} 
-                          alt="프로젝트 목록"
+                        <motion.video 
+                          src={projectListVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(projectListGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(projectListVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(projectListGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(projectListVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>브랜치 히스토리 시각화</h3>
@@ -935,14 +951,17 @@ const DevHubDetail = React.memo(() => {
                   <DemoContentArea style={{ display: activeDemo === 'ai' ? 'grid' : 'none' }}>
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={aiCodeReviewGif} 
-                          alt="로컬 AI 코드 리뷰"
+                        <motion.video 
+                          src={aiCodeReviewVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(aiCodeReviewGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(aiCodeReviewVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(aiCodeReviewGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(aiCodeReviewVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>로컬 Llama AI 코드 리뷰</h3>
@@ -953,14 +972,17 @@ const DevHubDetail = React.memo(() => {
                     
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={aiServiceGif} 
-                          alt="AI 서비스"
+                        <motion.video 
+                          src={aiServiceVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(aiServiceGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(aiServiceVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(aiServiceGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(aiServiceVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>프라이빗 AI 개발 어시스턴트</h3>
@@ -974,14 +996,17 @@ const DevHubDetail = React.memo(() => {
                   <DemoContentArea style={{ display: activeDemo === 'collaboration' ? 'grid' : 'none' }}>
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={teamInviteGif} 
-                          alt="팀원 초대"
+                        <motion.video 
+                          src={teamInviteVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(teamInviteGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(teamInviteVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(teamInviteGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(teamInviteVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>협업 환경 구축</h3>
@@ -992,14 +1017,17 @@ const DevHubDetail = React.memo(() => {
                     
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={messageGif} 
-                          alt="메시지 시스템"
+                        <motion.video 
+                          src={messageVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(messageGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(messageVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(messageGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(messageVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>Git 작업 중 소통</h3>
@@ -1010,14 +1038,17 @@ const DevHubDetail = React.memo(() => {
 
                     <DemoFeatureCard>
                       <DemoGifContainer>
-                        <motion.img 
-                          src={repositoryGif} 
-                          alt="레포지토리 기능"
+                        <motion.video 
+                          src={repositoryVideo} 
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
                           initial={false}
-                          animate={{ opacity: loadedImages.has(repositoryGif) ? 1 : 0 }}
+                          animate={{ opacity: loadedImages.has(repositoryVideo) ? 1 : 0 }}
                           transition={{ duration: 0.2 }}
-                          onLoad={() => handleImageLoad(repositoryGif)}
-                          loading="eager"
+                          onLoadedData={() => handleImageLoad(repositoryVideo)}
+                          style={{ width: '100%', height: 'auto', display: 'block' }}
                         />
                         <DemoOverlay>
                           <h3>원격 저장소 동기화</h3>
@@ -1781,7 +1812,7 @@ const DemoGifContainer = styled.div`
   transform: translateZ(0);
   backface-visibility: hidden;
   
-  img {
+  img, video {
     width: 100%;
     height: auto;
     display: block;
@@ -1791,7 +1822,7 @@ const DemoGifContainer = styled.div`
   }
   
   &:hover {
-    img {
+    img, video {
       transform: scale(1.02) translateZ(0);
     }
     
