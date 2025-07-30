@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FaGithub, FaBlog, FaExternalLinkAlt, FaDownload } from 'react-icons/fa';
 import { colors, breakpoints } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
@@ -671,19 +672,22 @@ const projects = [
     name: 'DevHub',
     type: 'web',
     video: devhubVideo,
-    description: '개발자 커뮤니티 플랫폼'
+    description: '개발자 커뮤니티 플랫폼',
+    route: '/project/devhub'
   },
   {
     name: 'TripplAI',
     type: 'web', 
     video: trippaiVideo,
-    description: 'AI 여행 추천 서비스'
+    description: 'AI 여행 추천 서비스',
+    route: '/project/tripplai'
   },
   {
     name: 'LittleBank',
     type: 'app',
     video: littlebankVideo,
-    description: '어린이 동기부여 앱'
+    description: '어린이 동기부여 앱',
+    route: '/project/littlebank'
   }
 ];
 
@@ -957,9 +961,26 @@ const AdvancedBackground = () => {
   );
 };
 
+// 클릭 가능한 디바이스 컨테이너
+const ClickableDeviceContainer = styled(motion.div)`
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
 const Hero = () => {
   const { personal } = portfolioData;
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const navigate = useNavigate();
   
   const greetingText = useTypewriter("안녕하세요! 👋", 80, 500);
   const nameText = useTypewriter(`저는 ${personal.name}입니다`, 120, 2000);
@@ -975,6 +996,11 @@ const Hero = () => {
   }, []);
 
   const currentProject = projects[currentProjectIndex];
+
+  // 프로젝트 클릭 핸들러
+  const handleProjectClick = () => {
+    navigate(currentProject.route);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -1210,11 +1236,9 @@ const Hero = () => {
             </Title>
 
             <Description variants={itemVariants}>
-              <strong>웹부터 앱까지, 다양한 플랫폼을 넘나드는 프론트엔드 개발자입니다.</strong>
+              <strong>웹부터 앱까지, 플랫폼을 넘나드는 프론트엔드 개발자입니다.</strong>
               <br />
-              React, Vue.js, Flutter로 사용자 중심의 경험을 설계하고, 팀과의 소통을 통해
-              <br />
-              복잡한 문제를 창의적으로 해결합니다.
+              React, Vue.js, Flutter로 사용자 중심의 경험을 설계하고, 팀과의 소통을 통해 복잡한 문제를 창의적으로 해결합니다.
               <br />
               <strong>비전공자에서 PL까지, 끊임없는 도전과 성장을 추구합니다. 🌟</strong>
             </Description>
@@ -1295,35 +1319,41 @@ const Hero = () => {
                   exit="exit"
                   style={{ position: 'relative' }}
                 >
-                  {currentProject.type === 'web' ? (
-                    <MonitorMockup>
-                      <DeviceVideo
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        src={currentProject.video}
-                      />
-                    </MonitorMockup>
-                  ) : (
-                    <IPhoneMockup>
-                      <DeviceVideo
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        src={currentProject.video}
-                      />
-                    </IPhoneMockup>
-                  )}
-                  
-                  <ProjectLabel
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
+                  <ClickableDeviceContainer
+                    onClick={handleProjectClick}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    {currentProject.name}
-                  </ProjectLabel>
+                    {currentProject.type === 'web' ? (
+                      <MonitorMockup>
+                        <DeviceVideo
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          src={currentProject.video}
+                        />
+                      </MonitorMockup>
+                    ) : (
+                      <IPhoneMockup>
+                        <DeviceVideo
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          src={currentProject.video}
+                        />
+                      </IPhoneMockup>
+                    )}
+                    
+                    <ProjectLabel
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      {currentProject.name} - 클릭하여 상세보기
+                    </ProjectLabel>
+                  </ClickableDeviceContainer>
                 </motion.div>
               </AnimatePresence>
             </DeviceMockupContainer>

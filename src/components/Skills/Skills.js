@@ -394,41 +394,173 @@ const ProgressSection = styled.div`
   margin-top: 4rem;
 `;
 
-const ProgressItem = styled(motion.div)`
-  margin-bottom: 2rem;
-`;
+const SkillCard = styled(motion.div)`
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 
-const ProgressHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-
-  .skill-name {
-    font-family: 'Pretendard-SemiBold';
-    color: ${colors.text.primary};
-    font-size: 1.1rem;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: ${props => props.color || gradients.primary};
+    opacity: 0.8;
   }
 
-  .skill-level {
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1.5rem;
+  }
+`;
+
+const SkillHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+`;
+
+const SkillTitle = styled.div`
+  flex: 1;
+
+  .skill-name {
+    font-family: 'Pretendard-Bold';
+    color: ${colors.text.primary};
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    .skill-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      background: ${props => props.color || colors.secondary};
+      opacity: 0.8;
+    }
+  }
+
+  .skill-description {
+    font-family: 'Pretendard-Regular';
+    color: ${colors.text.secondary};
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    .skill-name {
+      font-size: 1.2rem;
+    }
+    
+    .skill-description {
+      font-size: 0.9rem;
+    }
+  }
+`;
+
+const SkillLevel = styled.div`
+  text-align: right;
+  
+  .percentage {
+    font-family: 'Pretendard-Bold';
+    color: ${props => props.color || colors.secondary};
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+  
+  .level-text {
     font-family: 'Pretendard-Medium';
     color: ${colors.text.secondary};
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    text-align: left;
+    
+    .percentage {
+      font-size: 1.8rem;
+    }
+  }
+`;
+
+const ProjectTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+`;
+
+const ProjectTag = styled.span`
+  background: rgba(255, 255, 255, 0.1);
+  color: ${colors.text.secondary};
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-family: 'Pretendard-Medium';
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: ${colors.text.primary};
   }
 `;
 
 const ProgressBar = styled.div`
   width: 100%;
-  height: 8px;
+  height: 6px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
+  position: relative;
 `;
 
 const ProgressFill = styled(motion.div)`
   height: 100%;
-  background: ${gradients.primary};
-  border-radius: 4px;
-  width: ${props => props.width}%;
+  background: ${props => props.color || gradients.primary};
+  border-radius: 8px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 `;
 
 const StatsSection = styled.div`
@@ -549,18 +681,61 @@ const Skills = () => {
   ];
 
   const mainSkills = [
-    { name: 'JavaScript/React', level: '상급', percentage: 90 },
-    { name: 'Java/Spring Boot', level: '중상급', percentage: 85 },
-    { name: 'Python/Flask', level: '중상급', percentage: 80 },
-    { name: 'AWS/Docker', level: '중급', percentage: 75 },
-    { name: 'Database', level: '중상급', percentage: 82 }
+    { 
+      name: 'React/Next.js', 
+      level: '중상급', 
+      percentage: 75,
+      description: '3개 주요 프로젝트에서 프론트엔드 개발 경험',
+      projects: ['DevHub', 'TripplAI', 'LittleBank'],
+      color: '#61dafb'
+    },
+    { 
+      name: 'Java/Spring Boot', 
+      level: '중급', 
+      percentage: 70,
+      description: '백엔드 API 설계 및 기본적인 최적화 작업',
+      projects: ['DevHub', 'LittleBank'],
+      color: '#6db33f'
+    },
+    { 
+      name: 'Python/Flask', 
+      level: '중급', 
+      percentage: 68,
+      description: 'AI API 연동 및 기본적인 백엔드 구축',
+      projects: ['DevHub', 'TripplAI'],
+      color: '#3776ab'
+    },
+    { 
+      name: 'Flutter/Mobile', 
+      level: '중급', 
+      percentage: 65,
+      description: '모바일 앱 개발 및 Play Store 배포 경험',
+      projects: ['LittleBank'],
+      color: '#02569b'
+    },
+    { 
+      name: 'Database', 
+      level: '중급', 
+      percentage: 65,
+      description: 'MongoDB, MySQL, Redis 기본 운영 및 쿼리 작성',
+      projects: ['DevHub', 'LittleBank', 'TripplAI'],
+      color: '#4479a1'
+    },
+    { 
+      name: 'AWS/Docker', 
+      level: '초중급', 
+      percentage: 60,
+      description: '기본적인 클라우드 배포 및 컨테이너 활용',
+      projects: ['DevHub', 'LittleBank'],
+      color: '#ff9900'
+    }
   ];
 
   const stats = [
-    { number: '3+', label: '년의 개발 경험' },
-    { number: '10+', label: '완료한 프로젝트' },
-    { number: '5+', label: '사용 기술 스택' },
-    { number: '2+', label: '자격증 보유' }
+    { number: '2', label: '년의 개발 경험' },
+    { number: '3', label: '주요 프로젝트' },
+    { number: '15+', label: '사용 기술 스택' },
+    { number: '2', label: '자격증 보유' }
   ];
 
 
@@ -633,33 +808,56 @@ const Skills = () => {
         </SkillsContainer>
 
         <ProgressSection>
-          <SectionTitle style={{ fontSize: '2rem', marginBottom: '2rem' }}>
+          <SectionTitle style={{ fontSize: '2rem', marginBottom: '2.5rem' }}>
             주요 기술 숙련도
           </SectionTitle>
           
           {mainSkills.map((skill, index) => (
-            <ProgressItem
+            <SkillCard
               key={skill.name}
+              color={skill.color}
               variants={itemVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
             >
-              <ProgressHeader>
-                <span className="skill-name">{skill.name}</span>
-                <span className="skill-level">{skill.level}</span>
-              </ProgressHeader>
+              <SkillHeader>
+                <SkillTitle color={skill.color}>
+                  <div className="skill-name">
+                    <div className="skill-icon"></div>
+                    {skill.name}
+                  </div>
+                  <div className="skill-description">
+                    {skill.description}
+                  </div>
+                </SkillTitle>
+                
+                <SkillLevel color={skill.color}>
+                  <div className="percentage">{skill.percentage}%</div>
+                  <div className="level-text">{skill.level}</div>
+                </SkillLevel>
+              </SkillHeader>
+
+              <ProjectTags>
+                {skill.projects.map((project, projectIndex) => (
+                  <ProjectTag key={projectIndex}>
+                    {project}
+                  </ProjectTag>
+                ))}
+              </ProjectTags>
+
               <ProgressBar>
                 <ProgressFill
-                  width={skill.percentage}
-                  initial={{ width: 0 }}
-                  whileInView={{ width: skill.percentage }}
+                  color={skill.color}
+                  initial={{ width: "0%" }}
+                  whileInView={{ width: `${skill.percentage}%` }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1, delay: index * 0.1 }}
+                  transition={{ duration: 1.2, delay: index * 0.1, ease: "easeOut" }}
                 />
               </ProgressBar>
-            </ProgressItem>
+            </SkillCard>
           ))}
         </ProgressSection>
 
