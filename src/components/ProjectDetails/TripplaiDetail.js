@@ -18,11 +18,13 @@ import {
 
 // 이미지와 비디오 import
 import main from '../../assets/projects/tripplai/main.png';
-import img1 from '../../assets/projects/tripplai/1.png';
-import img2 from '../../assets/projects/tripplai/2.png';
-import img3 from '../../assets/projects/tripplai/3.png';
-import img4 from '../../assets/projects/tripplai/4.png';
-import video from '../../assets/video/trippai.mp4';
+import aiPlan from '../../assets/projects/tripplai/ai여행계획생성.png';
+import payment from '../../assets/projects/tripplai/결제.png';
+import travelInfo1 from '../../assets/projects/tripplai/여행정보1.png';
+import travelInfo2 from '../../assets/projects/tripplai/여행정보2.png';
+import popularCourse from '../../assets/projects/tripplai/인기여행코스.png';
+import localCourse from '../../assets/projects/tripplai/지역여행코스.png';
+import video from '../../assets/projects/tripplai/Travel Planner - Chrome 2025-07-30 10-21-39.mp4';
 
 // 메인 컬러 정의
 const mainColor = {
@@ -128,7 +130,7 @@ const TripplaiDetail = () => {
         <Section id="overview">
           <Header>
             <Title>Tripplai - AI 여행 일정 생성 서비스</Title>
-            <SubTitle>에어비앤비 스타일의 AI 기반 맞춤형 여행 일정 플래너</SubTitle>
+            <SubTitle>AI 기반 맞춤형 여행 일정 플래너</SubTitle>
             <ProjectLinks>
               <ProjectLink href="https://tripplai.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <FaExternalLinkAlt /> 서비스 바로가기
@@ -185,11 +187,11 @@ const TripplaiDetail = () => {
             </FeatureCard>
             <FeatureCard>
               <FeatureIcon>🗺</FeatureIcon>
-              <FeatureTitle>지도 통합 및 경로 최적화</FeatureTitle>
+              <FeatureTitle>카카오맵 내비게이션 연동</FeatureTitle>
               <FeatureDescription>
-                - Google Maps API 연동
-                - 최적 이동 경로 계산
-                - 실시간 거리 및 소요시간 계산
+                - 카카오맵 API를 활용한 경로 안내
+                - 실시간 교통정보 기반 소요시간 계산
+                - 대중교통/자가용 최적 경로 추천
               </FeatureDescription>
             </FeatureCard>
             <FeatureCard>
@@ -210,6 +212,15 @@ const TripplaiDetail = () => {
                 - 날씨 정보 연동 및 대체 일정 추천
               </FeatureDescription>
             </FeatureCard>
+            <FeatureCard>
+              <FeatureIcon>✅</FeatureIcon>
+              <FeatureTitle>신뢰도 높은 리뷰 시스템</FeatureTitle>
+              <FeatureDescription>
+                - Google Vision AI 기반 영수증/티켓 인증
+                - 실제 방문 증빙 기반 리뷰 작성
+                - AI 필터링으로 허위 리뷰 방지
+              </FeatureDescription>
+            </FeatureCard>
           </FeatureGrid>
         </Section>
 
@@ -218,23 +229,31 @@ const TripplaiDetail = () => {
           <ImageGrid>
             <ImageContainer>
               <ProjectImage src={main} alt="메인 화면" />
-              <ImageCaption>메인 페이지 - AI 여행 일정 생성</ImageCaption>
+              <ImageCaption>메인 페이지</ImageCaption>
             </ImageContainer>
             <ImageContainer>
-              <ProjectImage src={img1} alt="여행 조건 입력" />
-              <ImageCaption>여행 조건 입력 화면</ImageCaption>
+              <ProjectImage src={aiPlan} alt="AI 여행 계획 생성" />
+              <ImageCaption>AI 여행 일정 생성</ImageCaption>
             </ImageContainer>
             <ImageContainer>
-              <ProjectImage src={img2} alt="일정 생성 결과" />
-              <ImageCaption>AI 생성 여행 일정 결과</ImageCaption>
+              <ProjectImage src={travelInfo1} alt="여행 정보 1" />
+              <ImageCaption>여행지 상세 정보</ImageCaption>
             </ImageContainer>
             <ImageContainer>
-              <ProjectImage src={img3} alt="상세 일정" />
-              <ImageCaption>상세 일정 보기</ImageCaption>
+              <ProjectImage src={travelInfo2} alt="여행 정보 2" />
+              <ImageCaption>여행지 추가 정보</ImageCaption>
             </ImageContainer>
             <ImageContainer>
-              <ProjectImage src={img4} alt="장소 추천" />
-              <ImageCaption>AI 추천 장소 목록</ImageCaption>
+              <ProjectImage src={popularCourse} alt="인기 여행 코스" />
+              <ImageCaption>인기 여행 코스</ImageCaption>
+            </ImageContainer>
+            <ImageContainer>
+              <ProjectImage src={localCourse} alt="지역별 여행 코스" />
+              <ImageCaption>지역별 추천 코스</ImageCaption>
+            </ImageContainer>
+            <ImageContainer>
+              <ProjectImage src={payment} alt="결제 화면" />
+              <ImageCaption>결제 프로세스</ImageCaption>
             </ImageContainer>
           </ImageGrid>
         </Section>
