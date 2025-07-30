@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   FaGithub, FaExternalLinkAlt, FaCalendarAlt, FaUsers, 
@@ -691,12 +691,6 @@ const Projects = () => {
     return <FaCode />;
   };
 
-  const projectIcons = {
-    'Devhub: 깃보다 쉽게 \'형상관리\'와 \'코드리뷰\'': '🔧',
-    '리틀뱅크 (Little Bank)': '🏦',
-    'Tripplai': '✈️'
-  };
-
   const getProjectStatus = (project) => {
     if (project.status === 'Google Play Store 비공개 테스트 중') return 'in-progress';
     if (project.status === '관광 API 공모전 진출') return 'in-progress';
@@ -713,9 +707,17 @@ const Projects = () => {
   };
 
   const openModal = (project) => {
-    // LittleBank 프로젝트인 경우 상세페이지로 이동
+    // 각 프로젝트별 상세페이지로 이동
     if (project.title === 'LittleBank') {
       navigate('/project/littlebank');
+      return;
+    }
+    if (project.title === 'TripplAI') {
+      navigate('/project/tripplai');
+      return;
+    }
+    if (project.title.includes('DevHub')) {
+      navigate('/project/devhub');
       return;
     }
     
@@ -828,7 +830,7 @@ const Projects = () => {
                   <ProjectActions>
                     <ActionButton primary>
                       <FaRocket />
-                      {project.title === 'LittleBank' ? '상세 페이지' : '자세히 보기'}
+                      {project.title === 'LittleBank' || project.title === 'TripplAI' ? '상세 페이지' : '자세히 보기'}
                     </ActionButton>
                     {project.link && (
                       <ActionButton 
@@ -894,94 +896,92 @@ const Projects = () => {
         </motion.div>
 
         {/* 프로젝트 상세 모달 */}
-        <AnimatePresence>
-          {selectedProject && (
-            <Modal
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={closeModal}
+        {selectedProject && (
+          <Modal
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+          >
+            <ModalContent
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <ModalContent
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <ModalHeader>
-                  <h3>{selectedProject.title}</h3>
-                  <CloseButton onClick={closeModal}>
-                    <FaTimes />
-                  </CloseButton>
-                </ModalHeader>
+              <ModalHeader>
+                <h3>{selectedProject.title}</h3>
+                <CloseButton onClick={closeModal}>
+                  <FaTimes />
+                </CloseButton>
+              </ModalHeader>
 
-                <ModalBody>
-                  <div className="section">
-                    <div className="section-title">프로젝트 개요</div>
-                    <p style={{ lineHeight: 1.7, color: colors.text.secondary }}>
-                      {selectedProject.description}
-                    </p>
-                    <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                      <span><strong>기간:</strong> {selectedProject.period}</span>
-                      <span><strong>역할:</strong> {selectedProject.role}</span>
-                      {selectedProject.status && (
-                        <span><strong>상태:</strong> {selectedProject.status}</span>
-                      )}
-                    </div>
+              <ModalBody>
+                <div className="section">
+                  <div className="section-title">프로젝트 개요</div>
+                  <p style={{ lineHeight: 1.7, color: colors.text.secondary }}>
+                    {selectedProject.description}
+                  </p>
+                  <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                    <span><strong>기간:</strong> {selectedProject.period}</span>
+                    <span><strong>역할:</strong> {selectedProject.role}</span>
+                    {selectedProject.status && (
+                      <span><strong>상태:</strong> {selectedProject.status}</span>
+                    )}
                   </div>
+                </div>
 
-                  {selectedProject.features && (
-                    <div className="section">
-                      <div className="section-title">주요 기능</div>
-                      <FeatureList>
-                        {selectedProject.features.map((feature, index) => (
-                          <li key={index}>{feature}</li>
-                        ))}
-                      </FeatureList>
-                    </div>
-                  )}
-
+                {selectedProject.features && (
                   <div className="section">
-                    <div className="section-title">사용 기술</div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      {selectedProject.tech.map((tech, index) => (
-                        <TechTag key={index}>{tech}</TechTag>
+                    <div className="section-title">주요 기능</div>
+                    <FeatureList>
+                      {selectedProject.features.map((feature, index) => (
+                        <li key={index}>{feature}</li>
                       ))}
-                    </div>
+                    </FeatureList>
                   </div>
+                )}
 
-                  {selectedProject.challenges && (
-                    <div className="section">
-                      <div className="section-title">기술적 도전 & 해결</div>
-                      <ChallengeList>
-                        {selectedProject.challenges.map((challenge, index) => (
-                          <div key={index} className="challenge-item">
-                            <div className="challenge-solution">{challenge}</div>
-                          </div>
-                        ))}
-                      </ChallengeList>
-                    </div>
-                  )}
+                <div className="section">
+                  <div className="section-title">사용 기술</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    {selectedProject.tech.map((tech, index) => (
+                      <TechTag key={index}>{tech}</TechTag>
+                    ))}
+                  </div>
+                </div>
 
-                  {selectedProject.link && (
-                    <div className="section">
-                      <ActionButton 
-                        href={selectedProject.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        primary
-                        style={{ display: 'inline-flex', width: 'auto' }}
-                      >
-                        <FaExternalLinkAlt />
-                        프로젝트 보러가기
-                      </ActionButton>
-                    </div>
-                  )}
-                </ModalBody>
-              </ModalContent>
-            </Modal>
-          )}
-        </AnimatePresence>
+                {selectedProject.challenges && (
+                  <div className="section">
+                    <div className="section-title">기술적 도전 & 해결</div>
+                    <ChallengeList>
+                      {selectedProject.challenges.map((challenge, index) => (
+                        <div key={index} className="challenge-item">
+                          <div className="challenge-solution">{challenge}</div>
+                        </div>
+                      ))}
+                    </ChallengeList>
+                  </div>
+                )}
+
+                {selectedProject.link && (
+                  <div className="section">
+                    <ActionButton 
+                      href={selectedProject.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      primary
+                      style={{ display: 'inline-flex', width: 'auto' }}
+                    >
+                      <FaExternalLinkAlt />
+                      프로젝트 보러가기
+                    </ActionButton>
+                  </div>
+                )}
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        )}
       </Container>
     </ProjectsSection>
   );

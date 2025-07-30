@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import EmojiCursor from './components/UI/EmojiCursor';
 import GlobalStyles, { 
   breakpoints,
   AdvancedBackgroundContainer,
@@ -23,6 +24,8 @@ import Education from './components/Education/Education';
 import Contact from './components/Contact/Contact';
 import RightSidebar from './components/FloatingElements/RightSidebar';
 import LittleBankDetail from './components/ProjectDetails/LittleBankDetail';
+import TripplaiDetail from './components/ProjectDetails/TripplaiDetail';
+import DevHubDetail from './components/ProjectDetails/DevHubDetail';
 
 const theme = {
   colors: {
@@ -48,6 +51,7 @@ const AppContainer = styled.div`
   color: ${theme.colors.text.primary};
   overflow-x: hidden;
   position: relative;
+  cursor: none; /* Hide default cursor for emoji cursor */
 
   &::before {
     content: '';
@@ -62,6 +66,17 @@ const AppContainer = styled.div`
       radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.03) 0%, transparent 30%);
     pointer-events: none;
     z-index: 0;
+  }
+
+  * {
+    cursor: none !important;
+  }
+
+  @media (max-width: 768px) {
+    cursor: auto;
+    * {
+      cursor: auto !important;
+    }
   }
 `;
 
@@ -88,41 +103,7 @@ const BackgroundNoise = styled.div`
   }
 `;
 
-// 커서 효과
-const CustomCursor = styled(motion.div)`
-  position: fixed;
-  width: 32px;
-  height: 32px;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
 
-const CursorOuter = styled(motion.div)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  border: 1.5px solid rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
-`;
-
-const CursorInner = styled(motion.div)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 6px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-`;
 
 // 전체 앱 배경 애니메이션 컴포넌트
 const AppBackground = () => {
@@ -302,74 +283,13 @@ const AppBackground = () => {
   );
 };
 
-// 홈페이지 컴포넌트
-const HomePage = () => {
-  return (
-    <>
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Education />
-      <Contact />
-      <RightSidebar />
-    </>
-  );
-};
+
 
 function App() {
-  const cursorXSpring = useSpring(0, { damping: 25, stiffness: 200 });
-  const cursorYSpring = useSpring(0, { damping: 25, stiffness: 200 });
-  const cursorScale = useSpring(1, { damping: 20, stiffness: 300 });
-
   useEffect(() => {
-    // 커스텀 커서 효과
-    const moveCursor = (e) => {
-      cursorXSpring.set(e.clientX);
-      cursorYSpring.set(e.clientY);
-    };
-    
-    const handleMouseEnter = () => {
-      cursorScale.set(1.5);
-    };
-    
-    const handleMouseLeave = () => {
-      cursorScale.set(1);
-    };
-
-    const handleMouseDown = () => {
-      cursorScale.set(0.8);
-    };
-
-    const handleMouseUp = () => {
-      cursorScale.set(1);
-    };
-    
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-    
-    // 호버 가능한 요소들에 이벤트 추가
-    const hoverables = document.querySelectorAll('a, button, [role="button"]');
-    hoverables.forEach(el => {
-      el.addEventListener('mouseenter', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
-    });
-    
     // Smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
-    
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
-      hoverables.forEach(el => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-      });
-    };
-  }, [cursorXSpring, cursorYSpring, cursorScale]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -378,33 +298,26 @@ function App() {
         <AppContainer>
           <BackgroundNoise />
           <AppBackground />
-          <CustomCursor
-            style={{
-              x: cursorXSpring,
-              y: cursorYSpring,
-              translateX: '-50%',
-              translateY: '-50%',
-            }}
-          >
-            <CursorOuter
-              style={{
-                scale: cursorScale,
-              }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            />
-            <CursorInner
-              style={{
-                scale: cursorScale,
-              }}
-              transition={{ type: "spring", damping: 20, stiffness: 300 }}
-            />
-          </CustomCursor>
+          <EmojiCursor />
           
           <Header />
           
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={
+              <>
+                <Hero />
+                <About />
+                <Projects />
+                <Skills />
+                <Experience />
+                <Education />
+                <Contact />
+                <RightSidebar />
+              </>
+            } />
             <Route path="/project/littlebank" element={<LittleBankDetail />} />
+            <Route path="/project/tripplai" element={<TripplaiDetail />} />
+            <Route path="/project/devhub" element={<DevHubDetail />} />
           </Routes>
         </AppContainer>
       </Router>
