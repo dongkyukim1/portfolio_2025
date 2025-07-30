@@ -68,31 +68,39 @@ const ToggleButton = styled(motion.button)`
 const PanelBase = styled(motion.div)`
   position: fixed;
   right: 80px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 5%;
   width: 400px;
-  max-height: 80vh;
+  max-height: 90vh;
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1.2rem;
   overflow-y: auto;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 
+  /* 스크롤바 스타일링 */
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
   }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Firefox 스크롤바 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
 `;
 
 // 패널 헤더
@@ -100,10 +108,10 @@ const PanelHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: white;
     display: flex;
@@ -179,12 +187,16 @@ const GalleryItem = styled(motion.div)`
 
 // 상태 정보 섹션
 const StatusSection = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   h4 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -196,10 +208,10 @@ const StatusItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.8rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.6rem;
   transition: all 0.3s ease;
 
   &:hover {
@@ -208,13 +220,13 @@ const StatusItem = styled.div`
 
   .label {
     color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .value {
     color: white;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   &.highlight {
@@ -227,15 +239,31 @@ const StatusItem = styled.div`
   }
 `;
 
+// 스킬 태그 컨테이너
+const SkillTagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+`;
+
 // 스킬 태그
 const SkillTag = styled.span`
   display: inline-block;
-  padding: 0.3rem 0.8rem;
+  padding: 0.25rem 0.6rem;
   background: rgba(102, 126, 234, 0.2);
   color: #a5b4fc;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  margin: 0.2rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.2;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(102, 126, 234, 0.3);
+    color: #c7d2fe;
+    transform: translateY(-1px);
+  }
 `;
 
 const RightSidebar = () => {
@@ -266,10 +294,10 @@ const RightSidebar = () => {
   ];
 
   const statusInfo = {
-    experience: '3+ Years',
-    projects: '10+ Completed',
-    skills: ['React', 'Flutter', 'Node.js', 'TypeScript'],
-    availability: 'Open to Work',
+    experience: '2+ Years',
+    projects: '3 Major Projects',
+    skills: ['React', 'Next.js', 'Flutter', 'Java', 'Spring Boot', 'Python', 'Flask', 'JavaScript', 'TypeScript', 'MySQL', 'MongoDB', 'Redis', 'AWS', 'Docker'],
+    availability: 'Currently Employed',
     location: 'Seoul, Korea'
   };
 
@@ -353,12 +381,12 @@ const RightSidebar = () => {
             </StatusSection>
 
             <StatusSection>
-              <h4>Core Skills</h4>
-              <div>
+              <h4>Skills</h4>
+              <SkillTagContainer>
                 {statusInfo.skills.map((skill, index) => (
                   <SkillTag key={index}>{skill}</SkillTag>
                 ))}
-              </div>
+              </SkillTagContainer>
             </StatusSection>
           </PanelBase>
         )}

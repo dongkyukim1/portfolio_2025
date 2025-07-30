@@ -307,9 +307,9 @@ function App() {
               <>
                 <Hero />
                 <About />
+                <Projects />
                 <Skills />
                 <Experience />
-                <Projects />
                 <Education />
                 <Contact />
                 <RightSidebar />
