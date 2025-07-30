@@ -597,8 +597,15 @@ const Header = () => {
   const handleNavClick = (e, href) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
-    const targetElement = document.getElementById(targetId);
     
+    // 프로젝트 상세 페이지에서는 메인 페이지로 이동 후 해당 섹션으로 이동
+    if (window.location.hash.includes('/project/')) {
+      window.location.href = `${window.location.pathname}#${href}`;
+      return;
+    }
+    
+    // 메인 페이지에서는 스무스 스크롤
+    const targetElement = document.getElementById(targetId);
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth' });
       setIsMenuOpen(false);

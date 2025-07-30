@@ -303,21 +303,7 @@ const AppBackground = () => {
   );
 };
 
-// 홈페이지 컴포넌트
-const HomePage = () => {
-  return (
-    <>
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Education />
-      <Contact />
-      <RightSidebar />
-    </>
-  );
-};
+
 
 function App() {
   const cursorXSpring = useSpring(0, { damping: 25, stiffness: 200 });
@@ -404,7 +390,18 @@ function App() {
           <Header />
           
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={
+              <>
+                <Hero />
+                <About />
+                <Skills />
+                <Experience />
+                <Projects />
+                <Education />
+                <Contact />
+                <RightSidebar />
+              </>
+            } />
             <Route path="/project/littlebank" element={<LittleBankDetail />} />
             <Route path="/project/tripplai" element={<TripplaiDetail />} />
           </Routes>
