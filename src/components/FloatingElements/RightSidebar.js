@@ -249,14 +249,17 @@ const RightSidebar = () => {
   const handleGalleryClick = (title) => {
     if (title === 'LittleBank App') {
       navigate('/project/littlebank');
+    } else if (title === 'DevHub Platform') {
+      navigate('/project/devhub');
+    } else if (title === 'Tripple AI') {
+      navigate('/project/tripplai');
     }
-    // 다른 프로젝트들도 나중에 추가 가능
   };
 
   const galleryImages = [
     { src: littlebankImg, title: 'LittleBank App', clickable: true },
-    { src: devhubImg, title: 'DevHub Platform', clickable: false },
-    { src: trippleaiImg, title: 'Tripple AI', clickable: false },
+    { src: devhubImg, title: 'DevHub Platform', clickable: true },
+    { src: trippleaiImg, title: 'Tripple AI', clickable: true },
     { src: pmkAdminImg, title: 'PMK Admin', clickable: false },
     { src: littlebankAdminImg, title: 'LittleBank Admin', clickable: false },
     { src: dogfootImg, title: 'Dogfoot Project', clickable: false }
