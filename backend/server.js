@@ -30,30 +30,12 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false
 }));
 
-// CORS 설정
+// CORS 설정 - 개발환경에서 모든 origin 허용
 const corsOptions = {
-  origin: function (origin, callback) {
-    // 개발 환경에서는 모든 origin 허용
-    if (process.env.NODE_ENV === 'development') {
-      return callback(null, true);
-    }
-    
-    // 프로덕션 환경에서는 특정 도메인만 허용
-    const allowedOrigins = [
-      process.env.FRONTEND_URL,
-      process.env.PRODUCTION_URL,
-      'https://dongkyukim1.github.io'
-    ].filter(Boolean);
-    
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS 정책에 의해 접근이 거부되었습니다'));
-    }
-  },
+  origin: true, // 모든 origin 허용 (개발 중)
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-email']
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-email', 'Origin', 'X-Requested-With', 'Accept']
 };
 
 app.use(cors(corsOptions));

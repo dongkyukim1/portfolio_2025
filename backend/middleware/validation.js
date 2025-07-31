@@ -1,27 +1,21 @@
 const { body, validationResult } = require('express-validator');
 
-// 연락처 폼 검증 규칙
+// 연락처 폼 검증 규칙 - 관대한 버전
 const validateContact = [
   body('name')
     .trim()
-    .isLength({ min: 2, max: 100 })
-    .withMessage('이름은 2-100자 사이여야 합니다')
-    .matches(/^[가-힣a-zA-Z\s]+$/)
-    .withMessage('이름에는 한글, 영문, 공백만 사용할 수 있습니다'),
+    .isLength({ min: 1, max: 100 })
+    .withMessage('이름을 입력해주세요'),
     
   body('email')
     .trim()
     .isEmail()
-    .withMessage('유효한 이메일 주소를 입력해주세요')
-    .normalizeEmail()
-    .isLength({ max: 255 })
-    .withMessage('이메일은 255자를 초과할 수 없습니다'),
+    .withMessage('유효한 이메일 주소를 입력해주세요'),
     
   body('message')
     .trim()
-    .isLength({ min: 10, max: 5000 })
-    .withMessage('메시지는 10-5000자 사이여야 합니다')
-    .escape() // XSS 방지
+    .isLength({ min: 1, max: 5000 })
+    .withMessage('메시지를 입력해주세요')
 ];
 
 // 검증 결과 처리 미들웨어
@@ -34,6 +28,12 @@ const handleValidationErrors = (req, res, next) => {
       message: error.msg,
       value: error.value
     }));
+    
+    // 디버깅용 로그 추가
+    console.log('❌ Validation 실패:', JSON.stringify({
+      body: req.body,
+      errors: errorMessages
+    }, null, 2));
     
     return res.status(400).json({
       success: false,

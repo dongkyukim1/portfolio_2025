@@ -651,7 +651,11 @@ const Contact = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://3.34.52.239:8080/api/contacts', formData);
+      // 현재 로컬 개발 중이므로 localhost:5000 사용
+      const apiUrl = 'http://localhost:5000/api/contacts';
+      
+      console.log('API 요청 URL:', apiUrl); // 디버깅용
+      const response = await axios.post(apiUrl, formData);
 
       if (response.status === 201) {
         showNotification('메시지가 성공적으로 전송되었습니다!', 'success');
@@ -710,7 +714,7 @@ const Contact = () => {
                 </IconWrapper>
                 <InfoText>
                   <InfoLabel>이메일</InfoLabel>
-                  <InfoValue href="mailto:ehdrb0510@naver.com">ehdrb0510@naver.com</InfoValue>
+                  <InfoValue href="mailto:ehdrb12123@naver.com">ehdrb12123@naver.com</InfoValue>
                 </InfoText>
               </InfoItem>
 
@@ -720,7 +724,7 @@ const Contact = () => {
                 </IconWrapper>
                 <InfoText>
                   <InfoLabel>전화번호</InfoLabel>
-                  <InfoValue href="tel:+821040950510">010-4095-0510</InfoValue>
+                  <InfoValue href="tel:+821040488292">010-4048-8292</InfoValue>
                 </InfoText>
               </InfoItem>
 
@@ -784,7 +788,7 @@ const Contact = () => {
                 onChange={handleChange}
                 required
                 rows="5"
-                placeholder="프로젝트에 대해 이야기하고 싶어요..."
+                placeholder="이직에 대해 이야기하고싶습니다."
               />
             </FormGroup>
 

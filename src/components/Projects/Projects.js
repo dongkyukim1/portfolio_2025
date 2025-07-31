@@ -25,14 +25,29 @@ import {
   GeometricOrb
 } from '../../styles/GlobalStyles';
 import { portfolioData } from '../../data/portfolio';
+import { currentWorkData } from '../../data/currentWork';
+import { additionalProjectsData } from '../../data/additionalProjects';
 
 // 로고 이미지 import
 import devhubLogo from '../../assets/projects/logo/devhublogo.jpg';
 import littlebankLogo from '../../assets/projects/logo/littlebanklogo.png';
 import tripplaiLogo from '../../assets/projects/logo/Tripplailogo.png';
 
+// 현재 담당 프로젝트 이미지 import
+import pmkAdminImage from '../../assets/gallery/pmk_admin.png';
+import littlebankAdminImage from '../../assets/gallery/littlebank_admin.png';
+import lguSecurityImage from '../../assets/projects/management/LGU+security.png';
+
+// 2024년 기타 프로젝트 썸네일 이미지 import
+import vuePortfolioImg from '../../assets/projects/2024_projects/Vue_portfolio.png';
+import msaImg from '../../assets/projects/2024_projects/msa.png';
+import aiImageImg from '../../assets/projects/2024_projects/ai_image.png';
+import mcpImg from '../../assets/projects/2024_projects/mcp.png';
+import swingImg from '../../assets/projects/2024_projects/swing.png';
+import rpaImg from '../../assets/projects/2024_projects/rpa.png';
+
 const ProjectsSection = styled(TransparentSectionBackground)`
-  padding: 80px 0;
+  padding: 80px 0 40px 0;
   z-index: 10;
   position: relative;
   /* 투명 배경으로 전체와 자연스럽게 이어짐 */
@@ -47,6 +62,128 @@ const ProjectsGrid = styled.div`
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+`;
+
+// 현재 직장 프로젝트용 스타일드 컴포넌트들
+const WorkSection = styled.div`
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+// 올해 진행한 기타 프로젝트용 스타일드 컴포넌트들
+const AdditionalSection = styled.div`
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+  }
+`;
+
+const CompanyHeader = styled.div`
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+`;
+
+const CompanyName = styled.h3`
+  font-size: 2rem;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+`;
+
+const CompanyPosition = styled.p`
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 5px;
+`;
+
+const CompanyPeriod = styled.p`
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+`;
+
+// 추가 프로젝트용 헤더
+const AdditionalHeader = styled.div`
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 25px;
+  background: rgba(16, 185, 129, 0.03);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+`;
+
+const AdditionalTitle = styled.h3`
+  font-size: 1.8rem;
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+  font-family: 'Pretendard-Bold';
+`;
+
+const AdditionalDescription = styled.p`
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+`;
+
+const WorkProjectCard = styled(motion.div)`
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  border-left: 4px solid #3b82f6;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-left-color: #8b5cf6;
+  }
+`;
+
+const AdditionalProjectCard = styled(motion.div)`
+  background: rgba(16, 185, 129, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  border-left: 4px solid #10b981;
+
+  &:hover {
+    background: rgba(16, 185, 129, 0.05);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.15);
+    border-left-color: #3b82f6;
   }
 `;
 
@@ -684,16 +821,43 @@ const Projects = () => {
     'TripplAI': tripplaiLogo
   };
 
+  // 현재 담당 프로젝트 이미지 매핑
+  const currentWorkImages = {
+    'PMK 제네시스 콜시스템 장애이력 관리시스템': pmkAdminImage,
+    'LittleBank 어드민 결제관리시스템': littlebankAdminImage,
+    'LGU+ Visual Ring Biz 시스템 유지보수': lguSecurityImage
+  };
+
+  // 2024년 기타 프로젝트 이미지 매핑
+  const additionalProjectImages = {
+    'MSA Practice': msaImg,
+    'MCP 통합관리제어시스템': mcpImg,
+    'AI 이미지 생성기': aiImageImg,
+    'Java Swing 미니프로젝트': swingImg,
+    'Vue.js 포트폴리오': vuePortfolioImg,
+    'RPA 자동화': rpaImg
+  };
+
   const getProjectIcon = (project) => {
     if (project.title.includes('DevHub')) return <FaCode />;
-    if (project.title.includes('LittleBank')) return '🏦';
+    if (project.title.includes('LittleBank') && !project.title.includes('어드민')) return '🏦';
     if (project.title.includes('Trippl')) return '✈️';
+    if (project.title.includes('PMK') || project.title.includes('콜시스템')) return '📞';
+    if (project.title.includes('LittleBank 어드민')) return '💰';
+    if (project.title.includes('LGU+') || project.title.includes('Visual Ring')) return '⚙️';
+    if (project.title.includes('포트폴리오')) return '🌐';
+    if (project.title.includes('Spring Boot') || project.title.includes('API')) return '⚙️';
+    if (project.title.includes('React') || project.title.includes('TypeScript')) return <FaCode />;
+    if (project.title.includes('Flutter') || project.title.includes('날씨')) return '📱';
+    if (project.title.includes('Python') || project.title.includes('크롤링')) return '🐍';
+    if (project.title.includes('Vue')) return '💚';
     return <FaCode />;
   };
 
   const getProjectStatus = (project) => {
     if (project.status === 'Google Play Store 비공개 테스트 중') return 'in-progress';
     if (project.status === '관광 API 공모전 진출') return 'in-progress';
+    if (project.status === '운영 중') return 'in-progress';
     return 'completed';
   };
 
@@ -718,6 +882,10 @@ const Projects = () => {
     }
     if (project.title.includes('DevHub')) {
       navigate('/project/devhub');
+      return;
+    }
+    if (project.title.includes('PMK') || project.title.includes('LittleBank 어드민') || project.title.includes('LGU+')) {
+      navigate('/project/dashboard');
       return;
     }
     
@@ -849,10 +1017,195 @@ const Projects = () => {
             ))}
           </ProjectsGrid>
 
+          {/* 현재 직장 프로젝트 섹션 */}
+          <WorkSection>
+            <motion.div variants={itemVariants}>
+              <CompanyHeader>
+                <CompanyName>{currentWorkData.company.name}</CompanyName>
+                <CompanyPosition>{currentWorkData.company.position}</CompanyPosition>
+                <CompanyPeriod>{currentWorkData.company.period}</CompanyPeriod>
+              </CompanyHeader>
+            </motion.div>
+
+            <motion.div variants={containerVariants}>
+              <SectionTitle>현재 담당 프로젝트</SectionTitle>
+              <ProjectsGrid>
+                {currentWorkData.projects.map((project, index) => (
+                  <WorkProjectCard
+                    key={index}
+                    variants={itemVariants}
+                    whileHover={{ y: -10 }}
+                    onClick={() => openModal(project)}
+                  >
+                    <ProjectImage style={{ 
+                      background: project.type === 'management' 
+                        ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%)'
+                        : 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%)'
+                    }}>
+                      {currentWorkImages[project.title] ? (
+                        <div className="project-logo-container">
+                          <img 
+                            src={currentWorkImages[project.title]} 
+                            alt={`${project.title} 이미지`} 
+                            className="project-logo"
+                          />
+                        </div>
+                      ) : (
+                        <div className="project-icon">
+                          {project.type === 'management' ? '🔧' : '⚙️'}
+                        </div>
+                      )}
+                    </ProjectImage>
+
+                    <ProjectContent>
+                      <ProjectHeader>
+                        <ProjectTitle>{project.title}</ProjectTitle>
+                        
+                        <ProjectMeta>
+                          <div className="meta-item">
+                            <FaCalendarAlt />
+                            {project.period}
+                          </div>
+                          <div className="meta-item">
+                            <FaUsers />
+                            {project.role}
+                          </div>
+                        </ProjectMeta>
+                      </ProjectHeader>
+
+                      <ProjectDescription>
+                        {project.description}
+                      </ProjectDescription>
+
+                      <TechStack>
+                        <div className="tech-label">기술 스택</div>
+                        <div className="tech-list">
+                          {project.tech.slice(0, 6).map((tech, techIndex) => (
+                            <TechTag key={techIndex}>{tech}</TechTag>
+                          ))}
+                          {project.tech.length > 6 && (
+                            <TechTag>+{project.tech.length - 6}개</TechTag>
+                          )}
+                        </div>
+                      </TechStack>
+
+                      <ProjectActions>
+                        <ActionButton primary>
+                          <FaRocket />
+                          {project.title.includes('PMK') || project.title.includes('LittleBank 어드민') || project.title.includes('LGU+') ? '상세 페이지' : '자세히 보기'}
+                        </ActionButton>
+                      </ProjectActions>
+                    </ProjectContent>
+                  </WorkProjectCard>
+                ))}
+              </ProjectsGrid>
+            </motion.div>
+          </WorkSection>
+
+          {/* 올해 진행한 기타 프로젝트 섹션 */}
+          <AdditionalSection>
+            <motion.div variants={itemVariants}>
+              <AdditionalHeader>
+                <AdditionalTitle>{additionalProjectsData.title}</AdditionalTitle>
+                <AdditionalDescription>{additionalProjectsData.description}</AdditionalDescription>
+              </AdditionalHeader>
+            </motion.div>
+
+            <motion.div variants={containerVariants}>
+              <ProjectsGrid>
+                {additionalProjectsData.projects.map((project, index) => (
+                  <AdditionalProjectCard
+                    key={index}
+                    variants={itemVariants}
+                    whileHover={{ y: -12 }}
+                  >
+                    <ProjectImage style={{ 
+                      background: project.type === 'learning' 
+                        ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)'
+                        : 'linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)'
+                    }}>
+                      <StatusBadge status={project.status === '완료' ? 'completed' : 'in-progress'}>
+                        {project.status}
+                      </StatusBadge>
+                      {additionalProjectImages[project.title] ? (
+                        <div className="project-logo-container">
+                          <img 
+                            src={additionalProjectImages[project.title]} 
+                            alt={`${project.title} 썸네일`} 
+                            className="project-logo"
+                          />
+                        </div>
+                      ) : (
+                        <div className="project-icon">
+                          {getProjectIcon(project)}
+                        </div>
+                      )}
+                    </ProjectImage>
+
+                    <ProjectContent>
+                      <ProjectHeader>
+                        <ProjectTitle>{project.title}</ProjectTitle>
+                        
+                        <ProjectMeta>
+                          <div className="meta-item">
+                            <FaCalendarAlt />
+                            {project.period}
+                          </div>
+                          <div className="meta-item">
+                            <FaUsers />
+                            {project.role}
+                          </div>
+                          <div className="meta-item">
+                            <span style={{ 
+                              background: project.type === 'learning' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(147, 51, 234, 0.2)', 
+                              color: project.type === 'learning' ? '#3b82f6' : '#8b5cf6',
+                              padding: '2px 8px',
+                              borderRadius: '6px',
+                              fontSize: '0.75rem',
+                              fontWeight: '600'
+                            }}>
+                              {project.type === 'learning' ? '학습' : project.type === 'personal' ? '개인' : '기타'}
+                            </span>
+                          </div>
+                        </ProjectMeta>
+                      </ProjectHeader>
+
+                      <ProjectDescription>
+                        {project.description}
+                      </ProjectDescription>
+
+                      <TechStack>
+                        <div className="tech-label">기술 스택</div>
+                        <div className="tech-list">
+                          {project.tech.slice(0, 5).map((tech, techIndex) => (
+                            <TechTag key={techIndex} style={{
+                              background: 'rgba(16, 185, 129, 0.1)',
+                              color: '#10b981',
+                              borderColor: 'rgba(16, 185, 129, 0.2)'
+                            }}>{tech}</TechTag>
+                          ))}
+                          {project.tech.length > 5 && (
+                            <TechTag style={{
+                              background: 'rgba(16, 185, 129, 0.1)',
+                              color: '#10b981',
+                              borderColor: 'rgba(16, 185, 129, 0.2)'
+                            }}>+{project.tech.length - 5}개</TechTag>
+                          )}
+                        </div>
+                      </TechStack>
+
+
+                    </ProjectContent>
+                  </AdditionalProjectCard>
+                ))}
+              </ProjectsGrid>
+            </motion.div>
+          </AdditionalSection>
+
           {/* 추가 프로젝트 링크 */}
           <motion.div
             variants={itemVariants}
-            style={{ textAlign: 'center', marginTop: '3rem' }}
+            style={{ textAlign: 'center', marginTop: '1.5rem' }}
           >
             <h3 style={{ 
               fontSize: '1.5rem', 
