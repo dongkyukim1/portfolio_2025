@@ -281,6 +281,10 @@ const RightSidebar = () => {
       navigate('/project/devhub');
     } else if (title === 'Tripple AI') {
       navigate('/project/tripplai');
+    } else if (title === 'PMK Admin' || title === 'LittleBank Admin') {
+      navigate('/project/dashboard');
+    } else if (title === 'Dogfoot Project') {
+      navigate('/project/dogfoot');
     }
   };
 
@@ -288,13 +292,13 @@ const RightSidebar = () => {
     { src: littlebankImg, title: 'LittleBank App', clickable: true },
     { src: devhubImg, title: 'DevHub Platform', clickable: true },
     { src: trippleaiImg, title: 'Tripple AI', clickable: true },
-    { src: pmkAdminImg, title: 'PMK Admin', clickable: false },
-    { src: littlebankAdminImg, title: 'LittleBank Admin', clickable: false },
-    { src: dogfootImg, title: 'Dogfoot Project', clickable: false }
+    { src: pmkAdminImg, title: 'PMK Admin', clickable: true },
+    { src: littlebankAdminImg, title: 'LittleBank Admin', clickable: true },
+    { src: dogfootImg, title: 'Dogfoot Project', clickable: true }
   ];
 
   const statusInfo = {
-    experience: '2+ Years',
+    experience: '1+ Years',
     projects: '3 Major Projects',
     skills: ['React', 'Next.js', 'Flutter', 'Java', 'Spring Boot', 'Python', 'Flask', 'JavaScript', 'TypeScript', 'MySQL', 'MongoDB', 'Redis', 'AWS', 'Docker'],
     availability: 'Currently Employed',

@@ -447,15 +447,28 @@ const DeviceMockupContainer = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
+  margin: 0 auto;
 
   @media (max-width: ${breakpoints.laptop}) {
     width: 450px;
     height: 450px;
   }
 
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 380px;
+    height: 380px;
+  }
+
   @media (max-width: ${breakpoints.mobile}) {
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
+  }
+  
+  /* 작은 모바일 화면 대응 */
+  @media (max-width: 360px) {
+    width: 280px;
+    height: 280px;
   }
 `;
 
@@ -1238,7 +1251,7 @@ const Hero = () => {
             <Description variants={itemVariants}>
               <strong>웹부터 앱까지, 플랫폼을 넘나드는 프론트엔드 개발자입니다.</strong>
               <br />
-              React, Vue.js, Flutter로 사용자 중심의 경험을 설계하고, 팀과의 소통을 통해 복잡한 문제를 창의적으로 해결합니다.
+              다양한 언어와 프레임워크를 활용하여 사용자 중심의 경험을 설계하고, 팀과의 소통을 통해 복잡한 문제를 창의적으로 해결합니다.
               <br />
               <strong>비전공자에서 PL까지, 끊임없는 도전과 성장을 추구합니다. 🌟</strong>
             </Description>
@@ -1258,13 +1271,12 @@ const Hero = () => {
               </PrimaryButton>
 
               <SecondaryButton
-                href="#contact"
+                href="/resume_2025.pdf"
+                download="김동규_프론트앤드&PM_이력서_2025.pdf"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaDownload />
                 이력서 다운로드

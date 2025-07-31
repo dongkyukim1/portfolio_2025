@@ -26,6 +26,8 @@ import RightSidebar from './components/FloatingElements/RightSidebar';
 import LittleBankDetail from './components/ProjectDetails/LittleBankDetail';
 import TripplaiDetail from './components/ProjectDetails/TripplaiDetail';
 import DevHubDetail from './components/ProjectDetails/DevHubDetail';
+import DashboardDetail from './components/ProjectDetails/DashboardDetail';
+import DogfootDetail from './components/ProjectDetails/DogfootDetail';
 
 const theme = {
   colors: {
@@ -318,6 +320,8 @@ function App() {
             <Route path="/project/littlebank" element={<LittleBankDetail />} />
             <Route path="/project/tripplai" element={<TripplaiDetail />} />
             <Route path="/project/devhub" element={<DevHubDetail />} />
+            <Route path="/project/dashboard" element={<DashboardDetail />} />
+            <Route path="/project/dogfoot" element={<DogfootDetail />} />
           </Routes>
         </AppContainer>
       </Router>
