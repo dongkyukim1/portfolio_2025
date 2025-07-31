@@ -488,9 +488,20 @@ const SkillsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1.5rem;
 
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 1.2rem;
+  }
+
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;
+  }
+  
+  /* 작은 모바일 화면에서는 3열로 고정 */
+  @media (max-width: 360px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
   }
 `;
 

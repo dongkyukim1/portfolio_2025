@@ -447,15 +447,28 @@ const DeviceMockupContainer = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
+  margin: 0 auto;
 
   @media (max-width: ${breakpoints.laptop}) {
     width: 450px;
     height: 450px;
   }
 
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 380px;
+    height: 380px;
+  }
+
   @media (max-width: ${breakpoints.mobile}) {
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
+  }
+  
+  /* 작은 모바일 화면 대응 */
+  @media (max-width: 360px) {
+    width: 280px;
+    height: 280px;
   }
 `;
 
