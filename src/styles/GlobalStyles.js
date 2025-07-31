@@ -37,13 +37,25 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: 0 40px;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: ${breakpoints.laptop}) {
+    padding: 0 30px;
+  }
 
   @media (max-width: ${breakpoints.tablet}) {
     padding: 0 20px;
   }
 
   @media (max-width: ${breakpoints.mobile}) {
-    padding: 0 15px;
+    padding: 0 16px;
+    max-width: 100%;
+  }
+  
+  /* 작은 모바일 화면 대응 */
+  @media (max-width: 360px) {
+    padding: 0 12px;
   }
 `;
 
@@ -92,6 +104,8 @@ export const Card = styled.div`
   border-radius: 20px;
   padding: 2.5rem;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+  width: 100%;
 
   &:hover {
     background: rgba(255, 255, 255, 0.05);
@@ -99,12 +113,29 @@ export const Card = styled.div`
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
 
+  @media (max-width: ${breakpoints.laptop}) {
+    padding: 2.2rem;
+  }
+
   @media (max-width: ${breakpoints.tablet}) {
     padding: 2rem;
+    border-radius: 16px;
   }
 
   @media (max-width: ${breakpoints.mobile}) {
     padding: 1.5rem;
+    border-radius: 14px;
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  /* 작은 모바일 화면 대응 */
+  @media (max-width: 360px) {
+    padding: 1.2rem;
+    border-radius: 12px;
   }
 `;
 
@@ -393,8 +424,18 @@ const GlobalStyles = createGlobalStyle`
     overflow-x: hidden;
     cursor: none;
     
+    /* 모바일 최적화 */
     @media (max-width: ${breakpoints.tablet}) {
       cursor: auto;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
+    /* 아이폰 노치 대응 */
+    @supports (padding: max(0px)) {
+      padding-left: max(0px, env(safe-area-inset-left));
+      padding-right: max(0px, env(safe-area-inset-right));
     }
   }
 
@@ -533,7 +574,43 @@ const GlobalStyles = createGlobalStyle`
   @media (max-width: ${breakpoints.tablet}) {
     * {
       -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
+    
+    /* 입력 필드는 선택 가능하게 */
+    input, textarea, [contenteditable] {
+      -webkit-user-select: text;
+      -khtml-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+    
+    /* 버튼과 링크는 최소 터치 대상 크기 확보 */
+    button, a, [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  /* 가로 스크롤 방지 */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* 이미지 반응형 */
+  img, video {
+    max-width: 100%;
+    height: auto;
   }
 
   /* 프린트 스타일 */

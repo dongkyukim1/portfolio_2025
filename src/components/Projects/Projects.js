@@ -59,9 +59,25 @@ const ProjectsGrid = styled.div`
   gap: 2rem;
   margin-bottom: 3rem;
 
+  @media (max-width: ${breakpoints.laptop}) {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.8rem;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.6rem;
+  }
+
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  
+  /* 작은 모바일 화면에서 여백 조정 */
+  @media (max-width: 360px) {
+    gap: 1.2rem;
+    margin-bottom: 2rem;
   }
 `;
 

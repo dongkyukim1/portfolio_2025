@@ -99,9 +99,17 @@ const ContactContent = styled.div`
   gap: 4rem;
   align-items: start;
 
+  @media (max-width: ${breakpoints.laptop}) {
+    gap: 3rem;
+  }
+
   @media (max-width: ${breakpoints.tablet}) {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2.5rem;
+  }
+  
+  @media (max-width: ${breakpoints.mobile}) {
+    gap: 2rem;
   }
 `;
 
@@ -114,6 +122,12 @@ const ContactInfo = styled(motion.div)`
 
   @media (max-width: ${breakpoints.tablet}) {
     padding: 2rem;
+    border-radius: 16px;
+  }
+  
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1.5rem;
+    border-radius: 14px;
   }
 `;
 
@@ -224,6 +238,12 @@ const ContactForm = styled(motion.form)`
 
   @media (max-width: ${breakpoints.tablet}) {
     padding: 2rem;
+    border-radius: 16px;
+  }
+  
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1.5rem;
+    border-radius: 14px;
   }
 `;
 
