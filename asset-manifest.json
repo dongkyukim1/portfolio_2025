@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/portfolio_2025/static/css/main.db6fe1af.css",
-    "main.js": "/portfolio_2025/static/js/main.52fbfcd6.js",
+    "main.js": "/portfolio_2025/static/js/main.07093f18.js",
     "static/js/206.475767fe.chunk.js": "/portfolio_2025/static/js/206.475767fe.chunk.js",
     "static/media/Travel Planner - Chrome 2025-07-30 10-21-39.mp4": "/portfolio_2025/static/media/Travel Planner - Chrome 2025-07-30 10-21-39.e5e486475e9a0c9d5825.mp4",
     "static/media/devhub.gif": "/portfolio_2025/static/media/devhub.e18c8952680f7e9adf96.gif",
@@ -80,6 +80,6 @@
   },
   "entrypoints": [
     "static/css/main.db6fe1af.css",
-    "static/js/main.52fbfcd6.js"
+    "static/js/main.07093f18.js"
   ]
 }
