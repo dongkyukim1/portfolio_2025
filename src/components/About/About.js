@@ -371,6 +371,100 @@ const GoalsList = styled.div`
   }
 `;
 
+// GitHub 통계 섹션
+const GitHubSection = styled.div`
+  margin-top: 4rem;
+  
+  h3 {
+    font-family: 'Pretendard-Bold';
+    font-size: 1.8rem;
+    color: ${colors.text.primary};
+    margin-bottom: 2rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+`;
+
+const GitHubStatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  
+  @media (max-width: ${breakpoints.laptop}) {
+    gap: 1.2rem;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: ${breakpoints.mobile}) {
+    gap: 1.2rem;
+  }
+`;
+
+const GitHubStatCard = styled(motion.div)`
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(147, 51, 234, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(147, 51, 234, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(147, 51, 234, 0.2);
+  }
+
+  h4 {
+    font-family: 'Pretendard-SemiBold';
+    font-size: 1.1rem;
+    color: ${colors.text.primary};
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .github-image {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 1.5rem;
+    border-radius: 16px;
+    
+    h4 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1.2rem;
+    border-radius: 14px;
+    
+    .github-image {
+      border-radius: 8px;
+    }
+  }
+`;
+
+const StreakCard = styled(GitHubStatCard)`
+  /* 같은 크기의 카드로 유지 */
+`;
+
 const GoalItem = styled(motion.div)`
   background: rgba(16, 185, 129, 0.05);
   border: 1px solid rgba(16, 185, 129, 0.2);
@@ -639,6 +733,68 @@ const About = () => {
               </GoalItem>
             </GoalsList>
           </GoalsSection>
+
+          {/* GitHub 통계 섹션 */}
+          <GitHubSection>
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <span>📊</span> GitHub 활동 통계
+            </motion.h3>
+            
+            <GitHubStatsGrid>
+              <GitHubStatCard
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <h4>🏆 GitHub 통계</h4>
+                <img 
+                  src="https://github-readme-stats.vercel.app/api?username=dongkyukim1&show_icons=true&theme=radical"
+                  alt="김동규의 GitHub 통계"
+                  className="github-image"
+                  loading="lazy"
+                />
+              </GitHubStatCard>
+
+              <GitHubStatCard
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <h4>🔤 주로 사용하는 언어</h4>
+                <img 
+                  src="https://github-readme-stats.vercel.app/api/top-langs/?username=dongkyukim1&layout=compact&theme=radical"
+                  alt="주로 사용하는 언어"
+                  className="github-image"
+                  loading="lazy"
+                />
+              </GitHubStatCard>
+
+              <StreakCard
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <h4>🔥 연속 커밋 스트릭</h4>
+                <img 
+                  src="https://streak-stats.demolab.com/?user=dongkyukim1&theme=dark&cache_bust=1"
+                  alt="GitHub Streak"
+                  className="github-image"
+                  loading="lazy"
+                />
+              </StreakCard>
+            </GitHubStatsGrid>
+          </GitHubSection>
         </AboutContent>
       </Container>
     </AboutSection>
