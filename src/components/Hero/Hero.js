@@ -1258,13 +1258,12 @@ const Hero = () => {
               </PrimaryButton>
 
               <SecondaryButton
-                href="#contact"
+                href="/resume_2025.pdf"
+                download="김동규_프론트앤드&PM_이력서_2025.pdf"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaDownload />
                 이력서 다운로드
