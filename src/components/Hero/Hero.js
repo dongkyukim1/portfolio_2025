@@ -1238,7 +1238,7 @@ const Hero = () => {
             <Description variants={itemVariants}>
               <strong>웹부터 앱까지, 플랫폼을 넘나드는 프론트엔드 개발자입니다.</strong>
               <br />
-              React, Vue.js, Flutter로 사용자 중심의 경험을 설계하고, 팀과의 소통을 통해 복잡한 문제를 창의적으로 해결합니다.
+              다양한 언어와 프레임워크를 활용하여 사용자 중심의 경험을 설계하고, 팀과의 소통을 통해 복잡한 문제를 창의적으로 해결합니다.
               <br />
               <strong>비전공자에서 PL까지, 끊임없는 도전과 성장을 추구합니다. 🌟</strong>
             </Description>
