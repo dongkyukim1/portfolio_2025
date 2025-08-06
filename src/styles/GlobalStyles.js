@@ -65,7 +65,7 @@ export const Section = styled.section`
   overflow: hidden;
 `;
 
-export const SectionTitle = styled.h2`
+export const SectionTitle = styled(motion.h2)`
   font-family: 'Pretendard-Bold';
   font-size: 3rem;
   font-weight: 900;
@@ -227,11 +227,14 @@ export const DataStream = styled(motion.div)`
   background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.3), transparent);
 `;
 
-export const GeometricOrb = styled(motion.div)`
+export const GeometricOrb = styled(motion.div).attrs(props => ({
+  style: {
+    background: props.gradient || 'radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%)',
+    filter: `blur(${props.blur || '1px'})`
+  }
+}))`
   position: absolute;
   border-radius: 50%;
-  background: ${props => props.gradient || 'radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%)'};
-  filter: blur(${props => props.blur || '1px'});
 `;
 
 // Hero 스타일 고급 배경 컴포넌트들
@@ -268,11 +271,14 @@ export const CodeMatrix = styled(motion.div)`
   user-select: none;
 `;
 
-export const InteractiveParticle = styled(motion.div)`
+export const InteractiveParticle = styled(motion.div).attrs(props => ({
+  style: {
+    background: props.color || 'rgba(59, 130, 246, 0.6)'
+  }
+}))`
   position: absolute;
   width: 4px;
   height: 4px;
-  background: ${props => props.color || 'rgba(59, 130, 246, 0.6)'};
   border-radius: 50%;
   pointer-events: none;
 `;
@@ -396,8 +402,7 @@ const GlobalStyles = createGlobalStyle`
     font-style: normal;
   }
 
-  /* Fira Code 폰트 - 코드 표시용 */
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+  /* Fira Code 폰트는 index.html에서 로드 */
 
   * {
     margin: 0;

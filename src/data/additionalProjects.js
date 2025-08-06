@@ -1,6 +1,6 @@
 export const additionalProjectsData = {
   title: "2024년 진행한 기타 프로젝트",
-  description: "메인 프로젝트 외에 올해 학습과 성장을 위해 진행한 다양한 프로젝트들",
+  description: "메인 프로젝트 외에 학습과 성장을 위해 진행한 다양한 프로젝트들",
   
   projects: [
     {
