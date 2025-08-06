@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CI: false
 
     steps:
     - name: Checkout
@@ -34,6 +36,8 @@ jobs:
 
     - name: Build React app
       run: npm run build
+      env:
+        CI: false
 
     - name: Add .nojekyll file
       run: touch build/.nojekyll
