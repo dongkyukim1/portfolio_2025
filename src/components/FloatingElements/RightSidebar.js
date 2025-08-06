@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaChevronLeft, FaImages, FaInfoCircle, FaTimes } from 'react-icons/fa';
+import { FaImages, FaInfoCircle, FaTimes } from 'react-icons/fa';
 import { breakpoints } from '../../styles/GlobalStyles';
-import portfolioData from '../../data/portfolio';
+
 
 // 갤러리 이미지 import
 import devhubImg from '../../assets/gallery/devhub.gif';
@@ -12,21 +12,39 @@ import dogfootImg from '../../assets/gallery/dogfoot.png';
 import littlebankImg from '../../assets/gallery/littlebank.png';
 import littlebankAdminImg from '../../assets/gallery/littlebank_admin.png';
 import pmkAdminImg from '../../assets/gallery/pmk_admin.png';
-import trippleaiImg from '../../assets/gallery/trippleai.png';
+import tripplaiImg from '../../assets/gallery/trippleai.png';
 
 // 사이드바 컨테이너
 const SidebarContainer = styled.div`
   position: fixed;
-  right: 20px;
+  right: 30px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 100;
+  z-index: 999999;
   display: flex;
   align-items: center;
   gap: 10px;
 
   @media (max-width: ${breakpoints.laptop}) {
-    display: none;
+    right: 25px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    right: 20px;
+    gap: 8px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    right: 15px;
+    gap: 6px;
+    top: auto;
+    bottom: 30px;
+    transform: none;
+  }
+
+  @media (max-width: 480px) {
+    right: 12px;
+    bottom: 25px;
   }
 `;
 
@@ -62,22 +80,82 @@ const ToggleButton = styled(motion.button)`
     background: rgba(102, 126, 234, 0.3);
     border-color: rgba(102, 126, 234, 0.5);
   }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
 `;
 
-// 패널 베이스
+// 패널 베이스 
 const PanelBase = styled(motion.div)`
-  position: fixed;
-  right: 80px;
-  top: 5%;
-  width: 400px;
-  max-height: 90vh;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 1.2rem;
-  overflow-y: auto;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  position: fixed !important;
+  top: 0px !important;
+  right: 20px !important;
+  transform: translateY(0) !important;
+  width: 500px !important;
+  max-width: calc(100vw - 40px) !important;
+  max-height: 70vh !important;
+  background: rgba(0, 0, 0, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 2px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  padding: 1.5rem !important;
+  overflow: hidden !important;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+  z-index: 1000000 !important;
+  cursor: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 70vh !important;
+
+  /* 모든 화면 크기에서 커서 강제 설정 */
+  * {
+    cursor: auto !important;
+  }
+  
+  button, a, [role="button"], .clickable {
+    cursor: pointer !important;
+  }
+
+  /* 스크롤 영역 확실히 설정 */
+  scroll-behavior: smooth !important;
+
+  @media (max-width: ${breakpoints.laptop}) {
+    width: 450px !important;
+    padding: 1.8rem !important;
+    top: 0px !important;
+    max-height: 70vh !important;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 400px !important;
+    padding: 1.5rem !important;
+    max-height: 75vh !important;
+    top: 0px !important;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    position: fixed !important;
+    top: 0px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, 0) !important;
+    width: calc(100vw - 30px) !important;
+    max-width: none !important;
+    max-height: 80vh !important;
+    padding: 1.2rem !important;
+    border-radius: 16px !important;
+  }
 
   /* 스크롤바 스타일링 */
   &::-webkit-scrollbar {
@@ -103,84 +181,158 @@ const PanelBase = styled(motion.div)`
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
 `;
 
-// 패널 헤더
+// 패널 헤더 - 고정되도록
 const PanelHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  flex-shrink: 0 !important;
 
   h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    font-family: 'Pretendard-Bold' !important;
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.8rem !important;
+    margin: 0 !important;
   }
 `;
 
-// 닫기 버튼
+// 닫기 버튼 - 더 눈에 띄게
 const CloseButton = styled.button`
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 1.2rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
 
   &:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: rgba(255, 0, 0, 0.4);
     color: white;
-    transform: rotate(90deg);
+    transform: scale(1.1);
   }
 `;
 
-// 갤러리 그리드
-const GalleryGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+// 스크롤 가능한 갤러리 컨테이너
+const ScrollableGalleryContainer = styled.div`
+  flex: 1 !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  overflow: auto !important;
+  padding-right: 10px !important;
+  margin-right: -10px !important;
+  height: 100% !important;
+  max-height: 350px !important;
+  min-height: 350px !important;
+  
+  /* 스크롤바 스타일링 */
+  &::-webkit-scrollbar {
+    width: 8px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 4px !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 4px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  /* Firefox 스크롤바 */
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05) !important;
 `;
 
-// 갤러리 아이템
+// 갤러리 그리드 - 스크롤 가능한 2열 레이아웃
+const GalleryGrid = styled.div`
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  padding-bottom: 4rem !important;
+  min-height: auto !important;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    gap: 0.8rem !important;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem !important;
+  }
+`;
+
+// 갤러리 아이템 - 강제 커서 및 호버 효과  
 const GalleryItem = styled(motion.div)`
-  aspect-ratio: 16/9;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  background: rgba(255, 255, 255, 0.05);
+  aspect-ratio: 16/10 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  position: relative !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  min-height: 200px !important;
+  height: auto !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
   }
 
   .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 1rem !important;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent) !important;
+    color: white !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    opacity: 0 !important;
+    transform: translateY(10px) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
   }
 
   &:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    
     img {
-      transform: scale(1.05);
+      transform: scale(1.05) !important;
+      filter: brightness(1.1) !important;
     }
 
     .overlay {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: 1 !important;
+      transform: translateY(0) !important;
     }
   }
 `;
@@ -213,9 +365,14 @@ const StatusItem = styled.div`
   border-radius: 10px;
   margin-bottom: 0.6rem;
   transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   }
 
   .label {
@@ -235,6 +392,11 @@ const StatusItem = styled.div`
 
     .value {
       color: #667eea;
+    }
+
+    &:hover {
+      background: rgba(102, 126, 234, 0.2);
+      border-color: rgba(102, 126, 234, 0.5);
     }
   }
 `;
@@ -266,12 +428,25 @@ const SkillTag = styled.span`
   }
 `;
 
+// 오버레이 배경 - 더 강력한 배경
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999999;
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+`;
+
 const RightSidebar = () => {
   const [activePanel, setActivePanel] = useState(null);
   const navigate = useNavigate();
 
   const togglePanel = (panel) => {
-    setActivePanel(activePanel === panel ? null : panel);
+  setActivePanel(activePanel === panel ? null : panel);
   };
 
   const handleGalleryClick = (title) => {
@@ -291,7 +466,7 @@ const RightSidebar = () => {
   const galleryImages = [
     { src: littlebankImg, title: 'LittleBank App', clickable: true },
     { src: devhubImg, title: 'DevHub Platform', clickable: true },
-    { src: trippleaiImg, title: 'Tripple AI', clickable: true },
+    { src: tripplaiImg, title: 'Tripple AI', clickable: true },
     { src: pmkAdminImg, title: 'PMK Admin', clickable: true },
     { src: littlebankAdminImg, title: 'LittleBank Admin', clickable: true },
     { src: dogfootImg, title: 'Dogfoot Project', clickable: true }
@@ -305,16 +480,26 @@ const RightSidebar = () => {
     location: 'Seoul, Korea'
   };
 
+
+  
   return (
     <SidebarContainer>
       <AnimatePresence mode="wait">
         {activePanel === 'gallery' && (
-          <PanelBase
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            transition={{ duration: 0.3 }}
-          >
+          <>
+            <Overlay
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActivePanel(null)}
+            />
+            <PanelBase
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+            >
             <PanelHeader>
               <h3>
                 <FaImages />
@@ -325,33 +510,44 @@ const RightSidebar = () => {
               </CloseButton>
             </PanelHeader>
 
-            <GalleryGrid>
-              {galleryImages.map((image, index) => (
-                <GalleryItem
-                  key={index}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => image.clickable && handleGalleryClick(image.title)}
-                  style={{ cursor: image.clickable ? 'pointer' : 'default' }}
-                >
-                  <img src={image.src} alt={image.title} />
-                  <div className="overlay">
-                    {image.title}
-                    {image.clickable && <span style={{ color: '#667eea', fontSize: '0.8rem', display: 'block' }}>클릭하여 상세보기</span>}
-                  </div>
-                </GalleryItem>
-              ))}
-            </GalleryGrid>
+            <ScrollableGalleryContainer>
+              <GalleryGrid>
+                {galleryImages.map((image, index) => (
+                  <GalleryItem
+                    key={index}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => image.clickable && handleGalleryClick(image.title)}
+                    style={{ cursor: image.clickable ? 'pointer' : 'default' }}
+                  >
+                    <img src={image.src} alt={image.title} />
+                    <div className="overlay">
+                      {image.title}
+                      {image.clickable && <span style={{ color: '#667eea', fontSize: '0.8rem', display: 'block' }}>클릭하여 상세보기</span>}
+                    </div>
+                  </GalleryItem>
+                ))}
+              </GalleryGrid>
+            </ScrollableGalleryContainer>
           </PanelBase>
+          </>
         )}
 
         {activePanel === 'status' && (
-          <PanelBase
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            transition={{ duration: 0.3 }}
-          >
+          <>
+            <Overlay
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActivePanel(null)}
+            />
+            <PanelBase
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+            >
             <PanelHeader>
               <h3>
                 <FaInfoCircle />
@@ -393,6 +589,7 @@ const RightSidebar = () => {
               </SkillTagContainer>
             </StatusSection>
           </PanelBase>
+          </>
         )}
       </AnimatePresence>
 
