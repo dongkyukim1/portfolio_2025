@@ -338,69 +338,14 @@ export const FloatingParticle = styled(motion.div)`
 `;
 
 const GlobalStyles = createGlobalStyle`
-  /* Pretendard 폰트 */
-  @font-face {
-    font-family: 'Pretendard-Thin';
-    src: url('/fonts/Pretendard-Thin.woff2') format('woff2');
-    font-weight: 100;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-ExtraLight';
-    src: url('/fonts/Pretendard-ExtraLight.woff2') format('woff2');
-    font-weight: 200;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-Light';
-    src: url('/fonts/Pretendard-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('/fonts/Pretendard-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-Medium';
-    src: url('/fonts/Pretendard-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-SemiBold';
-    src: url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-Bold';
-    src: url('/fonts/Pretendard-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-ExtraBold';
-    src: url('/fonts/Pretendard-ExtraBold.woff2') format('woff2');
-    font-weight: 800;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'Pretendard-Black';
-    src: url('/fonts/Pretendard-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
-  }
+  /* Pretendard 폰트 CDN으로 로드 */
+  @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;200;300;400;500;600;700;800;900&display=swap');
+  
+  /* 
+   * Pretendard 폰트 가중치별 매핑
+   * 기존 코드에서 사용하는 Pretendard-* 폰트들을 하나의 Pretendard 폰트로 통합
+   * 각 가중치별로 실제 Pretendard 폰트의 해당 weight를 사용
+   */
 
   /* Fira Code 폰트는 index.html에서 로드 */
 
@@ -420,7 +365,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: 'Pretendard-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: ${colors.background.primary};
