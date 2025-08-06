@@ -35,7 +35,9 @@ const ExperienceGrid = styled.div`
   margin: 0 auto;
 `;
 
-const ExperienceCard = styled(motion.div)`
+const ExperienceCard = styled(motion.div).withConfig({
+  shouldForwardProp: (prop) => !['current', 'type'].includes(prop)
+})`
   background: ${props => props.current ? 'rgba(16, 185, 129, 0.03)' : 'rgba(255, 255, 255, 0.02)'};
   backdrop-filter: blur(10px);
   border: 1px solid ${props => props.current ? 'rgba(16, 185, 129, 0.3)' : 'rgba(255, 255, 255, 0.1)'};

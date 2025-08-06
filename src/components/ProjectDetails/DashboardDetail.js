@@ -113,7 +113,9 @@ const TabContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const Tab = styled(motion.button)`
+const Tab = styled(motion.button).withConfig({
+  shouldForwardProp: (prop) => prop !== 'active'
+})`
   padding: 15px 30px;
   background: ${props => props.active ? 
     'linear-gradient(135deg, #3b82f6, #8b5cf6)' : 

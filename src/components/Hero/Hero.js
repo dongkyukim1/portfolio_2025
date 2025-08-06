@@ -1363,7 +1363,7 @@ const Hero = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                     >
-                      {currentProject.name} - 클릭하여 상세보기
+                      {currentProject.name} - 상세보기
                     </ProjectLabel>
                   </ClickableDeviceContainer>
                 </motion.div>

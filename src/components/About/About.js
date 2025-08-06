@@ -17,7 +17,7 @@ const AboutSection = styled(TransparentSectionBackground)`
   position: relative;
 `;
 
-const AboutContent = styled.div`
+const AboutContent = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 4rem;
