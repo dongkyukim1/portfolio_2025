@@ -375,7 +375,9 @@ const ProjectActions = styled.div`
   gap: 0.5rem;
 `;
 
-const ActionButton = styled.a`
+const ActionButton = styled.a.withConfig({
+  shouldForwardProp: (prop) => prop !== 'primary'
+})`
   flex: 1;
   background: ${props => props.primary ? 'rgba(102, 126, 234, 0.2)' : 'transparent'};
   color: ${props => props.primary ? '#a5b4fc' : colors.text.secondary};
@@ -401,7 +403,9 @@ const ActionButton = styled.a`
   }
 `;
 
-const StatusBadge = styled.span`
+const StatusBadge = styled.span.withConfig({
+  shouldForwardProp: (prop) => prop !== 'status'
+})`
   position: absolute;
   top: 1rem;
   right: 1rem;

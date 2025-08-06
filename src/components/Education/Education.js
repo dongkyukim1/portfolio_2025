@@ -249,7 +249,9 @@ const CertificateHeader = styled.div`
   }
 `;
 
-const CertificateDetails = styled.div`
+const CertificateDetails = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'status'
+})`
   .cert-date {
     font-size: 0.9rem;
     color: ${colors.text.tertiary};

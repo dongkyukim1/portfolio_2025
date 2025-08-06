@@ -28,6 +28,7 @@ import TripplaiDetail from './components/ProjectDetails/TripplaiDetail';
 import DevHubDetail from './components/ProjectDetails/DevHubDetail';
 import DashboardDetail from './components/ProjectDetails/DashboardDetail';
 import DogfootDetail from './components/ProjectDetails/DogfootDetail';
+import HRAlert from './components/UI/HRAlert';
 
 const theme = {
   colors: {
@@ -291,6 +292,29 @@ function App() {
   useEffect(() => {
     // Smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
+    
+    // 개발자 도구에 이쁜 연락처 정보 표시 (중복 방지)
+    if (!window.portfolioMessageShown) {
+      window.portfolioMessageShown = true;
+      
+      const styles = {
+        header: 'color: #3b82f6; font-size: 20px; font-weight: bold; text-shadow: 1px 1px 2px rgba(59, 130, 246, 0.3);',
+        name: 'color:rgb(59, 246, 131); font-size: 16px; font-weight: bold;',
+        phone: 'color: #10b981; font-size: 16px; font-weight: bold; background: linear-gradient(90deg, #10b981, #06d6a0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;',
+        email: 'color: #8b5cf6; font-size: 16px; font-weight: bold;',
+        message: 'color: #64748b; font-size: 14px; font-style: italic;',
+        border: 'color: #3b82f6; font-size: 14px;'
+      };
+
+      console.log('%c🚀 방문해주셔서 감사합니다!', styles.header);
+      console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', styles.border);
+      console.log('%c 💪 이름: 김동규', styles.name);
+      console.log('%c📞 연락처: 010-4048-8292', styles.phone);
+      console.log('%c✉️ 이메일: ehdrb12123@naver.com', styles.email);
+      console.log('%c💼 언제든지 연락주세요! 새로운 기회를 기다리고 있습니다.', styles.message);
+      console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', styles.border);
+      console.log('%c🌟 Front-end Developer | PM | 프로젝트 관리 전문가', styles.header);
+    }
   }, []);
 
   return (
@@ -323,6 +347,9 @@ function App() {
             <Route path="/project/dashboard" element={<DashboardDetail />} />
             <Route path="/project/dogfoot" element={<DogfootDetail />} />
           </Routes>
+          
+          {/* 서류담당자를 위한 알람 - 모든 페이지에서 표시 */}
+          <HRAlert />
         </AppContainer>
       </Router>
     </ThemeProvider>

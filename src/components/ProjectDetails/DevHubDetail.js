@@ -1111,7 +1111,9 @@ const ActivityBar = styled.div`
   padding: 0.5rem 0;
 `;
 
-const ActivityItem = styled.div`
+const ActivityItem = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'active'
+})`
   width: 32px;
   height: 32px;
   margin: 0.25rem 0;
@@ -1166,7 +1168,9 @@ const ExplorerHeader = styled.h3`
   letter-spacing: 0.5px;
 `;
 
-const FileItem = styled.div`
+const FileItem = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'active'
+})`
   display: flex;
   align-items: center;
   padding: 0.25rem 0.5rem;
@@ -1218,7 +1222,9 @@ const OutlineHeader = styled.h3`
   letter-spacing: 0.5px;
 `;
 
-const OutlineItem = styled.div`
+const OutlineItem = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'active'
+})`
   display: flex;
   align-items: center;
   padding: 0.25rem 0.5rem;
@@ -1262,7 +1268,9 @@ const TabBar = styled.div`
   min-height: 35px;
 `;
 
-const Tab = styled.div`
+const Tab = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'active'
+})`
   background: ${props => props.active ? mainColor.vscode.activeTab : mainColor.vscode.inactiveTab};
   border-right: 1px solid ${mainColor.vscode.border};
   border-top: ${props => props.active ? `2px solid ${mainColor.primary}` : '2px solid transparent'};
@@ -1396,7 +1404,9 @@ const ActionButtons = styled.div`
   }
 `;
 
-const ActionButton = styled.a`
+const ActionButton = styled.a.withConfig({
+  shouldForwardProp: (prop) => prop !== 'primary'
+})`
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1738,7 +1748,9 @@ const DemoTabs = styled.div`
   }
 `;
 
-const DemoTab = styled.button`
+const DemoTab = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== 'active'
+})`
   background: ${props => props.active ? mainColor.vscode.activeTab : 'transparent'};
   border: none;
   border-bottom: ${props => props.active ? `3px solid ${mainColor.primary}` : '3px solid transparent'};

@@ -912,7 +912,9 @@ const SideNavigation = styled.div`
   }
 `;
 
-const NavButton = styled.button`
+const NavButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => !['active', 'label'].includes(prop)
+})`
   background: ${props => props.active ? mainColor.primary : 'transparent'};
   color: ${props => props.active ? 'white' : mainColor.text.secondary};
   border: 1px solid ${props => props.active ? mainColor.primary : 'rgba(255, 255, 255, 0.1)'};

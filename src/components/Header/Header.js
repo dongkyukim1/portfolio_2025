@@ -7,8 +7,6 @@ import { breakpoints } from '../../styles/GlobalStyles';
 import musicFile1 from '../../assets/music/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].mp3';
 import musicFile2 from '../../assets/music/HUNTRX (헌트릭스) - How Its Done [가사  Lyrics].mp3';
 
-console.log('Music file paths:', { musicFile1, musicFile2 }); // 디버깅용
-
 const HeaderContainer = styled(motion.header)`
   position: fixed;
   top: 0;
