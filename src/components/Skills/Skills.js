@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   FaJava, FaPython, FaJs, FaReact, FaVuejs, FaAws, FaDocker, 
   FaGitAlt, FaDatabase, FaServer, FaCode, FaTools, FaAndroid, FaSlack, FaFigma, FaDiscord,
-  FaUsers
+  FaUsers, FaShieldAlt, FaLock, FaUserShield, FaKey, FaEye, FaUserCheck
 } from 'react-icons/fa';
 import { 
   SiSpring, SiFlask, SiMysql, SiOracle, SiRedis, SiMongodb, 
@@ -1121,6 +1121,14 @@ const skillIcons = {
   'Gunicorn': { icon: <FaServer />, color: '#499848' },
   'Node.js': { icon: <SiNodedotjs />, color: '#339933' },
   
+  // Security
+  'GPKI': { icon: <FaKey />, color: '#e74c3c' },
+  'Spring Security': { icon: <FaShieldAlt />, color: '#6db33f' },
+  '보안 필터': { icon: <FaLock />, color: '#f39c12' },
+  '세션 관리': { icon: <FaUserCheck />, color: '#3498db' },
+  'XSS 방지': { icon: <FaEye />, color: '#9b59b6' },
+  '접근 제어': { icon: <FaUserShield />, color: '#e67e22' },
+
   // Others
   'HTML': { icon: <FaCode />, color: '#e34c26' },
   'CSS': { icon: <FaCode />, color: '#1572b6' },
@@ -1137,6 +1145,7 @@ const Skills = () => {
     { title: '데이터베이스', icon: <FaDatabase />, skills: skills.databases },
     { title: '클라우드/배포', icon: <FaAws />, skills: skills.cloud },
     { title: '개발 도구', icon: <FaTools />, skills: skills.tools },
+    { title: '보안 기술', icon: <FaShieldAlt />, skills: skills.security },
     { title: '협업 도구', icon: <FaUsers />, skills: skills.collaboration },
     { title: '서버', icon: <FaServer />, skills: skills.servers },
     { title: '기타', icon: <FaCode />, skills: skills.others }

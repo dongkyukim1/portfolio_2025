@@ -37,6 +37,9 @@ import tripplaiLogo from '../../assets/projects/logo/Tripplailogo.png';
 import pmkAdminImage from '../../assets/gallery/pmk_admin.png';
 import littlebankAdminImage from '../../assets/gallery/littlebank_admin.png';
 import lguSecurityImage from '../../assets/projects/management/LGU+security.png';
+import lguCleaningImage from '../../assets/projects/management/LGU+Cleaning.png';
+import lguAuthImage from '../../assets/projects/visual_LGU+/인증.png';
+import lguUserMgmtImage from '../../assets/projects/visual_LGU+/사용자관리.png';
 
 // 2024년 기타 프로젝트 썸네일 이미지 import
 import vuePortfolioImg from '../../assets/projects/2024_projects/Vue_portfolio.png';
@@ -855,7 +858,9 @@ const Projects = () => {
     'AI 이미지 생성기': aiImageImg,
     'Java Swing 미니프로젝트': swingImg,
     'Vue.js 포트폴리오': vuePortfolioImg,
-    'RPA 자동화': rpaImg
+    'RPA 자동화': rpaImg,
+    'LGU+ 보안 모듈 연구': lguAuthImage,
+    '레거시 시스템 현대화': lguCleaningImage
   };
 
   const getProjectIcon = (project) => {
@@ -865,6 +870,8 @@ const Projects = () => {
     if (project.title.includes('PMK') || project.title.includes('콜시스템')) return '📞';
     if (project.title.includes('LittleBank 어드민')) return '💰';
     if (project.title.includes('LGU+') || project.title.includes('Visual Ring')) return '⚙️';
+    if (project.title.includes('보안') || project.title.includes('Security')) return '🔒';
+    if (project.title.includes('레거시') || project.title.includes('현대화')) return '🔧';
     if (project.title.includes('포트폴리오')) return '🌐';
     if (project.title.includes('Spring Boot') || project.title.includes('API')) return '⚙️';
     if (project.title.includes('React') || project.title.includes('TypeScript')) return <FaCode />;

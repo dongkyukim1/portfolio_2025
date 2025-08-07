@@ -13,6 +13,9 @@ import pmkManagementImage from '../../assets/projects/dashboard/pmk_callsystem/m
 // LGU+ 시스템 이미지 import
 import lguCleaningImage from '../../assets/projects/management/LGU+Cleaning.png';
 import lguSecurityImage from '../../assets/projects/management/LGU+security.png';
+import lguAuthImage from '../../assets/projects/visual_LGU+/인증.png';
+import lguUserMgmtImage from '../../assets/projects/visual_LGU+/사용자관리.png';
+import lguServiceMgmtImage from '../../assets/projects/visual_LGU+/서비스관리.png';
 
 // LittleBank Admin 이미지 import 
 import littlebankAdminMainImage from '../../assets/projects/dashboard/littlebank_admin/littlebank_admin.png';
@@ -376,8 +379,11 @@ function DashboardDetail() {
   ];
 
   const lguImages = [
-    { src: lguCleaningImage, caption: 'LGU+ 시스템 클리닝 작업' },
-    { src: lguSecurityImage, caption: 'LGU+ 보안 시스템 관리' }
+    { src: lguSecurityImage, caption: 'LGU+ Visual Ring Biz 보안 취약점 개선 작업' },
+    { src: lguAuthImage, caption: 'GPKI 인증 시스템 보안 강화' },
+    { src: lguUserMgmtImage, caption: '사용자 관리 시스템 인터페이스' },
+    { src: lguServiceMgmtImage, caption: '서비스 관리 대시보드' },
+    { src: lguCleaningImage, caption: '시스템 클리닝 및 최적화 작업' }
   ];
 
   const littlebankAdminImages = [
@@ -427,20 +433,27 @@ function DashboardDetail() {
     lguplus: {
       title: "LGU+ Visual Ring Biz 시스템 유지보수",
       client: "LG유플러스",
-      description: "LGU+ Visual Ring Biz 서비스의 안정적인 운영을 위한 시스템 유지보수 및 신규 기능 개발",
+      description: "LGU+ Visual Ring Biz 서비스의 안정적인 운영을 위한 시스템 유지보수 및 대규모 보안 취약점 개선 작업을 담당",
       features: [
-        "Spring Framework 기반 웹 애플리케이션 유지보수",
-        "데이터베이스 성능 최적화 및 쿼리 튜닝",
-        "시스템 장애 분석 및 신속한 해결",
-        "신규 비즈니스 요구사항 개발 및 배포",
-        "보안 패치 및 시스템 업데이트",
-        "코드 리팩토링 및 성능 개선"
+        "웹 애플리케이션 보안 취약점 분석 및 개선: EgovGpkiVariables.js 파일의 민감한 정보 노출 문제 해결",
+        "리소스 접근 제어 시스템 구축: ResourceAccessFilter를 통한 민감한 JS 파일 접근 제어",
+        "보안 헤더 필터 구현: XSS 방지, 클릭재킹 방지, MIME 스니핑 방지 등 다양한 보안 헤더 적용",
+        "동적 GPKI 설정 시스템: 민감한 설정 정보를 정적 파일에서 동적 API로 변경하여 보안 강화",
+        "Spring Framework 기반 웹 애플리케이션 유지보수 및 성능 최적화",
+        "Apache Tomcat 8.0.43 기반 레거시 시스템 보안 강화",
+        "컨택센터 시스템 안정성 유지: 기존 기능 영향 없이 보안 개선 작업 완료",
+        "시스템 장애 분석 및 신속한 해결, 정기적인 보안 점검"
       ],
-      techStack: ["Java", "Spring Framework", "Spring Security", "Spring Data JPA", "Hibernate", "QueryDSL", "Oracle", "JavaScript", "JSP", "Apache Tomcat", "Maven/Gradle", "LG Security Module"],
+      techStack: ["Java", "Spring Framework", "Spring Security", "Spring Data JPA", "Hibernate", "QueryDSL", "Oracle", "JavaScript", "JSP", "Apache Tomcat", "Maven/Gradle", "GPKI", "보안 필터", "세션 관리"],
       stats: [
+        { number: "100%", label: "보안 취약점 해결" },
         { number: "99.8%", label: "시스템 안정성" },
-        { number: "40%", label: "쿼리 성능 향상" },
-        { number: "30%", label: "장애 발생률 감소" }
+        { number: "0분", label: "보안 작업 다운타임" }
+      ],
+      challenges: [
+        "보안 개선과 기능 유지의 균형: 기존 GPKI 인증 기능을 손상시키지 않으면서 보안 취약점을 해결하는 것이 가장 큰 도전이었습니다.",
+        "레거시 시스템 보안 강화: Apache Tomcat 8.0.43 기반의 오래된 시스템에서 최신 보안 기준을 적용하는 작업이 복잡했습니다.",
+        "민감 정보 노출 차단: 서버 인증서, 내부 IP 주소 등의 민감한 정보를 완전히 차단하면서도 정상적인 서비스 이용은 가능하도록 설계했습니다."
       ]
     }
   };
@@ -738,6 +751,21 @@ function DashboardDetail() {
                   <TechTag key={idx}>{tech}</TechTag>
                 ))}
               </TechStack>
+
+              <div style={{ marginTop: '20px' }}>
+                <h4 style={{ color: '#f59e0b', marginBottom: '15px' }}>기술적 도전과 해결</h4>
+                <div style={{ background: 'rgba(245, 158, 11, 0.1)', padding: '20px', borderRadius: '10px', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
+                  {dashboards.lguplus.challenges.map((challenge, idx) => (
+                    <div key={idx} style={{ 
+                      marginBottom: idx < dashboards.lguplus.challenges.length - 1 ? '15px' : '0',
+                      padding: '10px 0',
+                      borderBottom: idx < dashboards.lguplus.challenges.length - 1 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none'
+                    }}>
+                      <div style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>{challenge}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
               
               <div style={{ marginTop: '30px' }}>
                 <h4 style={{ color: '#8b5cf6', marginBottom: '15px' }}>시스템 작업 스크린샷</h4>
