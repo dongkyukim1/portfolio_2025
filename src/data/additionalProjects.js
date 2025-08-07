@@ -62,6 +62,26 @@ export const additionalProjectsData = {
       status: "완료",
       type: "personal",
       category: "자동화"
+    },
+    {
+      title: "LGU+ 보안 모듈 연구",
+      period: "2024.11",
+      role: "보안 연구원",
+      description: "LGU+ 시스템의 보안 아키텍처 분석 및 보안 강화 방안 연구",
+      tech: ["Java", "Spring Security", "GPKI", "보안 필터", "세션 관리"],
+      status: "완료",
+      type: "learning",
+      category: "보안 연구"
+    },
+    {
+      title: "레거시 시스템 현대화",
+      period: "2024.10",
+      role: "시스템 아키텍트",
+      description: "Apache Tomcat 8.0 기반 레거시 시스템의 보안 현대화 작업",
+      tech: ["Apache Tomcat", "Java Filter", "보안 헤더", "접근 제어"],
+      status: "완료",
+      type: "learning",
+      category: "시스템 현대화"
     }
   ]
 };

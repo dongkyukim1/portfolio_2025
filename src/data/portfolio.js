@@ -44,6 +44,7 @@ export const portfolioData = {
     tools: ["IntelliJ IDEA", "PyCharm", "Android Studio", "VSCode", "Eclipse", "Git", "Maven/Gradle"],
     collaboration: ["Slack", "Notion", "Figma", "Discord"],
     servers: ["Apache Tomcat", "Gunicorn", "Node.js"],
+    security: ["GPKI", "Spring Security", "보안 필터", "세션 관리", "XSS 방지", "접근 제어"],
     others: ["HTML", "CSS", "LLM", "Swagger"]
   },
 
@@ -52,7 +53,7 @@ export const portfolioData = {
       company: "넷컴솔루션",
       position: "풀스택 개발자",
       period: "2024.10 ~ 현재",
-      description: "LGU+ MCS 시스템 유지보수 및 제네시스클라우드 콜시스템 개발",
+      description: "LGU+ Visual Ring Biz 시스템 유지보수 및 보안 강화, PMK 제네시스클라우드 콜시스템 개발",
       type: "employment",
       current: true
     },
