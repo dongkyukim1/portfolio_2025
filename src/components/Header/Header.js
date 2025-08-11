@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FaPlay, FaPause, FaBars, FaTimes, FaVolumeMute, FaVolumeUp, FaSpotify, FaStepForward, FaStepBackward } from 'react-icons/fa';
+import grafanaLogo from '../../assets/dongkyu/grafana.png';
 import { breakpoints } from '../../styles/GlobalStyles';
 import musicFile1 from '../../assets/music/전영호 - Butter-Fly [디지몬 어드벤처] [가사Lyrics].mp3';
 import musicFile2 from '../../assets/music/HUNTRX (헌트릭스) - How Its Done [가사  Lyrics].mp3';
+import musicFile3 from '../../assets/music/No_Roots.mp3';
 
 const HeaderContainer = styled(motion.header)`
   position: fixed;
@@ -19,7 +21,8 @@ const HeaderContainer = styled(motion.header)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  /* 오른쪽 여백을 줄여 네비게이션(CONTACT)과 우측 버튼 간격을 축소 */
+  padding: 0 28px 0 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
   @media (max-width: ${breakpoints.tablet}) {
@@ -118,10 +121,54 @@ const NavItem = styled(motion.a)`
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
+  /* 우측 요소들 간 간격 축소 */
+  gap: 18px;
 
   @media (max-width: ${breakpoints.mobile}) {
-    gap: 20px;
+    gap: 12px;
+  }
+`;
+
+const GrafanaLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: white;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.10);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 6px 10px;
+  }
+`;
+
+const GrafanaIcon = styled.img`
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const GrafanaText = styled.span`
+  font-family: 'Pretendard-SemiBold';
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 0.85rem;
   }
 `;
 
@@ -416,6 +463,11 @@ const Header = () => {
       file: musicFile2,
       name: 'How Its Done',
       artist: 'HUNTRX (헌트릭스)'
+    },
+    {
+      file: musicFile3,
+      name: 'No Roots',
+      artist: 'Alice Merton'
     }
   ];
 
@@ -594,8 +646,13 @@ const Header = () => {
 
   const sections = ['home', 'about', 'skills', 'experience', 'projects', 'education', 'contact'];
 
-  const handleNavClick = (e, href) => {
+  const handleNavClick = (e, href, isRoute) => {
     e.preventDefault();
+    if (isRoute) {
+      navigate(href);
+      setIsMenuOpen(false);
+      return;
+    }
     const targetId = href.replace('#', '');
     
     // 프로젝트 상세 페이지에서는 메인 페이지로 이동 후 해당 섹션으로 이동
@@ -644,7 +701,7 @@ const Header = () => {
             <NavItem
               key={item.name}
               href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
+              onClick={(e) => handleNavClick(e, item.href, item.isRoute)}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -656,6 +713,17 @@ const Header = () => {
         </Navigation>
 
         <RightSection>
+          {/* Grafana 로그인 링크 */}
+          <GrafanaLink
+            href="https://grafana.dongkyukim.com/login"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Grafana Login"
+          >
+            <GrafanaIcon src={grafanaLogo} alt="Grafana" />
+            <GrafanaText>Grafana</GrafanaText>
+          </GrafanaLink>
+
           <MusicPlayer
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
