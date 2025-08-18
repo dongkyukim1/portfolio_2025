@@ -99,11 +99,14 @@ const VisitorCounter = () => {
   const [error, setError] = useState('');
   const [isVisible, setIsVisible] = useState(false); // 초기에는 숨김
 
-  // 서버 URL 설정
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://3.34.52.239:8080';
+  // 서버 URL 설정 (환경변수만 사용, 기본 하드코드 제거)
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
 
   // 방문 기록 및 오늘 방문자 수 조회
   const trackVisitAndGetStats = async () => {
+    if (!API_BASE_URL) {
+      return;
+    }
     try {
       setLoading(true);
       setError('');
@@ -168,6 +171,12 @@ const VisitorCounter = () => {
 
   // 컴포넌트 마운트 시 실행
   useEffect(() => {
+    if (!API_BASE_URL) {
+      // API가 설정되지 않은 경우 방문자 기능 비활성화
+      setLoading(false);
+      return;
+    }
+
     trackVisitAndGetStats();
 
     // 10분마다 방문자 수 갱신 (방문 기록 없이 조회만)
@@ -192,7 +201,7 @@ const VisitorCounter = () => {
     }, 10 * 60 * 1000); // 10분
 
     return () => clearInterval(interval);
-  }, [API_BASE_URL, trackVisitAndGetStats]);
+  }, [API_BASE_URL]);
 
   // 보이지 않을 때는 렌더링하지 않음
   if (!isVisible) {
