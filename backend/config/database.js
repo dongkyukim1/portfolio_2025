@@ -51,6 +51,10 @@ async function initializeDatabase() {
     // 테이블 생성
     await createTables();
     
+    // 방문자 모델 테이블 생성
+    const Visitor = require('../models/Visitor');
+    await Visitor.createTable();
+    
   } catch (error) {
     console.error('❌ 데이터베이스 초기화 실패:', error.message);
     throw error;
@@ -150,6 +154,7 @@ async function closeConnection() {
 
 module.exports = {
   pool,
+  getConnection: () => pool.getConnection(),
   testConnection,
   initializeDatabase,
   executeQuery,
