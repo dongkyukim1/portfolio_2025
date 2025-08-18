@@ -10,6 +10,10 @@ const { testConnection, initializeDatabase } = require('./config/database');
 
 // 라우트 임포트
 const contactsRouter = require('./routes/contacts');
+const visitorsRouter = require('./routes/visitors');
+
+// 서비스 임포트
+const schedulerService = require('./services/scheduler');
 
 // Express 앱 생성
 const app = express();
@@ -32,13 +36,31 @@ app.use(helmet({
 
 // CORS 설정 - 개발환경에서 모든 origin 허용
 const corsOptions = {
-  origin: true, // 모든 origin 허용 (개발 중)
+  origin: function (origin, callback) {
+    // 모든 origin 허용 (개발 환경)
+    callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-email', 'Origin', 'X-Requested-With', 'Accept']
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'x-admin-email', 
+    'Origin', 
+    'X-Requested-With', 
+    'Accept',
+    'Access-Control-Allow-Origin',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Methods'
+  ],
+  exposedHeaders: ['Access-Control-Allow-Origin'],
+  optionsSuccessStatus: 200 // IE11 지원
 };
 
 app.use(cors(corsOptions));
+
+// Preflight 요청 처리
+app.options('*', cors(corsOptions));
 
 // 미들웨어 설정
 app.use(compression()); // 응답 압축
@@ -61,6 +83,7 @@ app.get('/', (req, res) => {
     timestamp: new Date().toISOString(),
     endpoints: {
       contacts: '/api/contacts',
+      visitors: '/api/visitors',
       health: '/api/health',
       docs: '/api/docs'
     }
@@ -154,6 +177,7 @@ app.get('/api/docs', (req, res) => {
 
 // API 라우트 등록
 app.use('/api/contacts', contactsRouter);
+app.use('/api/visitors', visitorsRouter);
 
 // 404 에러 핸들러
 app.use('*', (req, res) => {
@@ -210,6 +234,10 @@ async function startServer() {
     console.log('📊 데이터베이스 초기화 중...');
     await initializeDatabase();
     
+    // 스케줄러 서비스 시작
+    console.log('🕐 스케줄러 서비스 시작 중...');
+    schedulerService.start();
+    
     // 서버 시작
     const server = app.listen(PORT, () => {
       console.log('✅ 서버 시작 완료!');
@@ -223,6 +251,7 @@ async function startServer() {
     // Graceful shutdown
     process.on('SIGTERM', () => {
       console.log('🛑 SIGTERM 신호 받음. 서버 종료 중...');
+      schedulerService.stop();
       server.close(() => {
         console.log('✅ 서버 종료 완료');
         process.exit(0);
@@ -231,6 +260,7 @@ async function startServer() {
     
     process.on('SIGINT', () => {
       console.log('🛑 SIGINT 신호 받음. 서버 종료 중...');
+      schedulerService.stop();
       server.close(() => {
         console.log('✅ 서버 종료 완료');
         process.exit(0);

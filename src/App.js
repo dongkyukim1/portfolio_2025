@@ -30,6 +30,7 @@ import DashboardDetail from './components/ProjectDetails/DashboardDetail';
 import DogfootDetail from './components/ProjectDetails/DogfootDetail';
 import HRAlert from './components/UI/HRAlert';
 import Grafana from './components/Monitoring/Grafana';
+import VisitorCounter from './components/VisitorCounter/VisitorCounter';
 
 const theme = {
   colors: {
@@ -352,6 +353,9 @@ function App() {
           
           {/* 서류담당자를 위한 알람 - 모든 페이지에서 표시 */}
           <HRAlert />
+          
+          {/* 방문자 카운터 - 모든 페이지에서 표시 */}
+          <VisitorCounter />
         </AppContainer>
       </Router>
     </ThemeProvider>
