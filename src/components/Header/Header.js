@@ -25,6 +25,11 @@ const HeaderContainer = styled(motion.header)`
   padding: 0 28px 0 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
+  /* 노트북 해상도에서 우측 영역 세로 배치 대비 높이 증가 */
+  @media (max-width: 1360px) {
+    height: 120px;
+  }
+
   @media (max-width: ${breakpoints.tablet}) {
     padding: 0 20px;
     height: 70px;
@@ -58,6 +63,11 @@ const Navigation = styled(motion.nav)`
   display: flex;
   gap: 40px;
 
+  /* 노트북 일반 해상도에서 간격 축소로 겹침 방지 */
+  @media (max-width: 1360px) {
+    gap: 28px;
+  }
+
   @media (max-width: ${breakpoints.laptop}) {
     gap: 30px;
   }
@@ -87,6 +97,10 @@ const NavItem = styled(motion.a)`
   position: relative;
   transition: color 0.3s ease;
   letter-spacing: 0.01em;
+
+  @media (max-width: 1360px) {
+    font-size: 0.85rem;
+  }
 
   &::before {
     content: '';
@@ -124,6 +138,12 @@ const RightSection = styled.div`
   /* 우측 요소들 간 간격 축소 */
   gap: 18px;
 
+  @media (max-width: 1360px) {
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
   @media (max-width: ${breakpoints.mobile}) {
     gap: 12px;
   }
@@ -144,6 +164,12 @@ const GrafanaLink = styled.a`
   &:hover {
     background: rgba(255, 255, 255, 0.10);
     transform: translateY(-1px);
+  }
+
+  /* 아이콘만 보이도록 패딩 축소 */
+  @media (max-width: 1360px) {
+    padding: 6px 10px;
+    gap: 8px;
   }
 
   @media (max-width: ${breakpoints.tablet}) {
@@ -167,6 +193,12 @@ const GrafanaText = styled.span`
   font-size: 0.9rem;
   letter-spacing: 0.02em;
 
+  /* 공간 확보를 위해 노트북 해상도에서는 텍스트 숨김 */
+  @media (max-width: 1360px) {
+    display: inline;
+    font-size: 0.85rem;
+  }
+
   @media (max-width: ${breakpoints.tablet}) {
     font-size: 0.85rem;
   }
@@ -182,6 +214,17 @@ const MusicPlayer = styled(motion.div)`
   border-radius: 50px;
   padding: 6px 16px 6px 10px;
   min-width: 280px;
+
+  /* 노트북 일반 해상도에서 Grafana 아래 세로 배치되도록 축소 */
+  @media (max-width: 1360px) {
+    align-self: flex-end;
+    min-width: 170px;
+    max-width: 220px;
+    width: auto;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 32px;
+  }
 
   @media (max-width: ${breakpoints.laptop}) {
     min-width: 250px;
@@ -206,6 +249,10 @@ const AlbumArt = styled(motion.div)`
   color: white;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 1360px) {
+    display: none;
+  }
 
   &::before {
     content: '';
@@ -245,12 +292,21 @@ const TrackInfo = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  
+  @media (max-width: 1360px) {
+    .track-name { font-size: 0.7rem; }
+    .artist-name { display: none; }
+  }
 `;
 
 const PlayerControls = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  
+  @media (max-width: 1360px) {
+    gap: 6px;
+  }
 `;
 
 const ControlButton = styled(motion.button)`
@@ -268,6 +324,13 @@ const ControlButton = styled(motion.button)`
 
   &:hover {
     color: white;
+  }
+  
+  @media (max-width: 1360px) {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
+    &.prev-button { display: none; }
   }
 `;
 
@@ -298,6 +361,12 @@ const PlayButton = styled(motion.button)`
   &:active {
     transform: scale(0.95);
   }
+  
+  @media (max-width: 1360px) {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
 `;
 
 const VolumeControl = styled.div`
@@ -305,6 +374,10 @@ const VolumeControl = styled.div`
   align-items: center;
   gap: 6px;
   position: relative;
+  
+  @media (max-width: 1360px) {
+    display: none;
+  }
 `;
 
 const VolumeButton = styled(motion.button)`
@@ -322,6 +395,11 @@ const VolumeButton = styled(motion.button)`
   &:hover {
     color: white;
   }
+  
+  @media (max-width: 1360px) {
+    font-size: 0.8rem;
+    padding: 2px;
+  }
 `;
 
 const VolumeSlider = styled.input`
@@ -333,6 +411,11 @@ const VolumeSlider = styled.input`
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
+
+  @media (max-width: 1360px) {
+    width: 40px;
+    height: 2px;
+  }
 
   &::-webkit-slider-thumb {
     appearance: none;
@@ -367,6 +450,10 @@ const ProgressBar = styled.div`
   background: rgba(255, 255, 255, 0.1);
   border-radius: 1px;
   overflow: hidden;
+  
+  @media (max-width: 1360px) {
+    display: none;
+  }
 `;
 
 const Progress = styled.div`
@@ -429,6 +516,10 @@ const ScrollProgress = styled(motion.div)`
   background: linear-gradient(90deg, #3b82f6, #8b5cf6);
   transform-origin: left;
   z-index: 999;
+
+  @media (max-width: 1360px) {
+    top: 120px;
+  }
 
   @media (max-width: ${breakpoints.tablet}) {
     top: 70px;
